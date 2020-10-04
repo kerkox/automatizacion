@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ErpComponent } from './components/erp/erp.component';
 import { MesComponent } from './components/mes/mes.component';
+import { OrdenProduccionComponent } from './components/orden-produccion/orden-produccion.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { MesComponent } from './components/mes/mes.component';
     NavbarComponent,
     FormNewTicketComponent,
     ErpComponent,
-    MesComponent
+    MesComponent,
+    OrdenProduccionComponent
   ],
   imports: [
     BrowserModule,
