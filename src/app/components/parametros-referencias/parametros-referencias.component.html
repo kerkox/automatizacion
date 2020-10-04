@@ -2,17 +2,17 @@
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="cantidad_materia_prima_a">Cantidad Materia Prima A</label>
-      <input type="number" min="1" class="form-control" id="cantidad_materia_prima_a"
+      <input type="number" min="1" [(ngModel)]="formula.cantidad_materia_prima_a" name="cantidad_materia_prima_a" class="form-control" id="cantidad_materia_prima_a"
         placeholder="Cantidad Materia Prima A">
     </div>
     <div class="form-group col-md-6">
       <label for="cantidad_materia_prima_b">Cantidad Materia Prima B</label>
-      <input type="number" min="1" class="form-control" id="cantidad_materia_prima_b"
+      <input type="number" min="1" [(ngModel)]="formula.cantidad_materia_prima_b" name="cantidad_materia_prima_b" class="form-control" id="cantidad_materia_prima_b"
         placeholder="Cantidad Materia Prima B">
     </div>
     <div class="form-group col-md-6">
       <label for="cantidad_materia_prima_c">Cantidad Materia Prima C</label>
-      <input type="number" min="1" class="form-control" id="cantidad_materia_prima_c"
+      <input type="number" min="1" [(ngModel)]="formula.cantidad_materia_prima_c" name="cantidad_materia_prima_c" class="form-control" id="cantidad_materia_prima_c"
         placeholder="Cantidad Materia Prima C">
     </div>
     <div class="col-md-6">
@@ -69,7 +69,7 @@
       </div>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary">Crear</button>
+  <button type="submit" (click)="guardarFormula()" class="btn btn-primary">Crear</button>
 </form>
 
 <h3>Formulas Referencias</h3>
@@ -77,29 +77,31 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+      <th scope="col">Cantidad Materia Prima A</th>
+      <th scope="col">Cantidad Materia Prima B</th>
+      <th scope="col">Cantidad Materia Prima C</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
+    <tr *ngFor="let formula of formulas">
       <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
+      <td>{{ formula.cantidad_materia_prima_a}}</td>
+      <td>{{ formula.cantidad_materia_prima_b}}</td>
+      <td>{{ formula.cantidad_materia_prima_c}}</td>
     </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
+    <tr >
+      <th scope="row">1</th>
+      <td>
+        <ol>
+        <li>Meteria prima A</li>
+        <li>Meteria prima B</li>
+        </ol>
+      </td>
+      <td><ol>
+        <li>50%</li>
+        <li>20%</li>
+      </ol></td>
+      <td></td>
     </tr>
   </tbody>
 </table>
