@@ -1,0 +1,36 @@
+<app-form-new-ticket (createdParkinTicket)="loadParkingTickets()"></app-form-new-ticket>
+
+<div class="row">
+    <div class="form-group col-12">
+        <select class="form-control" name="listadoActivo" id="listadoActivo" [(ngModel)]="active" (ngModelChange)="loadParkingTickets()">
+            <option selected value="true">Activos</option>
+            <option value="false">InActivos</option>
+        </select>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ticket Nro</th>
+                <th>Placa</th>
+                <th>Fecha y Hora Ingreso</th>
+                <th>Tipo Vehiculo</th>
+                <th>Cilindraje</th>
+                <th>Valor Pago</th>
+                <th [hidden]="!showActions()">Acciones</th>                
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ticket of parkingTickets">
+                <td>{{ticket.ID}}</td>
+                <td>{{ticket.Vehicle.LicensePlate}}</td>
+                <td>{{ticket.TimeStart | date:"dd/MM/yyyy hh:mm"}}</td>
+                <td>{{ticket.Vehicle.VehicleType == 0 ? "Carro":"Moto" }}</td>
+                <td>{{ticket.Vehicle.Displacement}}</td>
+                <td>{{ticket.Price | currency:'COP':'$':'1.0-0'}}</td>
+                <td><button *ngIf="ticket.Active" type="button" class="btn btn-warning" (click)="StopParkingTicket(ticket.Vehicle.LicensePlate)">Detener</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
