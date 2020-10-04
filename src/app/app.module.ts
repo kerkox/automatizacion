@@ -12,6 +12,7 @@ import { MesComponent } from './components/mes/mes.component';
 import { OrdenProduccionComponent } from './components/orden-produccion/orden-produccion.component';
 import { StockComponent } from './components/stock/stock.component';
 import { ControlComponent } from './components/control/control.component';
+import { ParametrosReferenciasComponent } from './components/parametros-referencias/parametros-referencias.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ControlComponent } from './components/control/control.component';
     OrdenProduccionComponent,
     StockComponent,
     ControlComponent,
+    ParametrosReferenciasComponent,
     
   ],
   imports: [
