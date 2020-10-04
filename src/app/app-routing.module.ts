@@ -1,5 +1,3 @@
-import { SettingsComponent } from './components/settings/settings.component';
-import { HomeComponent } from './components/home/home.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ErpComponent } from './components/erp/erp.component';
