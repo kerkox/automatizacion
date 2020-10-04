@@ -10,6 +10,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ErpComponent } from './components/erp/erp.component';
 import { MesComponent } from './components/mes/mes.component';
 import { OrdenProduccionComponent } from './components/orden-produccion/orden-produccion.component';
+import { StockComponent } from './components/stock/stock.component';
+import { ControlComponent } from './components/control/control.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,10 @@ import { OrdenProduccionComponent } from './components/orden-produccion/orden-pr
     FormNewTicketComponent,
     ErpComponent,
     MesComponent,
-    OrdenProduccionComponent
+    OrdenProduccionComponent,
+    StockComponent,
+    ControlComponent,
+    
   ],
   imports: [
     BrowserModule,
