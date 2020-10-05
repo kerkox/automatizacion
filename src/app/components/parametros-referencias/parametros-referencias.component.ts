@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { materiaPrima } from 'src/app/interfaces/materiaPrima.interface';
 import { FormulasService } from 'src/app/services/formulas.service';
 
 @Component({
@@ -9,20 +10,24 @@ import { FormulasService } from 'src/app/services/formulas.service';
 export class ParametrosReferenciasComponent implements OnInit {
   formulas: any = [];
   formula: {
-    cantidad_materia_prima_a: 0,
-    cantidad_materia_prima_b: 0,
-    cantidad_materia_prima_c:0
+    materias_primas:materiaPrima[],
+    
   };
   constructor(public formulasService: FormulasService) {
     this.formula = {
-    cantidad_materia_prima_a: 0,
-    cantidad_materia_prima_b: 0,
-    cantidad_materia_prima_c:0
-  };
+      materias_primas:  [
+        {nombre: "Materia Prima A", porcentaje:50},
+        {nombre: "Quimico #400Z ", porcentaje:50},
+      ],
+    };
   }
 
   ngOnInit(): void {
     this.cargarFormulas();
+  }
+
+  agregarMateriaPrima() {
+    this.formula.materias_primas.push({nombre:'',porcentaje:0});
   }
 
   cargarFormulas() {

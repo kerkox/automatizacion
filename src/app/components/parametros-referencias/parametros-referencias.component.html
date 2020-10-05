@@ -1,20 +1,20 @@
 <form>
+  <div class="">
+    <div class="form-group col-md-6" *ngFor="let materiaPrima of formula.materias_primas, index as i">
+      <label [for]="'cantidad_materia_prima_'+i">Cantidad Materia Prima {{i}}</label>
+      <div class="input-linea-button">
+        <input type="number" min="1" [(ngModel)]="formula.materias_primas[i]" [name]="'cantidad_materia_prima_'+i"
+          class="form-control" [id]="'cantidad_materia_prima_'+i" [placeholder]="'Cantidad Materia Prima '+i">
+        <button type="button" class="btn btn-danger">borrar</button>
+      </div>
+    </div>
+    <button type="button" class="btn btn-success">
+      Agregar Materia Prima
+    </button>
+  </div>
+  <hr size="10">
   <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="cantidad_materia_prima_a">Cantidad Materia Prima A</label>
-      <input type="number" min="1" [(ngModel)]="formula.cantidad_materia_prima_a" name="cantidad_materia_prima_a" class="form-control" id="cantidad_materia_prima_a"
-        placeholder="Cantidad Materia Prima A">
-    </div>
-    <div class="form-group col-md-6">
-      <label for="cantidad_materia_prima_b">Cantidad Materia Prima B</label>
-      <input type="number" min="1" [(ngModel)]="formula.cantidad_materia_prima_b" name="cantidad_materia_prima_b" class="form-control" id="cantidad_materia_prima_b"
-        placeholder="Cantidad Materia Prima B">
-    </div>
-    <div class="form-group col-md-6">
-      <label for="cantidad_materia_prima_c">Cantidad Materia Prima C</label>
-      <input type="number" min="1" [(ngModel)]="formula.cantidad_materia_prima_c" name="cantidad_materia_prima_c" class="form-control" id="cantidad_materia_prima_c"
-        placeholder="Cantidad Materia Prima C">
-    </div>
+
     <div class="col-md-6">
       <label for="tiempo_premezclado">Tiempo premezclado</label>
       <div class="input-group mb-3 ">
@@ -85,22 +85,24 @@
   <tbody>
     <tr *ngFor="let formula of formulas">
       <th scope="row">1</th>
-      <td>{{ formula.cantidad_materia_prima_a}}</td>
-      <td>{{ formula.cantidad_materia_prima_b}}</td>
-      <td>{{ formula.cantidad_materia_prima_c}}</td>
+      <td>{{ formula.materias_primas}}</td>
+      <td>{{ 'otrodatos' }}</td>
+      <td>{{ 'otrodatos' }}</td>
     </tr>
-    <tr >
+    <tr>
       <th scope="row">1</th>
       <td>
         <ol>
-        <li>Meteria prima A</li>
-        <li>Meteria prima B</li>
+          <li>Meteria prima A</li>
+          <li>Meteria prima B</li>
         </ol>
       </td>
-      <td><ol>
-        <li>50%</li>
-        <li>20%</li>
-      </ol></td>
+      <td>
+        <ol>
+          <li>50%</li>
+          <li>20%</li>
+        </ol>
+      </td>
       <td></td>
     </tr>
   </tbody>
