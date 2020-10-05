@@ -5,10 +5,10 @@ import { ErpComponent } from './components/erp/erp.component';
 import { MesComponent } from './components/mes/mes.component';
 
 const routes: Routes = [
-  { path:'erp', component: ErpComponent},
+  { path:'', component: ErpComponent},
   { path:'mes', component: MesComponent},
   { path:'control', component: ControlComponent},
-  { path: '**',  pathMatch: 'full', redirectTo:'erp'}
+  { path: '**',  pathMatch: 'full', redirectTo:''}
 ];
 
 @NgModule({
