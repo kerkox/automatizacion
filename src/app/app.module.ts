@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
-import { FormNewTicketComponent } from './components/form-new-ticket/form-new-ticket.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ErpComponent } from './components/erp/erp.component';
@@ -18,7 +17,6 @@ import { ParametrosReferenciasComponent } from './components/parametros-referenc
   declarations: [
     AppComponent,
     NavbarComponent,
-    FormNewTicketComponent,
     ErpComponent,
     MesComponent,
     OrdenProduccionComponent,

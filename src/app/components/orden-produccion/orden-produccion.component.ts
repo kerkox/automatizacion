@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Prioridad } from 'src/app/interfaces/prioridad.interface';
 
 @Component({
   selector: 'app-orden-produccion',
@@ -7,6 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrdenProduccionComponent implements OnInit {
 
+  ordenes_produccion: []
+  orden_produccion: {
+    referencia: string,
+    tipo: string,
+    presentacion: string,
+    cliente: string,
+    prioridad: Prioridad,
+    codigo: string
+    cantidad: number,
+  }
   constructor() { }
 
   ngOnInit(): void {
