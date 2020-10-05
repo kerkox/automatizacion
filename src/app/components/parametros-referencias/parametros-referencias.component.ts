@@ -30,6 +30,10 @@ export class ParametrosReferenciasComponent implements OnInit {
     this.formula.materias_primas.push({nombre:'',porcentaje:0});
   }
 
+  borrarMateriaPrima(index){
+    this.formula.materias_primas.splice(index,1);
+  }
+
   cargarFormulas() {
     // consultar las formulas guardas
     this.formulasService.consultarFormulas().then((res: any) => {
