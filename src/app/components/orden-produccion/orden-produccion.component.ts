@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Prioridad } from 'src/app/interfaces/prioridad.interface';
+import { OrdenesProduccionService } from 'src/app/services/ordenes-produccion.service';
 
 @Component({
   selector: 'app-orden-produccion',
@@ -18,9 +19,13 @@ export class OrdenProduccionComponent implements OnInit {
     codigo: string
     cantidad: number,
   }
-  constructor() { }
+  constructor(private ordenesProduccionService: OrdenesProduccionService) { }
 
   ngOnInit(): void {
+  }
+
+  consultarOrdenesProduccion() {
+    // this.ordenesProduccionService.cosn;
   }
 
 }
