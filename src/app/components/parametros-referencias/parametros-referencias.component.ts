@@ -11,14 +11,22 @@ export class ParametrosReferenciasComponent implements OnInit {
   formulas: any = [];
   formula: {
     materias_primas:materiaPrima[],
-    
+    tiempo_premezclado:number,
+    tiempo_precalentamiento:number,
+    tiempo_mezclado:number,
+    temperatura_precalentamiento:number,
+    temperatura_calentamiento:number
+
   };
   constructor(public formulasService: FormulasService) {
     this.formula = {
-      materias_primas:  [
-        {nombre: "Materia Prima A", porcentaje:50},
-        {nombre: "Quimico #400Z ", porcentaje:50},
-      ],
+      materias_primas: [
+        {nombre:'',porcentaje:0}],
+      tiempo_premezclado: 0,
+      tiempo_precalentamiento: 0,
+      tiempo_mezclado: 0,
+      temperatura_precalentamiento: 0,
+      temperatura_calentamiento: 0,
     };
   }
 

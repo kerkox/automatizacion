@@ -35,7 +35,7 @@
     <div class="col-md-6">
       <label for="tiempo_premezclado">Tiempo premezclado</label>
       <div class="input-group mb-3 ">
-        <input type="number" min="1" class="form-control" id="tiempo_premezclado" placeholder="Tiempo premezclado">
+        <input type="number" min="1" [(ngModel)]="formula.tiempo_premezclado" class="form-control" name="tiempo_premezclado" id="tiempo_premezclado" placeholder="Tiempo premezclado">
         <div class="input-group-append">
           <span class="input-group-text">Min.</span>
         </div>
@@ -45,7 +45,7 @@
     <div class="col-md-6">
       <label for="temperatura_precalentamiento">Temperatura precalentamiento</label>
       <div class="input-group mb-3 ">
-        <input type="number" min="1" class="form-control" id="temperatura_precalentamiento"
+        <input type="number" min="1" [(ngModel)]="formula.temperatura_precalentamiento" class="form-control" name="temperatura_precalentamiento" id="temperatura_precalentamiento"
           placeholder="Temperatura precalentamiento">
         <div class="input-group-append">
           <span class="input-group-text">ºC</span>
@@ -57,7 +57,7 @@
     <div class="col-md-6">
       <label for="tiempo_precalentamiento">Tiempo precalentamiento</label>
       <div class="input-group mb-3 ">
-        <input type="number" min="1" class="form-control" id="tiempo_precalentamiento"
+        <input type="number" min="1" [(ngModel)]="formula.tiempo_precalentamiento" class="form-control" name="tiempo_precalentamiento" id="tiempo_precalentamiento"
           placeholder="Tiempo precalentamiento">
         <div class="input-group-append">
           <span class="input-group-text">Min.</span>
@@ -66,9 +66,9 @@
     </div>
 
     <div class="col-md-6">
-      <label for="tiempo_mezclando">Tiempo Mezclando</label>
+      <label for="tiempo_mezclado">Tiempo Mezclado</label>
       <div class="input-group mb-3 ">
-        <input type="number" min="1" class="form-control" id="tiempo_mezclando" placeholder="Tiempo Mezclando">
+        <input type="number" min="1" [(ngModel)]="formula.tiempo_mezclado"  class="form-control" name="tiempo_mezclado" id="tiempo_mezclado" placeholder="Tiempo Mezclado">
         <div class="input-group-append">
           <span class="input-group-text">Min.</span>
         </div>
@@ -78,7 +78,7 @@
     <div class="col-md-6">
       <label for="temperatura_calentamiento">Temperatura Calentamiento</label>
       <div class="input-group mb-3 ">
-        <input type="number" min="1" class="form-control" id="temperatura_calentamiento"
+        <input type="number" min="1" [(ngModel)]="formula.temperatura_calentamiento" class="form-control" name="temperatura_calentamiento" id="temperatura_calentamiento"
           placeholder="Temperatura Calentamiento">
         <div class="input-group-append">
           <span class="input-group-text">ºC</span>
@@ -94,33 +94,33 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Cantidad Materia Prima A</th>
-      <th scope="col">Cantidad Materia Prima B</th>
-      <th scope="col">Cantidad Materia Prima C</th>
+      <th scope="col">Nombre Materia Primas</th>
+      <th scope="col">Cantidad Materia Primas </th>
+      <th scope="col">Tiempo premezclado</th>
+      <th scope="col">Temperatura precalentamiento</th>
+      <th scope="col">Tiempo precalentamiento</th>
+      <th scope="col">Tiempo mezclado</th>
+      <th scope="col">Temperatura calentamiento</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let formula of formulas">
-      <th scope="row">1</th>
-      <td>{{ formula.materias_primas}}</td>
-      <td>{{ 'otrodatos' }}</td>
-      <td>{{ 'otrodatos' }}</td>
-    </tr>
-    <tr>
-      <th scope="row">1</th>
+    <tr *ngFor="let formula of formulas; index as i">
+      <th scope="row">{{ i + 1}}</th>
       <td>
         <ol>
-          <li>Meteria prima A</li>
-          <li>Meteria prima B</li>
+          <li *ngFor="let materia_prima of formula.materias_primas; index as i">{{materia_prima.nombre}}</li>          
         </ol>
       </td>
       <td>
         <ol>
-          <li>50%</li>
-          <li>20%</li>
+          <li *ngFor="let materia_prima of formula.materias_primas; index as i">{{materia_prima.porcentaje}}%</li>
         </ol>
       </td>
-      <td></td>
-    </tr>
+      <td>{{ formula.tiempo_premezclado }}</td>
+      <td>{{ formula.temperatura_precalentamiento }}</td>
+      <td>{{ formula.tiempo_precalentamiento }}</td>
+      <td>{{ formula.tiempo_mezclado }}</td>
+      <td>{{ formula.temperatura_calentamiento }}</td>
+    </tr>    
   </tbody>
 </table>
