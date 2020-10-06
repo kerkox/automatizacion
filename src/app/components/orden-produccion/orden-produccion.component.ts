@@ -25,7 +25,9 @@ export class OrdenProduccionComponent implements OnInit {
   }
 
   consultarOrdenesProduccion() {
-    // this.ordenesProduccionService.cosn;
+    this.ordenesProduccionService.consultarOrdenesProduccion().then((res:any) => {
+      this.ordenes_produccion = res;
+    });
   }
 
 }
