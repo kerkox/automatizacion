@@ -7,17 +7,15 @@
       <div class="col-md-6">
         <label for="cliente">Cliente</label>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" id="cliente" placeholder="Cliente">
+          <input type="text" [(ngModel)]="orden_produccion.cliente" class="form-control" name="cliente" id="cliente" placeholder="Cliente">
         </div>
       </div>
 
       <div class="col-md-6">
         <label for="prioridad">Prioridad</label>
         <div class="input-group mb-3">
-          <select class="form-control" id="prioridad">
-            <option>Alta</option>
-            <option>Media</option>
-            <option>Baja</option>
+          <select class="form-control" [(ngModel)]="orden_produccion.prioridad" name="prioridad" id="prioridad" placeholder="prioridad">
+            <option *ngFor="let prioridad of prioridades; index as i" [value]="prioridad">{{prioridad}}</option>            
           </select>
         </div>
       </div>
@@ -25,7 +23,7 @@
       <div class="col-md-6">
         <label for="referencia">Referencia</label>
         <div class="input-group mb-3">
-          <select class="form-control" id="referencia">
+          <select class="form-control" [(ngModel)]="orden_produccion.referencia" name="referencia" id="referencia" placeholder="referencia">
             <option>Shampoo</option>
             <option>Acondicionador</option>
           </select>
@@ -35,7 +33,7 @@
       <div class="col-md-6">
         <label for="tipo">Tipo</label>
         <div class="input-group mb-3">
-          <select class="form-control" id="tipo">
+          <select class="form-control" [(ngModel)]="orden_produccion.tipo" name="tipo" id="tipo" placeholder="tipo">
             <option>Lisos</option>
             <option>Rizos</option>
             <option>Duos</option>
@@ -46,7 +44,7 @@
       <div class="col-md-6">
         <label for="presentacion">Presentacion</label>
         <div class="input-group mb-3">
-          <select class="form-control" id="presentacion">
+          <select class="form-control" [(ngModel)]="orden_produccion.presentacion" name="presentacion" id="presentacion" placeholder="presentacion">
             <option>400 ml</option>
             <option>200 ml</option>
           </select>
@@ -56,7 +54,7 @@
       <div class="col-md-6">
         <label for="cantidad">Cantidad</label>
         <div class="input-group mb-3 ">
-          <input type="number" min="1" class="form-control" id="cantidad" placeholder="Cantidad">
+          <input type="number" min="1" class="form-control" [(ngModel)]="orden_produccion.cantidad" name="cantidad" id="cantidad" placeholder="Cantidad">
           <div class="input-group-append">
             <span class="input-group-text">UND</span>
           </div>

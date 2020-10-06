@@ -23,10 +23,28 @@ export class OrdenProduccionComponent implements OnInit {
   tipos: []
   presentaciones: []
   prioridades: []
-  constructor(private ordenesProduccionService: OrdenesProduccionService) { }
+  constructor(private ordenesProduccionService: OrdenesProduccionService) {
+    this.orden_produccion = {
+      referencia: null,
+      tipo: null,
+      presentacion: null,
+      cliente: null,
+      prioridad: null,
+      codigo: null,
+      cantidad: 0,
+    }
+  }
 
   ngOnInit(): void {
+    this.cargarDatos()
+  }
+
+  cargarDatos() {
     this.consultarOrdenesProduccion();
+    this.consultarPresentaciones()
+    this.consultarPrioridades()
+    this.consultarReferencias()
+    this.consultarTipos()
   }
 
   consultarReferencias() {
@@ -54,7 +72,7 @@ export class OrdenProduccionComponent implements OnInit {
   }
 
   consultarOrdenesProduccion() {
-    this.ordenesProduccionService.consultarData('ordenes').then((res:any) => {
+    this.ordenesProduccionService.consultarData('ordenes').then((res: any) => {
       this.ordenes_produccion = res;
     });
   }

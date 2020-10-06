@@ -9,17 +9,24 @@ export class OrdenesProduccionService {
   }
 
   inicializarValores() {
-    this.consultarData('referencias').then(res => {
-      if (!res) {
+    this.consultarData('referencias').then((res: any) => {
+      if (!res || res.length == 0) {
         this.guardarData('referencias','Shampoo');
         this.guardarData('referencias','Acondicionador');
       }
     })
-    this.consultarData('tipos').then(res => {
-      if (!res) {
+    this.consultarData('tipos').then((res: any) => {
+      if (!res || res.length == 0) {
         this.guardarData('tipos', 'Lisos');
         this.guardarData('tipos', 'Risos');
         this.guardarData('tipos', 'Duos');
+      }
+    })
+    this.consultarData('prioridades').then((res: any) => {
+      if (!res || res.length == 0) {
+        this.guardarData('prioridades', 'Alta');
+        this.guardarData('prioridades', 'Media');
+        this.guardarData('prioridades', 'Baja');
       }
     })
   }
@@ -44,7 +51,7 @@ export class OrdenesProduccionService {
     } else {
       campos = [valor];
     }
-    localStorage.setItem(campo, campos);
+    localStorage.setItem(campo, JSON.stringify(campos));
   }
 
   
