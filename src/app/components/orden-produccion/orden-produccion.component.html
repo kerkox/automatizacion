@@ -14,7 +14,8 @@
       <div class="col-md-6">
         <label for="prioridad">Prioridad</label>
         <div class="input-group mb-3">
-          <select class="form-control" [(ngModel)]="orden_produccion.prioridad" name="prioridad" id="prioridad" placeholder="prioridad">
+          <select class="form-control" [(ngModel)]="orden_produccion.prioridad" name="prioridad" id="prioridad">
+            <option hidden value="" selected>Seleccionar prioridad</option>
             <option *ngFor="let item of prioridades; index as i" [value]="item">{{item}}</option>            
           </select>
         </div>
@@ -23,7 +24,8 @@
       <div class="col-md-6">
         <label for="referencia">Referencia</label>
         <div class="input-group mb-3">
-          <select class="form-control" [(ngModel)]="orden_produccion.referencia" name="referencia" id="referencia" placeholder="referencia">
+          <select class="form-control" [(ngModel)]="orden_produccion.referencia" name="referencia" id="referencia" >
+            <option hidden value="" selected>Seleccionar referencia</option>
             <option *ngFor="let item of referencias; index as i" [value]="item">{{item}}</option>            
           </select>
         </div>
@@ -32,7 +34,8 @@
       <div class="col-md-6">
         <label for="tipo">Tipo</label>
         <div class="input-group mb-3">
-          <select class="form-control" [(ngModel)]="orden_produccion.tipo" name="tipo" id="tipo" placeholder="tipo">
+          <select class="form-control" [(ngModel)]="orden_produccion.tipo" name="tipo" id="tipo" >
+            <option hidden value="" selected>Seleccionar tipo</option>
             <option *ngFor="let item of tipos; index as i" [value]="item">{{item}}</option>
           </select>
         </div>
@@ -41,7 +44,8 @@
       <div class="col-md-6">
         <label for="presentacion">Presentacion</label>
         <div class="input-group mb-3">
-          <select class="form-control" [(ngModel)]="orden_produccion.presentacion" name="presentacion" id="presentacion" placeholder="presentacion">
+          <select class="form-control" [(ngModel)]="orden_produccion.presentacion" name="presentacion" id="presentacion" >
+            <option hidden value="" selected>Seleccionar presentacion</option>
             <option *ngFor="let item of presentaciones; index as i" [value]="item">{{item}}</option>
           </select>
         </div>

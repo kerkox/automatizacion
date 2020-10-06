@@ -15,7 +15,7 @@ export class OrdenProduccionComponent implements OnInit {
     tipo: string,
     presentacion: string,
     cliente: string,
-    prioridad: Prioridad,
+    prioridad: string,
     codigo: string
     cantidad: number,
   }
@@ -25,11 +25,11 @@ export class OrdenProduccionComponent implements OnInit {
   prioridades: []
   constructor(private ordenesProduccionService: OrdenesProduccionService) {
     this.orden_produccion = {
-      referencia: null,
-      tipo: null,
-      presentacion: null,
+      referencia: '',
+      tipo: '',
+      presentacion: '',
       cliente: null,
-      prioridad: null,
+      prioridad: '',
       codigo: null,
       cantidad: 0,
     }
