@@ -1,36 +1,51 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OrdenesProduccionService {
+  constructor() { 
+    this.inicializarValores();
+  }
 
-  constructor() { }
+  inicializarValores() {
+    this.consultarData('referencias').then(res => {
+      if (!res) {
+        this.guardarData('referencias','Shampoo');
+        this.guardarData('referencias','Acondicionador');
+      }
+    })
+    this.consultarData('tipos').then(res => {
+      if (!res) {
+        this.guardarData('tipos', 'Lisos');
+        this.guardarData('tipos', 'Risos');
+        this.guardarData('tipos', 'Duos');
+      }
+    })
+  }
 
-
-  consultarOrdenesProduccion() {
+  consultarData(campo: any) {
     return new Promise((resolve, reject) => {
-      let ordenesGuardadas = localStorage.getItem('ordenes');
-
-      if(ordenesGuardadas){
-        resolve(JSON.parse(ordenesGuardadas))
+      let campos = localStorage.getItem(campo);
+      if (campos) {
+        resolve(JSON.parse(campos))
       } else {
         resolve([]);
       }
     })
   }
 
-  guardarOrdenProduccion(ordenProduccion) {
-    let ordenesGuardadas = localStorage.getItem('ordenes');
-    let ordenesProduccion;
-    if(ordenesGuardadas){
-      ordenesProduccion = JSON.parse(ordenesGuardadas);
-      ordenesProduccion.push(ordenProduccion);      
+  guardarData(campo: any, valor: any) {
+    let camposGuardadas = localStorage.getItem(campo);
+    let campos;
+    if (camposGuardadas) {
+      campos = JSON.parse(camposGuardadas);
+      campos.push(valor);
     } else {
-      ordenesProduccion = [ordenProduccion];
+      campos = [valor];
     }
-
-    localStorage.setItem('ordenes', JSON.stringify(ordenesProduccion));
-
+    localStorage.setItem(campo, campos);
   }
+
+  
 }
