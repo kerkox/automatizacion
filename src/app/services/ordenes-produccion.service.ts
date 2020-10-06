@@ -29,6 +29,12 @@ export class OrdenesProduccionService {
         this.guardarData('prioridades', 'Baja');
       }
     })
+    this.consultarData('presentaciones').then((res: any) => {
+      if (!res || res.length == 0) {
+        this.guardarData('presentaciones', '400 ml');
+        this.guardarData('presentaciones', '200 ml');
+      }
+    })
   }
 
   consultarData(campo: any) {

@@ -15,7 +15,7 @@
         <label for="prioridad">Prioridad</label>
         <div class="input-group mb-3">
           <select class="form-control" [(ngModel)]="orden_produccion.prioridad" name="prioridad" id="prioridad" placeholder="prioridad">
-            <option *ngFor="let prioridad of prioridades; index as i" [value]="prioridad">{{prioridad}}</option>            
+            <option *ngFor="let item of prioridades; index as i" [value]="item">{{item}}</option>            
           </select>
         </div>
       </div>
@@ -24,8 +24,7 @@
         <label for="referencia">Referencia</label>
         <div class="input-group mb-3">
           <select class="form-control" [(ngModel)]="orden_produccion.referencia" name="referencia" id="referencia" placeholder="referencia">
-            <option>Shampoo</option>
-            <option>Acondicionador</option>
+            <option *ngFor="let item of referencias; index as i" [value]="item">{{item}}</option>            
           </select>
         </div>
       </div>
@@ -34,9 +33,7 @@
         <label for="tipo">Tipo</label>
         <div class="input-group mb-3">
           <select class="form-control" [(ngModel)]="orden_produccion.tipo" name="tipo" id="tipo" placeholder="tipo">
-            <option>Lisos</option>
-            <option>Rizos</option>
-            <option>Duos</option>
+            <option *ngFor="let item of tipos; index as i" [value]="item">{{item}}</option>
           </select>
         </div>
       </div>
@@ -45,8 +42,7 @@
         <label for="presentacion">Presentacion</label>
         <div class="input-group mb-3">
           <select class="form-control" [(ngModel)]="orden_produccion.presentacion" name="presentacion" id="presentacion" placeholder="presentacion">
-            <option>400 ml</option>
-            <option>200 ml</option>
+            <option *ngFor="let item of presentaciones; index as i" [value]="item">{{item}}</option>
           </select>
         </div>
       </div>
