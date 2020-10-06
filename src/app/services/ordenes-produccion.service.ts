@@ -21,6 +21,16 @@ export class OrdenesProduccionService {
   }
 
   guardarOrdenProduccion(ordenProduccion) {
-    
+    let ordenesGuardadas = localStorage.getItem('ordenes');
+    let ordenesProduccion;
+    if(ordenesGuardadas){
+      ordenesProduccion = JSON.parse(ordenesGuardadas);
+      ordenesProduccion.push(ordenProduccion);      
+    } else {
+      ordenesProduccion = [ordenProduccion];
+    }
+
+    localStorage.setItem('ordenes', JSON.stringify(ordenesProduccion));
+
   }
 }
