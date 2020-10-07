@@ -22,4 +22,8 @@ export class MateriaPrimaService {
     return this.http.get(`${BASE_URL}/materiaPrimas`).toPromise();
   }
 
+  borrarMateriaPrima(id: string){
+    return this.http.delete(`${BASE_URL}/materiaPrimas/${id}`).toPromise();
+  }
+
 }

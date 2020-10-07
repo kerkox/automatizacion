@@ -6,19 +6,19 @@
 
         <div class="col-md-6">
           <label for="descripcion">Descripcion materia prima</label>
-          <div class="input-group mb-3 ">
+          <div class="input-group mb-3 input-linea-button">
             <input type="text" [(ngModel)]="materia_prima.descripcion" class="form-control" name="descripcion"
               id="descripcion" placeholder="Descripcion materia prima">
+            <button type="submit" (click)="guardar()" class=" btn btn-primary">Crear</button>
           </div>
         </div>
 
       </div>
 
-      <button type="submit" (click)="guardar()" class="btn btn-primary">Crear</button>
     </form>
     <app-loading *ngIf="loading"></app-loading>
 
-    <div *ngIf="saved" class="alert alert-success alert-dismissible fade show" role="alert">
+    <div *ngIf="saved" class="alert alert-success alert-dismissible fade show animate__fadeIn" role="alert">
       <strong>Guardado</strong> se guardo correctamente.
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -33,11 +33,35 @@
     </div>
 
   </div>
-
+  <br>
+  <br>
   <div class="">
     <h3>
       Listado de materias primas
     </h3>
+    <app-loading *ngIf="loadingTable"></app-loading>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Materia Descripcion</th>
+          <th scope="col">Acciones </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of materias_primas; index as i">
+          <th scope="row">{{ i + 1}}</th>
+          <td>
+            {{ item.descripcion }}
+          </td>
+          <td>
+            <input class="btn btn-primary" type="button" value="editar" (click)="editar(i)" />
+            <input class="btn btn-danger" type="button" value="borrar" (click)="borrar(i)" />
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
   </div>
 
 </div>
