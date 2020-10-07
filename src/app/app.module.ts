@@ -12,6 +12,7 @@ import { OrdenProduccionComponent } from './components/orden-produccion/orden-pr
 import { StockComponent } from './components/stock/stock.component';
 import { ControlComponent } from './components/control/control.component';
 import { ParametrosReferenciasComponent } from './components/parametros-referencias/parametros-referencias.component';
+import { MateriaPrimaComponent } from './components/materia-prima/materia-prima.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ParametrosReferenciasComponent } from './components/parametros-referenc
     StockComponent,
     ControlComponent,
     ParametrosReferenciasComponent,
+    MateriaPrimaComponent,
     
   ],
   imports: [
