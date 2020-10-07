@@ -13,6 +13,7 @@ import { StockComponent } from './components/stock/stock.component';
 import { ControlComponent } from './components/control/control.component';
 import { ParametrosReferenciasComponent } from './components/parametros-referencias/parametros-referencias.component';
 import { MateriaPrimaComponent } from './components/materia-prima/materia-prima.component';
+import { LoadingComponent } from './components/shared/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MateriaPrimaComponent } from './components/materia-prima/materia-prima.
     ControlComponent,
     ParametrosReferenciasComponent,
     MateriaPrimaComponent,
+    LoadingComponent,
     
   ],
   imports: [

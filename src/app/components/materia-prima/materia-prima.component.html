@@ -16,6 +16,7 @@
 
       <button type="submit" (click)="guardar()" class="btn btn-primary">Crear</button>
     </form>
+    <app-loading *ngIf="loading"></app-loading>
 
     <div *ngIf="saved" class="alert alert-success alert-dismissible fade show" role="alert">
       <strong>Guardado</strong> se guardo correctamente.
