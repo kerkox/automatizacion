@@ -15,11 +15,11 @@ export class MateriaPrimaService {
 
  
   crear(materiaPrima: string) {
-    return this.http.post(`${BASE_URL}/materiasPrimas`, materiaPrima).toPromise();
+    return this.http.post(`${BASE_URL}/materiaPrimas`, {descripcion: materiaPrima}).toPromise();
   }
 
   obtenerMateriasPrimas() {
-    return this.http.get(`${BASE_URL}/materiasPrimas`).toPromise();
+    return this.http.get(`${BASE_URL}/materiaPrimas`).toPromise();
   }
 
 }
