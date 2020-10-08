@@ -23,9 +23,10 @@ export class ParametrosReferenciasComponent implements OnInit {
 
   constructor(public formulasService: FormulasService, private materiaPrimaService: MateriaPrimaService) {
     this.materias_primas_seleccionar = [];
+    this.formulas = [];
     this.formula = {
       materias_primas: [
-        {id:'',porcentaje:0}],
+        {materia_prima:'',porcentaje:0}],
       tiempo_premezclado: 0,
       tiempo_precalentamiento: 0,
       tiempo_mezclado: 0,
@@ -39,25 +40,14 @@ export class ParametrosReferenciasComponent implements OnInit {
     this.cargarMateriasPrimasSeleccionar();
   }
 
-  handleChangeMateriaPrima(index: number) {
-    console.log("index: "+ index);
-    console.log("seleccionada: ", this.formula.materias_primas[index]);
-    let seleccionada = this.formula.materias_primas[index]['id'];
-    this.materias_primas_seleccionar = this.materias_primas_seleccionar.filter(x => x['_id'] != seleccionada);
-  }
-
-  filtradoSeleccionadas(id: string){
-    return this.formula.materias_primas.filter(x => x['_id'] == id).length == 0; 
-  }
-
   agregarMateriaPrima() {
-    this.formula.materias_primas.push({id:'',porcentaje:0});    
+    this.formula.materias_primas.push({materia_prima:'',porcentaje:0});    
   }
 
   cargarMateriasPrimasSeleccionar() {
     this.materiaPrimaService.obtenerMateriasPrimas()
     .then((res: any) => {
-      this.materias_primas_seleccionar = res.data;      
+      this.materias_primas_seleccionar = res.data;
     })
     .catch(error => {
       console.error(error)
@@ -71,14 +61,19 @@ export class ParametrosReferenciasComponent implements OnInit {
   cargarFormulas() {
     // consultar las formulas guardas
     this.formulasService.consultarFormulas().then((res: any) => {
-      this.formulas = res;
+      this.formulas = res.data;
+    }).catch(error => {
+      console.error(error)
     });
   }
 
   guardarFormula() {
     console.log(this.formula,"Formula");
-    this.formulasService.guardarFormula(this.formula)
-    this.cargarFormulas();
+    this.formulasService.guardarFormula(this.formula).then(res => {
+      this.cargarFormulas();
+    }).catch(error => {
+      console.error(error);
+    })
   }
 
 }

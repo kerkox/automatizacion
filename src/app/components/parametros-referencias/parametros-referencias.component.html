@@ -5,7 +5,7 @@
       <div class="col-md-6">
         <label [for]="'nombre_materia_prima_'+i">Nombre Materia Prima {{i + 1}}</label>
         <div class="input-group mb-3 ">          
-            <select class="form-control" [(ngModel)]="formula.materias_primas[i].id" [name]="'nombre_materia_prima_'+(i + 1)" [id]="'nombre_materia_prima_'+i">
+            <select class="form-control" [(ngModel)]="formula.materias_primas[i].materia_prima" [name]="'nombre_materia_prima_'+(i + 1)" [id]="'nombre_materia_prima_'+i">
               <option hidden value="" selected>Seleccionar materia Prima</option>
               <option *ngFor="let item of materias_primas_seleccionar; index as i" [value]="item['_id']">{{item.descripcion}}</option>
             </select>

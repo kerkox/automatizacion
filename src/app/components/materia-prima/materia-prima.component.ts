@@ -22,6 +22,7 @@ export class MateriaPrimaComponent implements OnInit {
   error: boolean = false;
   constructor(private materiaPrimaService: MateriaPrimaService) {
     this.materia_prima = { id:'',descripcion: '' }
+    this.materias_primas = []
     this.texto_boton = "Crear";
   }
 

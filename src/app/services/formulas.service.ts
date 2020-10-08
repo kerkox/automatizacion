@@ -1,31 +1,27 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { IFormula } from '../interfaces/formula.interface';
 
+const BASE_URL = environment.base_url
 @Injectable({
   providedIn: 'root'
 })
 export class FormulasService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   consultarFormulas() {
     // Consultar informacion de local storeage
-    return new Promise((resolve, reject) => {
-
-      let formulas = localStorage.getItem('formulas') ;
-      if(formulas) {
-        resolve(JSON.parse(formulas))  
-      } else {
-        resolve([]);
-      }
-    })
+    return this.http.get(`${BASE_URL}/formulas`).toPromise();
   }
 
-  guardarFormula(formula: any) {
-      let formulasGuardadas = localStorage.getItem('formulas');
-      let formulas = []
-      formulas = JSON.parse(formulasGuardadas) || [];
-      formulas.push(formula);
-      localStorage.setItem('formulas',JSON.stringify(formulas))
+  guardarFormula(formula: IFormula) {
+    return this.http.post(`${BASE_URL}/formulas`, formula).toPromise();
+  }
+
+  borrarFormula(id: string) {
+    return this.http.delete(`${BASE_URL}/formulas/${id}`).toPromise();
   }
 
   
