@@ -10,6 +10,18 @@
             <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link" [routerLink]="['/']">ERP</a>
             </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    ERP
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" [routerLink]="['/erp/materia-prima']">Materias Primas</a>
+                    <a class="dropdown-item" [routerLink]="['/erp/orden-produccion']">Orden produccion</a>
+                    <a class="dropdown-item" href="#">Parametros Referencias</a>
+                    <a class="dropdown-item" href="#">Inventario</a>
+                </div>
+            </li>
             <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link" [routerLink]="['mes']">MES</a>
             </li>
