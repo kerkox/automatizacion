@@ -1,4 +1,4 @@
 export interface materiaPrima {
-  nombre: string;
+  id: string;
   porcentaje: number;
 }
