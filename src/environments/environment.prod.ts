@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  base_url: "https://parkinglotceibapaul.azurewebsites.net/api" 
+  base_url: "https://api-automatizacion-univalle.herokuapp.com/api" 
 };
