@@ -14,29 +14,29 @@ export class OrdenesProduccionService {
 
   inicializarValores() {
     this.consultarData(types.API.ReferenciaProductos).then((res: any) => {
-      if (!res || res.length == 0) {
-        this.guardarData(types.API.ReferenciaProductos,'Shampoo');
-        this.guardarData(types.API.ReferenciaProductos,'Acondicionador');
+      if (!res || res.data.length == 0) {
+        this.guardarData(types.API.ReferenciaProductos,{descripcion: 'Shampoo'});
+        this.guardarData(types.API.ReferenciaProductos,{descripcion: 'Acondicionador'})
       }
     })
     this.consultarData(types.API.TipoProductos).then((res: any) => {
-      if (!res || res.length == 0) {
-        this.guardarData(types.API.TipoProductos, 'Lisos');
-        this.guardarData(types.API.TipoProductos, 'Risos');
-        this.guardarData(types.API.TipoProductos, 'Duos');
+      if (!res || res.data.length == 0) {
+        this.guardarData(types.API.TipoProductos,{descripcion: 'Lisos'});
+        this.guardarData(types.API.TipoProductos,{descripcion: 'Risos'});
+        this.guardarData(types.API.TipoProductos,{descripcion: 'Duos'});
       }
     })
     this.consultarData(types.API.Prioridades).then((res: any) => {
-      if (!res || res.length == 0) {
-        this.guardarData(types.API.Prioridades, 'Alta');
-        this.guardarData(types.API.Prioridades, 'Media');
-        this.guardarData(types.API.Prioridades, 'Baja');
+      if (!res || res.data.length == 0) {
+        this.guardarData(types.API.Prioridades,{descripcion: 'Alta'});
+        this.guardarData(types.API.Prioridades,{descripcion: 'Media'});
+        this.guardarData(types.API.Prioridades,{descripcion: 'Baja'});
       }
     })
     this.consultarData(types.API.PresentacionProductos).then((res: any) => {
-      if (!res || res.length == 0) {
-        this.guardarData(types.API.PresentacionProductos, '400 ml');
-        this.guardarData(types.API.PresentacionProductos, '200 ml');
+      if (!res || res.data.length == 0) {
+        this.guardarData(types.API.PresentacionProductos,{descripcion: '400 ml'});
+        this.guardarData(types.API.PresentacionProductos,{descripcion: '200 ml'});
       }
     })
   }
@@ -66,15 +66,8 @@ export class OrdenesProduccionService {
   }
 
   guardarData(campo: any, valor: any) {
-    let camposGuardadas = localStorage.getItem(campo);
-    let campos;
-    if (camposGuardadas) {
-      campos = JSON.parse(camposGuardadas);
-      campos.push(valor);
-    } else {
-      campos = [valor];
-    }
-    localStorage.setItem(campo, JSON.stringify(campos));
+    return this.http.post(`${BASE_URL}/${campo}`, valor).toPromise();
+    
   }
 
   
