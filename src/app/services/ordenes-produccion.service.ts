@@ -28,9 +28,9 @@ export class OrdenesProduccionService {
     })
     this.consultarData(types.API.Prioridades).then((res: any) => {
       if (!res || res.data.length == 0) {
-        this.guardarData(types.API.Prioridades,{descripcion: 'Alta'});
-        this.guardarData(types.API.Prioridades,{descripcion: 'Media'});
-        this.guardarData(types.API.Prioridades,{descripcion: 'Baja'});
+        this.guardarData(types.API.Prioridades,{descripcion: 'Alta', nivel:1});
+        this.guardarData(types.API.Prioridades, { descripcion: 'Media', nivel: 2});
+        this.guardarData(types.API.Prioridades, { descripcion: 'Baja', nivel: 3});
       }
     })
     this.consultarData(types.API.PresentacionProductos).then((res: any) => {

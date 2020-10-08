@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Prioridad } from 'src/app/interfaces/prioridad.interface';
 import { OrdenesProduccionService } from 'src/app/services/ordenes-produccion.service';
 
 @Component({
@@ -11,9 +10,9 @@ export class OrdenProduccionComponent implements OnInit {
 
   ordenes_produccion: []
   orden_produccion: {
-    referencia: string,
-    tipo: string,
-    presentacion: string,
+    referencia_producto: string,
+    tipo_producto: string,
+    presentacion_producto: string,
     cliente: string,
     prioridad: string,
     codigo: string
@@ -25,9 +24,9 @@ export class OrdenProduccionComponent implements OnInit {
   prioridades: []
   constructor(private ordenesProduccionService: OrdenesProduccionService) {
     this.orden_produccion = {
-      referencia: '',
-      tipo: '',
-      presentacion: '',
+      referencia_producto: '',
+      tipo_producto: '',
+      presentacion_producto: '',
       cliente: null,
       prioridad: '',
       codigo: null,

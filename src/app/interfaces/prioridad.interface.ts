@@ -1,4 +1,4 @@
 export interface Prioridad {
   nivel: number,
-  nombre: string
+  descripcion: string
 }
