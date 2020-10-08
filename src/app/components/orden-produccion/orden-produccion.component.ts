@@ -48,32 +48,32 @@ export class OrdenProduccionComponent implements OnInit {
   }
 
   consultarReferencias() {
-    this.ordenesProduccionService.consultarData('referencias').then((res: any) => {
-      this.referencias = res;
+    this.ordenesProduccionService.consultarReferenciasProducto().then((res: any) => {
+      this.referencias = res.data;
     });
   }
 
   consultarTipos() {
-    this.ordenesProduccionService.consultarData('tipos').then((res: any) => {
-      this.tipos = res;
+    this.ordenesProduccionService.consultarTiposProducto().then((res: any) => {
+      this.tipos = res.data;
     });
   }
 
   consultarPresentaciones() {
-    this.ordenesProduccionService.consultarData('presentaciones').then((res: any) => {
-      this.presentaciones = res;
+    this.ordenesProduccionService.consultarPresentacionProducto().then((res: any) => {
+      this.presentaciones = res.data;
     });
   }
 
   consultarPrioridades() {
-    this.ordenesProduccionService.consultarData('prioridades').then((res: any) => {
-      this.prioridades = res;
+    this.ordenesProduccionService.consultarPrioridades().then((res: any) => {
+      this.prioridades = res.data;
     });
   }
 
   consultarOrdenesProduccion() {
-    this.ordenesProduccionService.consultarData('ordenes').then((res: any) => {
-      this.ordenes_produccion = res;
+    this.ordenesProduccionService.consultarOrdenesProduccion().then((res: any) => {
+      this.ordenes_produccion = res.data;
     });
   }
 

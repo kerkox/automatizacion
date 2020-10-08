@@ -1,51 +1,68 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
+import { types } from '../types/types';
 
+const BASE_URL = environment.base_url;
 @Injectable({
   providedIn: 'root',
 })
 export class OrdenesProduccionService {
-  constructor() { 
+  constructor(private http: HttpClient) { 
     this.inicializarValores();
   }
 
   inicializarValores() {
-    this.consultarData('referencias').then((res: any) => {
+    this.consultarData(types.API.ReferenciaProductos).then((res: any) => {
       if (!res || res.length == 0) {
-        this.guardarData('referencias','Shampoo');
-        this.guardarData('referencias','Acondicionador');
+        this.guardarData(types.API.ReferenciaProductos,'Shampoo');
+        this.guardarData(types.API.ReferenciaProductos,'Acondicionador');
       }
     })
-    this.consultarData('tipos').then((res: any) => {
+    this.consultarData(types.API.TipoProductos).then((res: any) => {
       if (!res || res.length == 0) {
-        this.guardarData('tipos', 'Lisos');
-        this.guardarData('tipos', 'Risos');
-        this.guardarData('tipos', 'Duos');
+        this.guardarData(types.API.TipoProductos, 'Lisos');
+        this.guardarData(types.API.TipoProductos, 'Risos');
+        this.guardarData(types.API.TipoProductos, 'Duos');
       }
     })
-    this.consultarData('prioridades').then((res: any) => {
+    this.consultarData(types.API.Prioridades).then((res: any) => {
       if (!res || res.length == 0) {
-        this.guardarData('prioridades', 'Alta');
-        this.guardarData('prioridades', 'Media');
-        this.guardarData('prioridades', 'Baja');
+        this.guardarData(types.API.Prioridades, 'Alta');
+        this.guardarData(types.API.Prioridades, 'Media');
+        this.guardarData(types.API.Prioridades, 'Baja');
       }
     })
-    this.consultarData('presentaciones').then((res: any) => {
+    this.consultarData(types.API.PresentacionProductos).then((res: any) => {
       if (!res || res.length == 0) {
-        this.guardarData('presentaciones', '400 ml');
-        this.guardarData('presentaciones', '200 ml');
+        this.guardarData(types.API.PresentacionProductos, '400 ml');
+        this.guardarData(types.API.PresentacionProductos, '200 ml');
       }
     })
   }
 
+  consultarReferenciasProducto(){
+    return this.consultarData(types.API.ReferenciaProductos);
+  }
+
+  consultarTiposProducto() {
+    return this.consultarData(types.API.TipoProductos);
+  }
+
+  consultarPrioridades() {
+    return this.consultarData(types.API.Prioridades);
+  }
+
+  consultarPresentacionProducto() {
+    return this.consultarData(types.API.PresentacionProductos);
+  }
+
+  consultarOrdenesProduccion() {
+    return this.consultarData(types.API.OrdenesProducciones);
+  }
+
   consultarData(campo: any) {
-    return new Promise((resolve, reject) => {
-      let campos = localStorage.getItem(campo);
-      if (campos) {
-        resolve(JSON.parse(campos))
-      } else {
-        resolve([]);
-      }
-    })
+    return this.http.get(`${BASE_URL}/${campo}`).toPromise();
   }
 
   guardarData(campo: any, valor: any) {
