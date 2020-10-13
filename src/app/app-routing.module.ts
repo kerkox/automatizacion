@@ -7,34 +7,53 @@ import { MesComponent } from './components/mes/mes.component';
 import { OrdenProduccionComponent } from './components/orden-produccion/orden-produccion.component';
 import { ParametrosReferenciasComponent } from './components/parametros-referencias/parametros-referencias.component';
 import { StockComponent } from './components/stock/stock.component';
+import { NoPageFoundComponent } from './pages/no-page-found/no-page-found.component';
+import { PagesComponent } from './pages/pages.component';
 
 const routes: Routes = [
-  { path:'', component: ErpComponent },
-  { 
-    path:'erp',
-    component: ErpComponent,
+
+  {
+    path: '', component: PagesComponent,
     children: [
       {
-        path: 'inventario',
-        component: StockComponent
+        path: 'erp',
+        component: ErpComponent,
+        children: [
+          {
+            path: 'inventario',
+            component: StockComponent
+          },
+          {
+            path: 'materia-prima',
+            component: MateriaPrimaComponent
+          },
+          {
+            path: 'orden-produccion',
+            component: OrdenProduccionComponent
+          },
+          {
+            path: 'parametros-referencia',
+            component: ParametrosReferenciasComponent
+          },
+          {
+            path: '',
+            redirectTo: 'materia-prima',
+            pathMatch: 'full'
+          }
+        ]
       },
       {
-        path: 'materia-prima',
-        component: MateriaPrimaComponent
+        path: '',
+        redirectTo: 'erp',
+        pathMatch: 'full'
       },
-      {
-        path: 'orden-produccion',
-        component: OrdenProduccionComponent
-      },
-      {
-        path: 'parametros-referencia',
-        component: ParametrosReferenciasComponent
-      },
+      { path: 'mes', component: MesComponent },
+      { path: 'control', component: ControlComponent },
     ]
   },
-  { path:'mes', component: MesComponent},
-  { path:'control', component: ControlComponent},
-  { path: '**',  pathMatch: 'full', redirectTo:''}
+
+
+  { path: '**', component: NoPageFoundComponent }
 ];
 
 @NgModule({
