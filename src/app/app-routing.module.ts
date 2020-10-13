@@ -53,7 +53,9 @@ const routes: Routes = [
     ]
   },
 
-  { path: 'login', component: LoginComponent },
+  //Ruta para el login
+  // { path: 'login', component: LoginComponent },
+
   { path: '**', component: NoPageFoundComponent }
 ];
 
