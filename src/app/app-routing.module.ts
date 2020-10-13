@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LoginComponent } from './auth/login/login.component';
 import { ControlComponent } from './components/control/control.component';
 import { ErpComponent } from './components/erp/erp.component';
 import { MateriaPrimaComponent } from './components/materia-prima/materia-prima.component';
@@ -52,7 +53,7 @@ const routes: Routes = [
     ]
   },
 
-
+  { path: 'login', component: LoginComponent },
   { path: '**', component: NoPageFoundComponent }
 ];
 
