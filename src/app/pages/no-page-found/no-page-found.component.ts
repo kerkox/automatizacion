@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-no-page-found',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NoPageFoundComponent implements OnInit {
 
-  constructor() { }
+  router:any
+  url:string 
+  constructor(private _router: Router) { 
+    this.router = _router;
+    this.url = '---';
+  }
 
   ngOnInit(): void {
+    this.router.subscribe((url) => {
+      console.log(url)
+      this.url = url
+    })
   }
 
 }
