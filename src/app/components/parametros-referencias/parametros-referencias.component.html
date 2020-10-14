@@ -110,7 +110,7 @@
       <th scope="row">{{ i + 1}}</th>
       <td>
         <ol>
-          <li *ngFor="let item of formula.materias_primas; index as i">{{item.materia_prima.descripcion}}</li>          
+          <li *ngFor="let item of formula.materias_primas; index as i">{{item.materia_prima.descripcion || ''}}</li>          
         </ol>
       </td>
       <td>
