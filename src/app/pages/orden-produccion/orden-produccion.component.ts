@@ -1,3 +1,4 @@
+import { OrdenProduccion } from './../../interfaces/ordenProduccion.interface';
 import { Component, OnInit } from '@angular/core';
 import { OrdenesProduccionService } from 'src/app/services/ordenes-produccion.service';
 
@@ -9,15 +10,7 @@ import { OrdenesProduccionService } from 'src/app/services/ordenes-produccion.se
 export class OrdenProduccionComponent implements OnInit {
 
   ordenes_produccion: []
-  orden_produccion: {
-    referencia_producto: string,
-    tipo_producto: string,
-    presentacion_producto: string,
-    cliente: string,
-    prioridad: string,
-    codigo: string
-    cantidad: number,
-  }
+  orden_produccion: OrdenProduccion 
   referencias: []
   tipos: []
   presentaciones: []
@@ -29,7 +22,7 @@ export class OrdenProduccionComponent implements OnInit {
       presentacion_producto: '',
       cliente: null,
       prioridad: '',
-      codigo: null,
+      // codigo: null,
       cantidad: 0,
     }
   }
@@ -68,6 +61,15 @@ export class OrdenProduccionComponent implements OnInit {
     this.ordenesProduccionService.consultarPrioridades().then((res: any) => {
       this.prioridades = res.data;
     });
+  }
+
+  guardarOrdenProduccion(){
+    this.ordenesProduccionService.guardarOrdenProduccion(this.orden_produccion).then(res => {
+      this.consultarOrdenesProduccion();
+    }).catch(err => {
+      console.error("ocurrio un error");
+      console.error(err);
+    })
   }
 
   consultarOrdenesProduccion() {

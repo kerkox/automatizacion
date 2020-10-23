@@ -5,7 +5,7 @@ import { ControlComponent } from './components/control/control.component';
 import { ErpComponent } from './components/erp/erp.component';
 import { MateriaPrimaComponent } from './components/materia-prima/materia-prima.component';
 import { MesComponent } from './components/mes/mes.component';
-import { OrdenProduccionComponent } from './components/orden-produccion/orden-produccion.component';
+import { OrdenProduccionComponent } from './pages/orden-produccion/orden-produccion.component';
 import { ParametrosReferenciasComponent } from './pages/parametros-referencias/parametros-referencias.component';
 import { StockComponent } from './components/stock/stock.component';
 import { NoPageFoundComponent } from './pages/no-page-found/no-page-found.component';

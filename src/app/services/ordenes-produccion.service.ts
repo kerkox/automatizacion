@@ -1,3 +1,4 @@
+import { OrdenProduccion } from './../interfaces/ordenProduccion.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -63,6 +64,10 @@ export class OrdenesProduccionService {
 
   consultarData(campo: any) {
     return this.http.get(`${BASE_URL}/${campo}`).toPromise();
+  }
+
+  guardarOrdenProduccion(ordenProduccion:OrdenProduccion) {
+    return this.guardarData(types.API.OrdenesProducciones,ordenProduccion);
   }
 
   guardarData(campo: any, valor: any) {

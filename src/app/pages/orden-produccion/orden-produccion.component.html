@@ -1,0 +1,105 @@
+<div class="">
+  <h3>Orden de produccion</h3>
+  <form>
+
+    <div class="form-row">
+
+      <div class="col-md-6">
+        <label for="cliente">Cliente</label>
+        <div class="input-group mb-3">
+          <input type="text" [(ngModel)]="orden_produccion.cliente" class="form-control" name="cliente" id="cliente"
+            placeholder="Cliente">
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="prioridad">Prioridad</label>
+        <div class="input-group mb-3">
+          <select class="form-control" [(ngModel)]="orden_produccion.prioridad" name="prioridad" id="prioridad">
+            <option hidden value="" selected>Seleccionar prioridad</option>
+            <option *ngFor="let item of prioridades; index as i" [value]="item['_id']">{{item.descripcion}}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="referencia">Referencia</label>
+        <div class="input-group mb-3">
+          <select class="form-control" [(ngModel)]="orden_produccion.referencia_producto" name="referencia_producto"
+            id="referencia_producto">
+            <option hidden value="" selected>Seleccionar referencia</option>
+            <option *ngFor="let item of referencias; index as i" [value]="item['_id']">{{item.descripcion}}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="tipo">Tipo</label>
+        <div class="input-group mb-3">
+          <select class="form-control" [(ngModel)]="orden_produccion.tipo_producto" name="tipo_producto"
+            id="tipo_producto">
+            <option hidden value="" selected>Seleccionar tipo</option>
+            <option *ngFor="let item of tipos; index as i" [value]="item['_id']">{{item.descripcion}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="presentacion">Presentacion</label>
+        <div class="input-group mb-3">
+          <select class="form-control" [(ngModel)]="orden_produccion.presentacion_producto" name="presentacion_producto"
+            id="presentacion_producto">
+            <option hidden value="" selected>Seleccionar presentacion</option>
+            <option *ngFor="let item of presentaciones; index as i" [value]="item['_id']">{{item.descripcion}}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="cantidad">Cantidad</label>
+        <div class="input-group mb-3 ">
+          <input type="number" min="1" class="form-control" [(ngModel)]="orden_produccion.cantidad" name="cantidad"
+            id="cantidad" placeholder="Cantidad">
+          <div class="input-group-append">
+            <span class="input-group-text">UND</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="guardarOrdenProduccion()">Generar Orden</button>
+  </form>
+<hr size="10">
+
+<h3>Ordenes creadas</h3>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Cliente</th>
+      <th scope="col">Prioridad </th>
+      <th scope="col">Referencia</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Presentacion</th>
+      <th scope="col">Cantidad</th>
+      <th scope="col">Estado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let orden of ordenes_produccion; index as i">
+      <th scope="row">{{ i + 1}}</th>
+      <td>{{ orden.cliente }}</td>
+      <td>{{ orden.prioridad.descripcion}}</td>
+      <td>{{ orden.referencia_producto.descripcion }}</td>
+      <td>{{ orden.tipo_producto.descripcion }}</td>
+      <td>{{ orden.presentacion_producto.descripcion }}</td>
+      <td>{{ orden.cantidad }}</td>      
+      <td>{{ orden.estado }}</td>      
+    </tr>
+  </tbody>
+</table>
+
+
+</div>
