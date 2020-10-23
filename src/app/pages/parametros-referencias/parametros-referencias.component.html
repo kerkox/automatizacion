@@ -147,6 +147,7 @@
       <th scope="col">Tiempo precalentamiento</th>
       <th scope="col">Tiempo mezclado</th>
       <th scope="col">Temperatura calentamiento</th>
+      <th scope="col">Acciones</th>
     </tr>
   </thead>
   <tbody>
@@ -171,6 +172,7 @@
       <td>{{ formula.tiempo_precalentamiento }}</td>
       <td>{{ formula.tiempo_mezclado }}</td>
       <td>{{ formula.temperatura_calentamiento }}</td>
+      <td> <button class="btn btn-danger" (click)="borrarFormula(formula['_id'])">Eliminar</button> </td>
     </tr>
   </tbody>
 </table>

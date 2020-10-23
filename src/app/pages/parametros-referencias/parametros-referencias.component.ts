@@ -102,4 +102,14 @@ export class ParametrosReferenciasComponent implements OnInit {
     })
   }
 
+  borrarFormula(id: string){
+    this.formulasService.borrarFormula(id).then(res => {
+      this.cargarFormulas();
+    })
+    .catch(err => {
+      console.error(err)
+    })
+  }
+
+
 }
