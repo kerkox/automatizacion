@@ -3,6 +3,6 @@
   justify-content: space-between;
 }
 
-.input-linea-button > .btn {
+.input-linea-button>.btn {
   margin-left: 10px;
 }

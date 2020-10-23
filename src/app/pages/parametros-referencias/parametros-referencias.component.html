@@ -1,0 +1,176 @@
+<form>
+  <div class="">
+    <div class="form-row">
+      <div class="col-md-6">
+        <label for="referencia">Referencia</label>
+        <div class="input-group mb-3">
+          <select class="form-control" [(ngModel)]="formula.referencia_producto" name="referencia_producto"
+            id="referencia_producto">
+            <option hidden value="" selected>Seleccionar referencia</option>
+            <option *ngFor="let item of referencias; index as i" [value]="item['_id']">{{item.descripcion}}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="tipo">Tipo</label>
+        <div class="input-group mb-3">
+          <select class="form-control" [(ngModel)]="formula.tipo_producto" name="tipo_producto" id="tipo_producto">
+            <option hidden value="" selected>Seleccionar tipo</option>
+            <option *ngFor="let item of tipos; index as i" [value]="item['_id']">{{item.descripcion}}</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+    <div class="form-row" *ngFor="let materiaPrima of formula.materias_primas, index as i">
+
+      <div class="col-md-6">
+        <label [for]="'nombre_materia_prima_'+i">Nombre Materia Prima {{i + 1}}</label>
+        <div class="input-group mb-3 ">
+          <select class="form-control" [(ngModel)]="formula.materias_primas[i].materia_prima"
+            [name]="'nombre_materia_prima_'+(i + 1)" [id]="'nombre_materia_prima_'+i">
+            <option hidden value="" selected>Seleccionar materia Prima</option>
+            <option *ngFor="let item of materias_primas_seleccionar; index as i" [value]="item['_id']">
+              {{item.descripcion}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label [for]="'cantidad_materia_prima_'+i">Cantidad Materia Prima {{i + 1}}</label>
+        <div class="input-group mb-3 ">
+          <div class="input-linea-button">
+            <input type="number" min="1" max="100" [(ngModel)]="formula.materias_primas[i].porcentaje"
+              [name]="'cantidad_materia_prima_'+i" class="form-control" [id]="'cantidad_materia_prima_'+i"
+              [placeholder]="'Cantidad Materia Prima '+ (i + 1)">
+            <div class="input-group-append">
+              <span class="input-group-text">%</span>
+            </div>
+            <button *ngIf="formula.materias_primas.length > 1" type="button" class="btn btn-danger"
+              (click)="borrarMateriaPrima(i)">borrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn btn-success" (click)="agregarMateriaPrima()">
+    Agregar Materia Prima
+  </button>
+  <hr size="10">
+  <div class="form-row">
+
+    <div class="col-md-6">
+      <label for="densidad">Densidad</label>
+      <div class="input-group mb-3 ">
+        <input type="number" min="0" [(ngModel)]="formula.densidad" class="form-control" name="densidad" id="densidad"
+          placeholder="Densisdad">
+        <div class="input-group-append">
+          <span class="input-group-text">Ton/ml</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label for="tiempo_premezclado">Tiempo premezclado</label>
+      <div class="input-group mb-3 ">
+        <input type="number" min="1" [(ngModel)]="formula.tiempo_premezclado" class="form-control"
+          name="tiempo_premezclado" id="tiempo_premezclado" placeholder="Tiempo premezclado">
+        <div class="input-group-append">
+          <span class="input-group-text">Min.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label for="temperatura_precalentamiento">Temperatura precalentamiento</label>
+      <div class="input-group mb-3 ">
+        <input type="number" min="1" [(ngModel)]="formula.temperatura_precalentamiento" class="form-control"
+          name="temperatura_precalentamiento" id="temperatura_precalentamiento"
+          placeholder="Temperatura precalentamiento">
+        <div class="input-group-append">
+          <span class="input-group-text">ºC</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-md-6">
+      <label for="tiempo_precalentamiento">Tiempo precalentamiento</label>
+      <div class="input-group mb-3 ">
+        <input type="number" min="1" [(ngModel)]="formula.tiempo_precalentamiento" class="form-control"
+          name="tiempo_precalentamiento" id="tiempo_precalentamiento" placeholder="Tiempo precalentamiento">
+        <div class="input-group-append">
+          <span class="input-group-text">Min.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label for="tiempo_mezclado">Tiempo Mezclado</label>
+      <div class="input-group mb-3 ">
+        <input type="number" min="1" [(ngModel)]="formula.tiempo_mezclado" class="form-control" name="tiempo_mezclado"
+          id="tiempo_mezclado" placeholder="Tiempo Mezclado">
+        <div class="input-group-append">
+          <span class="input-group-text">Min.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label for="temperatura_calentamiento">Temperatura Calentamiento</label>
+      <div class="input-group mb-3 ">
+        <input type="number" min="1" [(ngModel)]="formula.temperatura_calentamiento" class="form-control"
+          name="temperatura_calentamiento" id="temperatura_calentamiento" placeholder="Temperatura Calentamiento">
+        <div class="input-group-append">
+          <span class="input-group-text">ºC</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="submit" (click)="guardarFormula()" class="btn btn-primary">Crear</button>
+</form>
+
+<h3>Formulas Referencias</h3>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre Materia Primas</th>
+      <th scope="col">Cantidad Materia Primas </th>
+      <th scope="col">Densidad</th>
+      <th scope="col">Referencia </th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Tiempo premezclado</th>
+      <th scope="col">Temperatura precalentamiento</th>
+      <th scope="col">Tiempo precalentamiento</th>
+      <th scope="col">Tiempo mezclado</th>
+      <th scope="col">Temperatura calentamiento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let formula of formulas; index as i">
+      <th scope="row">{{ i + 1}}</th>
+      <td>
+        <ol>
+          <li *ngFor="let item of formula.materias_primas; index as i">
+            {{item.materia_prima ? item.materia_prima.descripcion : ''}}</li>
+        </ol>
+      </td>
+      <td>
+        <ol>
+          <li *ngFor="let item of formula.materias_primas; index as i">{{item.porcentaje}}%</li>
+        </ol>
+      </td>
+      <td>{{ formula.densidad }}</td>
+      <td>{{ formula.referencia_producto.descripcion }}</td>
+      <td>{{ formula.tipo_producto.descripcion }}</td>
+      <td>{{ formula.tiempo_premezclado}}</td>
+      <td>{{ formula.temperatura_precalentamiento }}</td>
+      <td>{{ formula.tiempo_precalentamiento }}</td>
+      <td>{{ formula.tiempo_mezclado }}</td>
+      <td>{{ formula.temperatura_calentamiento }}</td>
+    </tr>
+  </tbody>
+</table>

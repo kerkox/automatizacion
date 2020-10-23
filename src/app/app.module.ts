@@ -12,7 +12,7 @@ import { MesComponent } from './components/mes/mes.component';
 import { OrdenProduccionComponent } from './components/orden-produccion/orden-produccion.component';
 import { StockComponent } from './components/stock/stock.component';
 import { ControlComponent } from './components/control/control.component';
-import { ParametrosReferenciasComponent } from './components/parametros-referencias/parametros-referencias.component';
+import { ParametrosReferenciasComponent } from './pages/parametros-referencias/parametros-referencias.component';
 import { MateriaPrimaComponent } from './components/materia-prima/materia-prima.component';
 import { LoadingComponent } from './components/shared/loading/loading.component';
 import { LoginComponent } from './auth/login/login.component';
