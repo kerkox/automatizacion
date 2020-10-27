@@ -1,4 +1,4 @@
-import { OrdenProduccion } from './../interfaces/ordenProduccion.interface';
+import { OrdenPedido } from '../interfaces/ordenPedido.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -8,7 +8,7 @@ const BASE_URL = environment.base_url;
 @Injectable({
   providedIn: 'root',
 })
-export class OrdenesProduccionService {
+export class OrdenesPedidoService {
   constructor(private http: HttpClient) { 
     this.inicializarValores();
   }
@@ -29,7 +29,7 @@ export class OrdenesProduccionService {
     })
     this.consultarData(types.API.Prioridades).then((res: any) => {
       if (!res || res.data.length == 0) {
-        this.guardarData(types.API.Prioridades,{descripcion: 'Alta', nivel:1});
+        this.guardarData(types.API.Prioridades, {descripcion: 'Alta', nivel:1});
         this.guardarData(types.API.Prioridades, { descripcion: 'Media', nivel: 2});
         this.guardarData(types.API.Prioridades, { descripcion: 'Baja', nivel: 3});
       }
@@ -58,16 +58,16 @@ export class OrdenesProduccionService {
     return this.consultarData(types.API.PresentacionProductos);
   }
 
-  consultarOrdenesProduccion() {
-    return this.consultarData(types.API.OrdenesProducciones);
+  consultarOrdenesPedido() {
+    return this.consultarData(types.API.OrdenesPedidos);
   }
 
   consultarData(campo: any) {
     return this.http.get(`${BASE_URL}/${campo}`).toPromise();
   }
 
-  guardarOrdenProduccion(ordenProduccion:OrdenProduccion) {
-    return this.guardarData(types.API.OrdenesProducciones,ordenProduccion);
+  guardarOrdenPedido(ordenPedido:OrdenPedido) {
+    return this.guardarData(types.API.OrdenesPedidos,ordenPedido);
   }
 
   guardarData(campo: any, valor: any) {

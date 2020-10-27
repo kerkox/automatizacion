@@ -1,4 +1,4 @@
-import { OrdenesProduccionService } from './../../services/ordenes-produccion.service';
+import { OrdenesPedidoService } from '../../services/ordenes-pedido.service';
 import { Component, OnInit } from '@angular/core';
 import { materiaPrima } from 'src/app/interfaces/materiaPrima.interface';
 import { FormulasService } from 'src/app/services/formulas.service';
@@ -30,7 +30,7 @@ export class ParametrosReferenciasComponent implements OnInit {
 
   constructor(public formulasService: FormulasService, 
               private materiaPrimaService: MateriaPrimaService,
-              public ordenesProduccionService: OrdenesProduccionService) {
+              public ordenesPedidoService: OrdenesPedidoService) {
     this.materias_primas_seleccionar = [];
     this.formulas = [];
     this.formula = {
@@ -55,13 +55,13 @@ export class ParametrosReferenciasComponent implements OnInit {
   }
 
   consultarReferencias() {
-    this.ordenesProduccionService.consultarReferenciasProducto().then((res: any) => {
+    this.ordenesPedidoService.consultarReferenciasProducto().then((res: any) => {
       this.referencias = res.data;
     });
   }
 
   consultarTipos() {
-    this.ordenesProduccionService.consultarTiposProducto().then((res: any) => {
+    this.ordenesPedidoService.consultarTiposProducto().then((res: any) => {
       this.tipos = res.data;
     });
   }

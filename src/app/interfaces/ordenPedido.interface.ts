@@ -1,4 +1,4 @@
-export interface OrdenProduccion {
+export interface OrdenPedido {
   cliente: string;
   prioridad: string,
   referencia_producto: string,

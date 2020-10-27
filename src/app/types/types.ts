@@ -1,13 +1,21 @@
 export const types = {
   API: {
-    ReferenciaProductos: "referenciaProductos",
-    MateriaPrimas: "materiasPrimas",
+    ReferenciaProductos: "referencia-producto",
+    MateriaPrimas: "materia-prima",
     Formulas: "formulas",
-    TipoProductos: "tipoProductos",
-    PresentacionProductos: "presentacionProductos",
-    Prioridades: "prioridades",
-    OrdenesProducciones: "ordenesProducciones"
+    TipoProductos: "tipo-producto",
+    PresentacionProductos: "presentacion-producto",
+    Prioridades: "prioridad",
+    OrdenesProducciones: "orden-produccion",
+    OrdenesPedidos: "orden-pedido"
 
-  }
+  },
+  MENUS: [
+    { path: '/erp/inventario', name: 'Inventario' },
+    { path: '/erp/materia-prima', name: 'Materia Prima' },
+    { path: '/erp/orden-pedido', name: 'Orden Pedido' },
+    { path: '/erp/parametros-referencia', name: 'Parametros Referencia' },
+    { path: '/login', name: 'Login' },
+  ]
 
 }

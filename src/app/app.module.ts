@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ErpComponent } from './components/erp/erp.component';
 import { MesComponent } from './components/mes/mes.component';
-import { OrdenProduccionComponent } from './pages/orden-produccion/orden-produccion.component';
+import { OrdenPedidoComponent } from './pages/orden-pedido/orden-pedido.component';
 import { StockComponent } from './components/stock/stock.component';
 import { ControlComponent } from './components/control/control.component';
 import { ParametrosReferenciasComponent } from './pages/parametros-referencias/parametros-referencias.component';
@@ -31,7 +31,7 @@ import { PagesComponent } from './pages/pages.component';
     NavbarComponent,
     ErpComponent,
     MesComponent,
-    OrdenProduccionComponent,
+    OrdenPedidoComponent,
     StockComponent,
     ControlComponent,
     ParametrosReferenciasComponent,
