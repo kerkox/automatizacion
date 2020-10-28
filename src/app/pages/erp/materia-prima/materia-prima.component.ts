@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MateriaPrimaService } from 'src/app/services/materia-prima.service';
-import { textChangeRangeIsUnchanged } from 'typescript';
 
 @Component({
   selector: 'app-materia-prima',
@@ -21,7 +20,7 @@ export class MateriaPrimaComponent implements OnInit {
   loadingTable: boolean = false;
   error: boolean = false;
   constructor(private materiaPrimaService: MateriaPrimaService) {
-    this.materia_prima = { id:'',descripcion: '' }
+    this.materia_prima = { id: '', descripcion: '' }
     this.materias_primas = []
     this.texto_boton = "Crear";
   }
@@ -31,7 +30,7 @@ export class MateriaPrimaComponent implements OnInit {
   }
 
   resetarFormulario() {
-    
+
     this.loading = false;
     this.materia_prima.descripcion = "";
     this.ocultarMensajeGuardado()
@@ -44,7 +43,7 @@ export class MateriaPrimaComponent implements OnInit {
     this.actualizar = false;
   }
 
-  
+
 
   cargarMateriasPrimas() {
     this.loadingTable = true;
@@ -61,19 +60,19 @@ export class MateriaPrimaComponent implements OnInit {
     this.loading = true;
     this.saved = false;
     if (this.actualizar) {
-      this.materiaPrimaService.actualizar(this.materia_prima.id,this.materia_prima.descripcion)
-      .then(res => {
-        this.resetarFormulario()
-        this.cancelarActualizacion()
-        this.saved = true;
-      }).catch(error => {
-        this.resetarFormulario()
-        this.error = true;        
-        console.error(error)
-      })
+      this.materiaPrimaService.actualizar(this.materia_prima.id, this.materia_prima.descripcion)
+        .then(res => {
+          this.resetarFormulario()
+          this.cancelarActualizacion()
+          this.saved = true;
+        }).catch(error => {
+          this.resetarFormulario()
+          this.error = true;
+          console.error(error)
+        })
     } else {
       this.materiaPrimaService.crear(this.materia_prima.descripcion).then(res => {
-        this.resetarFormulario()       
+        this.resetarFormulario()
         this.saved = true;
       }).catch(err => {
         this.resetarFormulario()
@@ -82,7 +81,7 @@ export class MateriaPrimaComponent implements OnInit {
     }
   }
 
-  ocultarMensajeGuardado(){
+  ocultarMensajeGuardado() {
     setTimeout(() => this.saved = false, 1500);
   }
 
@@ -92,13 +91,13 @@ export class MateriaPrimaComponent implements OnInit {
     this.actualizar = true;
     this.texto_boton = "Actualizar"
     this.materia_prima.descripcion = this.materias_primas[index]['descripcion']
-    this.materia_prima.id = this.materias_primas[index]['_id']
+    this.materia_prima.id = this.materias_primas[index]['id']
 
   }
 
   borrar(index: number) {
     this.loadingTable = true;
-    this.materiaPrimaService.borrar(this.materias_primas[index]['_id'])
+    this.materiaPrimaService.borrar(this.materias_primas[index]['id'])
       .then(res => {
         console.log("Borrado correctamente")
         this.cargarMateriasPrimas();

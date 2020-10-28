@@ -15,9 +15,9 @@
       <div class="col-md-6">
         <label for="prioridad">Prioridad</label>
         <div class="input-group mb-3">
-          <select class="form-control" [(ngModel)]="orden_pedido.prioridad" name="prioridad" id="prioridad">
+          <select class="form-control" [(ngModel)]="orden_pedido.prioridad_id" name="prioridad" id="prioridad">
             <option hidden value="" selected>Seleccionar prioridad</option>
-            <option *ngFor="let item of prioridades; index as i" [value]="item['_id']">{{item.descripcion}}
+            <option *ngFor="let item of prioridades; index as i" [value]="item['id']">{{item.descripcion}}
             </option>
           </select>
         </div>
@@ -26,10 +26,10 @@
       <div class="col-md-6">
         <label for="referencia">Referencia</label>
         <div class="input-group mb-3">
-          <select class="form-control" [(ngModel)]="orden_pedido.referencia_producto" name="referencia_producto"
+          <select class="form-control" [(ngModel)]="orden_pedido.referencia_producto_id" name="referencia_producto"
             id="referencia_producto">
             <option hidden value="" selected>Seleccionar referencia</option>
-            <option *ngFor="let item of referencias; index as i" [value]="item['_id']">{{item.descripcion}}
+            <option *ngFor="let item of referencias; index as i" [value]="item['id']">{{item.descripcion}}
             </option>
           </select>
         </div>
@@ -38,10 +38,10 @@
       <div class="col-md-6">
         <label for="tipo">Tipo</label>
         <div class="input-group mb-3">
-          <select class="form-control" [(ngModel)]="orden_pedido.tipo_producto" name="tipo_producto"
+          <select class="form-control" [(ngModel)]="orden_pedido.tipo_producto_id" name="tipo_producto"
             id="tipo_producto">
             <option hidden value="" selected>Seleccionar tipo</option>
-            <option *ngFor="let item of tipos; index as i" [value]="item['_id']">{{item.descripcion}}</option>
+            <option *ngFor="let item of tipos; index as i" [value]="item['id']">{{item.descripcion}}</option>
           </select>
         </div>
       </div>
@@ -49,10 +49,10 @@
       <div class="col-md-6">
         <label for="presentacion">Presentacion</label>
         <div class="input-group mb-3">
-          <select class="form-control" [(ngModel)]="orden_pedido.presentacion_producto" name="presentacion_producto"
+          <select class="form-control" [(ngModel)]="orden_pedido.presentacion_producto_id" name="presentacion_producto"
             id="presentacion_producto">
             <option hidden value="" selected>Seleccionar presentacion</option>
-            <option *ngFor="let item of presentaciones; index as i" [value]="item['_id']">{{item.descripcion}}
+            <option *ngFor="let item of presentaciones; index as i" [value]="item['id']">{{item.descripcion}}
             </option>
           </select>
         </div>
@@ -96,7 +96,9 @@
       <td>{{ orden.tipo_producto.descripcion }}</td>
       <td>{{ orden.presentacion_producto.descripcion }}</td>
       <td>{{ orden.cantidad }}</td>      
-      <td>{{ orden.estado }}</td>      
+      <td>
+        <span [class]="colorBadgeEstadoOrden(orden.estado)">{{ orden.estado }}</span>        
+      </td>      
     </tr>
   </tbody>
 </table>

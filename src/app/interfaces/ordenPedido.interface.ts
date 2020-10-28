@@ -1,9 +1,9 @@
 export interface OrdenPedido {
   cliente: string;
-  prioridad: string,
-  referencia_producto: string,
-  tipo_producto: string,
-  presentacion_producto: string,
+  prioridad_id: string,
+  referencia_producto_id: string,
+  tipo_producto_id: string,
+  presentacion_producto_id: string,
   cantidad: number
   
 }

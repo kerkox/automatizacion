@@ -36,8 +36,8 @@ export class OrdenesPedidoService {
     })
     this.consultarData(types.API.PresentacionProductos).then((res: any) => {
       if (!res || res.data.length == 0) {
-        this.guardarData(types.API.PresentacionProductos,{descripcion: '450 ml'});
-        this.guardarData(types.API.PresentacionProductos,{descripcion: '250 ml'});
+        this.guardarData(types.API.PresentacionProductos,{descripcion: '450 ml', cantidad:450});
+        this.guardarData(types.API.PresentacionProductos,{descripcion: '250 ml', cantidad: 250});
       }
     })
   }

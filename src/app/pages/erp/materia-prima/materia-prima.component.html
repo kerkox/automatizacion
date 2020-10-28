@@ -10,7 +10,8 @@
             <input type="text" [(ngModel)]="materia_prima.descripcion" class="form-control" name="descripcion"
               id="descripcion" placeholder="Descripcion materia prima">
             <button type="submit" (click)="guardar()" class=" btn btn-primary">{{texto_boton}}</button>
-            <button *ngIf="actualizar" type="submit" (click)="cancelarActualizacion()" class=" btn btn-danger">Cancelar</button>
+            <button *ngIf="actualizar" type="submit" (click)="cancelarActualizacion()"
+              class=" btn btn-danger">Cancelar</button>
           </div>
         </div>
 

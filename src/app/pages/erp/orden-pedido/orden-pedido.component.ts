@@ -1,4 +1,4 @@
-import { OrdenPedido } from '../../interfaces/OrdenPedido.interface';
+import { OrdenPedido } from '../../../interfaces/OrdenPedido.interface';
 import { Component, OnInit } from '@angular/core';
 import { OrdenesPedidoService } from 'src/app/services/ordenes-pedido.service';
 
@@ -17,12 +17,11 @@ export class OrdenPedidoComponent implements OnInit {
   prioridades: []
   constructor(private OrdenesPedidoService: OrdenesPedidoService) {
     this.orden_pedido = {
-      referencia_producto: '',
-      tipo_producto: '',
-      presentacion_producto: '',
+      referencia_producto_id: '',
+      tipo_producto_id: '',
+      presentacion_producto_id: '',
       cliente: null,
-      prioridad: '',
-      // codigo: null,
+      prioridad_id: '',
       cantidad: 0,
     }
   }
@@ -76,6 +75,17 @@ export class OrdenPedidoComponent implements OnInit {
     this.OrdenesPedidoService.consultarOrdenesPedido().then((res: any) => {
       this.ordenes_pedido = res.data;
     });
+  }
+
+  colorBadgeEstadoOrden(estado:string){
+    switch(estado){
+      case 'GENERADA':
+        return 'badge badge-secondary'
+      case 'EN PRODUCCION':
+        return 'badge badge-secondary'
+      case 'TERMINADA':
+        return 'badge badge-success'
+    }
   }
 
 }
