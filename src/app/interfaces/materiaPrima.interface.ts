@@ -1,4 +1,4 @@
 export interface materiaPrima {
-  materia_prima: string;
+  materia_prima_id: string;
   porcentaje: number;
 }

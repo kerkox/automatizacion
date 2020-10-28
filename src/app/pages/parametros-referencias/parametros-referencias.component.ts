@@ -38,7 +38,7 @@ export class ParametrosReferenciasComponent implements OnInit {
       referencia_producto:'',
       tipo_producto:'',
       materias_primas: [
-        { materia_prima: '', porcentaje: 0 }],
+        { materia_prima_id: '', porcentaje: 0 }],
       tiempo_premezclado: 0,
       tiempo_precalentamiento: 0,
       tiempo_mezclado: 0,
@@ -67,7 +67,7 @@ export class ParametrosReferenciasComponent implements OnInit {
   }
 
   agregarMateriaPrima() {
-    this.formula.materias_primas.push({ materia_prima: '', porcentaje: 0 });
+    this.formula.materias_primas.push({ materia_prima_id: '', porcentaje: 0 });
   }
 
   cargarMateriasPrimasSeleccionar() {
