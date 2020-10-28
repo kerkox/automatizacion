@@ -1,7 +1,7 @@
 import { OrdenesPedidoService } from '../../services/ordenes-pedido.service';
 import { Component, OnInit } from '@angular/core';
 import { materiaPrima } from 'src/app/interfaces/materiaPrima.interface';
-import { FormulasService } from 'src/app/services/formulas.service';
+import { RecetasService } from 'src/app/services/recetas.service';
 import { MateriaPrimaService } from 'src/app/services/materia-prima.service';
 
 
@@ -11,13 +11,13 @@ import { MateriaPrimaService } from 'src/app/services/materia-prima.service';
   styleUrls: ['./parametros-referencias.component.css']
 })
 export class ParametrosReferenciasComponent implements OnInit {
-  formulas: any = [];
+  recetas: any = [];
   referencias: []
   tipos: []
-  formula: {
+  receta: {
     densidad: number,
-    referencia_producto: string,
-    tipo_producto: string,
+    referencia_producto_id: string,
+    tipo_producto_id: string,
     materias_primas: materiaPrima[],
     tiempo_premezclado: number,
     tiempo_precalentamiento: number,
@@ -28,15 +28,15 @@ export class ParametrosReferenciasComponent implements OnInit {
   };
   materias_primas_seleccionar: Array<any> = []
 
-  constructor(public formulasService: FormulasService, 
+  constructor(public recetasService: RecetasService, 
               private materiaPrimaService: MateriaPrimaService,
               public ordenesPedidoService: OrdenesPedidoService) {
     this.materias_primas_seleccionar = [];
-    this.formulas = [];
-    this.formula = {
+    this.recetas = [];
+    this.receta = {
       densidad: 0,
-      referencia_producto:'',
-      tipo_producto:'',
+      referencia_producto_id:'',
+      tipo_producto_id:'',
       materias_primas: [
         { materia_prima_id: '', porcentaje: 0 }],
       tiempo_premezclado: 0,
@@ -48,7 +48,7 @@ export class ParametrosReferenciasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cargarFormulas();
+    this.cargarRecetas();
     this.cargarMateriasPrimasSeleccionar();
     this.consultarReferencias()
     this.consultarTipos()
@@ -67,7 +67,7 @@ export class ParametrosReferenciasComponent implements OnInit {
   }
 
   agregarMateriaPrima() {
-    this.formula.materias_primas.push({ materia_prima_id: '', porcentaje: 0 });
+    this.receta.materias_primas.push({ materia_prima_id: '', porcentaje: 0 });
   }
 
   cargarMateriasPrimasSeleccionar() {
@@ -81,30 +81,30 @@ export class ParametrosReferenciasComponent implements OnInit {
   }
 
   borrarMateriaPrima(index) {
-    this.formula.materias_primas.splice(index, 1);
+    this.receta.materias_primas.splice(index, 1);
   }
 
-  cargarFormulas() {
+  cargarRecetas() {
     // consultar las formulas guardas
-    this.formulasService.consultarFormulas().then((res: any) => {
-      this.formulas = res.data;
+    this.recetasService.consultarRecetas().then((res: any) => {
+      this.recetas = res.data;
     }).catch(error => {
       console.error(error)
     });
   }
 
-  guardarFormula() {
-    console.log(this.formula, "Formula");
-    this.formulasService.guardarFormula(this.formula).then(res => {
-      this.cargarFormulas();
+  guardarReceta() {
+    console.log(this.receta, "Formula");
+    this.recetasService.guardarReceta(this.receta).then(res => {
+      this.cargarRecetas();
     }).catch(error => {
       console.error(error);
     })
   }
 
-  borrarFormula(id: string){
-    this.formulasService.borrarFormula(id).then(res => {
-      this.cargarFormulas();
+  borrarReceta(id: string){
+    this.recetasService.borrarReceta(id).then(res => {
+      this.cargarRecetas();
     })
     .catch(err => {
       console.error(err)

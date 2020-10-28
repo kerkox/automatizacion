@@ -2,7 +2,7 @@ export const types = {
   API: {
     ReferenciaProductos: "referencia-producto",
     MateriaPrimas: "materia-prima",
-    Formulas: "formulas",
+    recetas: "receta",
     TipoProductos: "tipo-producto",
     PresentacionProductos: "presentacion-producto",
     Prioridades: "prioridad",
