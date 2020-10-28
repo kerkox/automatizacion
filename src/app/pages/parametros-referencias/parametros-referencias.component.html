@@ -1,59 +1,78 @@
-<form>
+<form [formGroup]="recetaForm" (ngSubmit)="guardarReceta()">
   <div class="">
     <div class="form-row">
       <div class="col-md-6">
         <label for="referencia">Referencia</label>
         <div class="input-group mb-3">
-          <select class="form-control" [(ngModel)]="receta.referencia_producto_id" name="referencia_producto"
+          <select class="form-control" formControlName="referencia_producto_id" name="referencia_producto"
+            [class.is-invalid]="isInvalid_referencia_producto_id" [class.is-valid]="isValid_referencia_producto_id"
             id="referencia_producto">
             <option hidden value="" selected>Seleccionar referencia</option>
             <option *ngFor="let item of referencias; index as i" [value]="item['id']">{{item.descripcion}}
             </option>
           </select>
         </div>
+        <div class="messages" *ngIf="isInvalid_referencia_producto_id">
+          <div class="invalid-feedback">
+            Por favor seleccione una referencia de producto
+          </div>
+        </div>
       </div>
 
       <div class="col-md-6">
         <label for="tipo">Tipo</label>
         <div class="input-group mb-3">
-          <select class="form-control" [(ngModel)]="receta.tipo_producto_id" name="tipo_producto" id="tipo_producto">
+          <select class="form-control" formControlName="tipo_producto_id" name="tipo_producto" id="tipo_producto"
+            [class.is-invalid]="isInvalid_tipo_producto_id" [class.is-valid]="isValid_tipo_producto_id">
             <option hidden value="" selected>Seleccionar tipo</option>
             <option *ngFor="let item of tipos; index as i" [value]="item['id']">{{item.descripcion}}</option>
           </select>
         </div>
-      </div>
-
-    </div>
-    <div class="form-row" *ngFor="let materiaPrima of receta.materias_primas, index as i">
-
-      <div class="col-md-6">
-        <label [for]="'nombre_materia_prima_'+i">Nombre Materia Prima {{i + 1}}</label>
-        <div class="input-group mb-3 ">
-          <select class="form-control" [(ngModel)]="receta.materias_primas[i].materia_prima_id"
-            [name]="'nombre_materia_prima_'+(i + 1)" [id]="'nombre_materia_prima_'+i">
-            <option hidden value="" selected>Seleccionar materia Prima</option>
-            <option *ngFor="let item of materias_primas_seleccionar; index as i" [value]="item['id']">
-              {{item.descripcion}}</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <label [for]="'cantidad_materia_prima_'+i">Cantidad Materia Prima {{i + 1}}</label>
-        <div class="input-group mb-3 ">
-          <div class="input-linea-button">
-            <input type="number" min="1" max="100" [(ngModel)]="receta.materias_primas[i].porcentaje"
-              [name]="'cantidad_materia_prima_'+i" class="form-control" [id]="'cantidad_materia_prima_'+i"
-              [placeholder]="'Cantidad Materia Prima '+ (i + 1)">
-            <div class="input-group-append">
-              <span class="input-group-text">%</span>
-            </div>
-            <button *ngIf="receta.materias_primas.length > 1" type="button" class="btn btn-danger"
-              (click)="borrarMateriaPrima(i)">borrar</button>
+        <div class="messages" *ngIf="isInvalid_tipo_producto_id">
+          <div class="invalid-feedback">
+            Por favor seleccione un tipo de producto
           </div>
         </div>
       </div>
+
     </div>
+
+
+
+    <div class="form-row" formArrayName="materias_primas"
+      *ngFor="let materiaPrima of materias_primas.controls, index as i">
+      <div [formGroupName]="i">
+        <div class="col-md-6">
+          <label [for]="'nombre_materia_prima_'+i">Nombre Materia Prima {{i + 1}}</label>
+          <div class="input-group mb-3 ">
+            <select class="form-control" formControlName="materia_prima_id" [name]="'nombre_materia_prima_'+(i + 1)"
+              [id]="'nombre_materia_prima_'+i">
+              <option hidden value="" selected>Seleccionar materia Prima</option>
+              <option *ngFor="let item of materias_primas_seleccionar" [value]="item['id']">
+                {{item.descripcion}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label [for]="'cantidad_materia_prima_'+i">Cantidad Materia Prima {{i + 1}}</label>
+          <div class="input-group mb-3 ">
+            <div class="input-linea-button">
+              <input type="number" min="1" max="100" formControlName="porcentaje" [name]="'cantidad_materia_prima_'+i"
+                class="form-control" [id]="'cantidad_materia_prima_'+i"
+                [placeholder]="'Cantidad Materia Prima '+ (i + 1)">
+              <div class="input-group-append">
+                <span class="input-group-text">%</span>
+              </div>
+              <button *ngIf="materias_primas.length > 1" type="button" class="btn btn-danger"
+                (click)="borrarMateriaPrima(i)">borrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
   </div>
   <button type="button" class="btn btn-success" (click)="agregarMateriaPrima()">
     Agregar Materia Prima
@@ -64,21 +83,34 @@
     <div class="col-md-6">
       <label for="densidad">Densidad</label>
       <div class="input-group mb-3 ">
-        <input type="number" min="0" [(ngModel)]="receta.densidad" class="form-control" name="densidad" id="densidad"
-          placeholder="Densisdad">
+        <input type="number" min="0" formControlName="densidad" [class.is-invalid]="isInvalid_densidad"
+          [class.is-valid]="isValid_densidad" class="form-control" aria-describedby="densidadFeedback" name="densidad"
+          id="densidad" placeholder="Densidad">
         <div class="input-group-append">
           <span class="input-group-text">Ton/ml</span>
         </div>
       </div>
+      <div class="messages" *ngIf="isInvalid_densidad">
+        <div class="invalid-feedback">
+          Por favor ingrese la densidad
+        </div>
+      </div>
+
     </div>
 
     <div class="col-md-6">
       <label for="tiempo_premezclado">Tiempo premezclado</label>
       <div class="input-group mb-3 ">
-        <input type="number" min="1" [(ngModel)]="receta.tiempo_premezclado" class="form-control"
+        <input type="number" min="1" formControlName="tiempo_premezclado" class="form-control"
+          [class.is-invalid]="isInvalid_tiempo_premezclado" [class.is-valid]="isValid_tiempo_premezclado"
           name="tiempo_premezclado" id="tiempo_premezclado" placeholder="Tiempo premezclado">
         <div class="input-group-append">
           <span class="input-group-text">Min.</span>
+        </div>
+      </div>
+      <div class="messages" *ngIf="isInvalid_tiempo_premezclado">
+        <div class="invalid-feedback">
+          Por favor ingrese el tiempo premezclado
         </div>
       </div>
     </div>
@@ -86,23 +118,34 @@
     <div class="col-md-6">
       <label for="temperatura_precalentamiento">Temperatura precalentamiento</label>
       <div class="input-group mb-3 ">
-        <input type="number" min="1" [(ngModel)]="receta.temperatura_precalentamiento" class="form-control"
-          name="temperatura_precalentamiento" id="temperatura_precalentamiento"
-          placeholder="Temperatura precalentamiento">
+        <input type="number" min="1" formControlName="temperatura_precalentamiento" class="form-control"
+          [class.is-invalid]="isInvalid_temperatura_precalentamiento"
+          [class.is-valid]="isValid_temperatura_precalentamiento" name="temperatura_precalentamiento"
+          id="temperatura_precalentamiento" placeholder="Temperatura precalentamiento">
         <div class="input-group-append">
           <span class="input-group-text">ºC</span>
         </div>
       </div>
-
+      <div class="messages" *ngIf="isInvalid_temperatura_precalentamiento">
+        <div class="invalid-feedback">
+          Por favor ingrese el temperatura precalentamiento
+        </div>
+      </div>
     </div>
 
     <div class="col-md-6">
       <label for="tiempo_precalentamiento">Tiempo precalentamiento</label>
       <div class="input-group mb-3 ">
-        <input type="number" min="1" [(ngModel)]="receta.tiempo_precalentamiento" class="form-control"
+        <input type="number" min="1" formControlName="tiempo_precalentamiento" class="form-control"
+          [class.is-invalid]="isInvalid_tiempo_precalentamiento" [class.is-valid]="isValid_tiempo_precalentamiento"
           name="tiempo_precalentamiento" id="tiempo_precalentamiento" placeholder="Tiempo precalentamiento">
         <div class="input-group-append">
           <span class="input-group-text">Min.</span>
+        </div>
+      </div>
+      <div class="messages" *ngIf="isInvalid_tiempo_precalentamiento">
+        <div class="invalid-feedback">
+          Por favor ingrese el tiempo precalentamiento
         </div>
       </div>
     </div>
@@ -110,10 +153,16 @@
     <div class="col-md-6">
       <label for="tiempo_mezclado">Tiempo Mezclado</label>
       <div class="input-group mb-3 ">
-        <input type="number" min="1" [(ngModel)]="receta.tiempo_mezclado" class="form-control" name="tiempo_mezclado"
-          id="tiempo_mezclado" placeholder="Tiempo Mezclado">
+        <input type="number" min="1" formControlName="tiempo_mezclado" class="form-control"
+          [class.is-invalid]="isInvalid_tiempo_mezclado" [class.is-valid]="isValid_tiempo_mezclado"
+          name="tiempo_mezclado" id="tiempo_mezclado" placeholder="Tiempo Mezclado">
         <div class="input-group-append">
           <span class="input-group-text">Min.</span>
+        </div>
+      </div>
+      <div class="messages" *ngIf="isInvalid_tiempo_mezclado">
+        <div class="invalid-feedback">
+          Por favor ingrese el tiempo mezclado
         </div>
       </div>
     </div>
@@ -121,15 +170,21 @@
     <div class="col-md-6">
       <label for="temperatura_calentamiento">Temperatura Calentamiento</label>
       <div class="input-group mb-3 ">
-        <input type="number" min="1" [(ngModel)]="receta.temperatura_calentamiento" class="form-control"
+        <input type="number" min="1" formControlName="temperatura_calentamiento" class="form-control"
+          [class.is-invalid]="isInvalid_temperatura_calentamiento" [class.is-valid]="isValid_temperatura_calentamiento"
           name="temperatura_calentamiento" id="temperatura_calentamiento" placeholder="Temperatura Calentamiento">
         <div class="input-group-append">
           <span class="input-group-text">ºC</span>
         </div>
       </div>
+      <div class="messages" *ngIf="isInvalid_temperatura_calentamiento">
+        <div class="invalid-feedback">
+          Por favor ingrese el temperatura calentamiento
+        </div>
+      </div>
     </div>
   </div>
-  <button type="submit" (click)="guardarReceta()" class="btn btn-primary">Crear</button>
+  <button type="submit" class="btn btn-primary">Crear</button>
 </form>
 
 <h3>Recetas Referencias</h3>
