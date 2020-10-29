@@ -64,12 +64,12 @@ export class ParametrosReferenciasComponent implements OnInit {
     this.recetaForm = this.formBuilder.group({
       densidad: ['', Validators.required],
       referencia_producto_id: ['', [Validators.required]],
-      tipo_producto_id: ['', Validators.required, Validators.min(0)],
-      tiempo_premezclado: ['', Validators.required, Validators.min(0)],
-      tiempo_precalentamiento: ['', Validators.required, Validators.min(0)],
-      tiempo_mezclado: ['', Validators.required, Validators.min(0)],
-      temperatura_precalentamiento: ['', Validators.required, Validators.min(0)],
-      temperatura_calentamiento: ['', Validators.required, Validators.min(0)],
+      tipo_producto_id: ['', [Validators.required, Validators.min(0)]],
+      tiempo_premezclado: ['', [Validators.required, Validators.min(0)]],
+      tiempo_precalentamiento: ['', [Validators.required, Validators.min(0)]],
+      tiempo_mezclado: ['', [Validators.required, Validators.min(0)]],
+      temperatura_precalentamiento: ['', [Validators.required, Validators.min(0)]],
+      temperatura_calentamiento: ['', [Validators.required, Validators.min(0)]],
       materias_primas:this.formBuilder.array([this.createMateriaPrimaCampos()])
     });
   }
@@ -169,6 +169,22 @@ export class ParametrosReferenciasComponent implements OnInit {
     return this.recetaForm.get('temperatura_calentamiento').valid && this.recetaForm.get('temperatura_calentamiento').touched
   }
 
+  isInvalidMateriaPrimaId(index: number){
+    return this.materias_primas.controls[index].get('materia_prima_id').invalid && this.materias_primas.controls[index].get('materia_prima_id').touched;
+  }
+
+  isValidMateriaPrimaId(index: number) {
+    return this.materias_primas.controls[index].get('materia_prima_id').valid && this.materias_primas.controls[index].get('materia_prima_id').touched;
+  }
+
+  isInvalidMateriaPrimaPorcentaje(index: number){
+    return this.materias_primas.controls[index].get('porcentaje').invalid && this.materias_primas.controls[index].get('porcentaje').touched;
+  }
+
+  isValidMateriaPrimaPorcentaje(index: number) {
+    return this.materias_primas.controls[index].get('porcentaje').valid && this.materias_primas.controls[index].get('porcentaje').touched;
+  }
+
 
   consultarReferencias() {
     this.ordenesPedidoService.consultarReferenciasProducto().then((res: any) => {
@@ -204,7 +220,7 @@ export class ParametrosReferenciasComponent implements OnInit {
   }
 
   borrarMateriaPrima(index) {
-    this.receta.materias_primas.splice(index, 1);
+    this.materias_primas.controls.splice(index, 1);
   }
 
   cargarRecetas() {
@@ -220,12 +236,13 @@ export class ParametrosReferenciasComponent implements OnInit {
     if(this.recetaForm.valid){
 
       console.log("this.recetaForm.value",this.recetaForm.value);
+      let receta = this.recetaForm.value
       // console.log(this.receta, "Formula");
-      // this.recetasService.guardarReceta(this.receta).then(res => {
-      //   this.cargarRecetas();
-      // }).catch(error => {
-      //   console.error(error);
-      // })
+      this.recetasService.guardarReceta(receta).then(res => {
+        this.cargarRecetas();
+      }).catch(error => {
+        console.error(error);
+      })
     } else {
       this.recetaForm.markAllAsTouched();
     }

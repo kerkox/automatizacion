@@ -1,6 +1,7 @@
 .input-linea-button {
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 
 .input-linea-button>.btn {
@@ -10,4 +11,8 @@
   display: block;
   margin-top: -15px;
   margin-bottom: 15px;
+}
+
+.ancho-completo {
+  width: 100%;
 }
