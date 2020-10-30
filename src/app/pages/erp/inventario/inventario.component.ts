@@ -79,9 +79,10 @@ export class InventarioComponent implements OnInit {
 
   guardarInventario() {
     if(this.inventarioForm.valid) {
-      console.log("this.inventarioForm.value",this.inventarioForm.value)
+      // console.log("this.inventarioForm.value",this.inventarioForm.value)
       this.inventarioService.crear(this.inventarioForm.value)
       .then(res => {
+        this.inventarioForm.reset();
         this.cargarInventario()
       })
       .catch(err => {

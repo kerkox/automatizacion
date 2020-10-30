@@ -235,10 +235,11 @@ export class ParametrosReferenciasComponent implements OnInit {
   guardarReceta() {
     if(this.recetaForm.valid){
 
-      console.log("this.recetaForm.value",this.recetaForm.value);
+      // console.log("this.recetaForm.value",this.recetaForm.value);
       let receta = this.recetaForm.value
       // console.log(this.receta, "Formula");
       this.recetasService.guardarReceta(receta).then(res => {
+        this.recetaForm.reset();
         this.cargarRecetas();
       }).catch(error => {
         console.error(error);
