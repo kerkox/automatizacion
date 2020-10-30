@@ -1,4 +1,4 @@
-import { OrdenPedido } from './../../../interfaces/OrdenPedido.interface';
+import { OrdenPedido } from '../../../interfaces/orden-pedido.interface';
 import { Component, OnInit } from '@angular/core';
 import { OrdenesPedidoService } from './../../../services/ordenes-pedido.service';
 
