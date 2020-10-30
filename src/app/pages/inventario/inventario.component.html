@@ -1,0 +1,56 @@
+<form [formGroup]="inventarioForm" (ngSubmit)="guardarInventario()">
+  <div class="form-row">
+    <div class="col-md-6">
+      <label for="referencia">Materia Prima</label>
+      <div class="input-group mb-3">
+        <select class="form-control" formControlName="materia_prima_id" name="materia_prima"
+          [class.is-invalid]="isInvalid_materia_prima_id" [class.is-valid]="isValid_materia_prima_id"
+          id="materia_prima">
+          <option hidden value="" selected>Seleccionar Materia Prima</option>
+          <option *ngFor="let item of materias_primas_seleccionar; index as i" [value]="item['id']">{{item.descripcion}}
+          </option>
+        </select>
+      </div>
+      <div class="messages" *ngIf="isInvalid_materia_prima_id">
+        <div class="invalid-feedback">
+          Por favor seleccione una materia prima
+        </div>
+      </div>
+    </div>
+  
+    <div class="col-md-6">
+      <label for="cantidad">Cantidad <span class="input-group-text">Ton</span></label>
+      <div class="input-group mb-3 ">
+        <input type="number" min="0" formControlName="cantidad" [class.is-invalid]="isInvalid_cantidad"
+          [class.is-valid]="isValid_cantidad" class="form-control" aria-describedby="cantidadFeedback" name="cantidad"
+          id="cantidad" placeholder="Cantidad">
+      </div>
+      <div class="messages" *ngIf="isInvalid_cantidad">
+        <div class="invalid-feedback">
+          Por favor ingrese la cantidad
+        </div>
+      </div>
+    
+    </div>
+  
+  </div>
+  <button type="submit" class="btn btn-success">Establecer</button>
+</form>
+<br>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Materia Prima</th>
+      <th scope="col">Cantidad disponible</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of inventarios; index as i">
+      <th scope="row">{{item.id}}</th>
+      <td>{{item.materia_prima.descripcion}}</td>
+      <td>{{item.cantidad}}</td>
+    </tr>    
+  </tbody>
+</table>

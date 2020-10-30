@@ -7,7 +7,8 @@ export const types = {
     PresentacionProductos: "presentacion-producto",
     Prioridades: "prioridad",
     OrdenesProducciones: "orden-produccion",
-    OrdenesPedidos: "orden-pedido"
+    OrdenesPedidos: "orden-pedido",
+    Inventario: "inventario"
 
   },
   MENUS: [

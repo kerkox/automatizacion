@@ -10,7 +10,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { ErpComponent } from './pages/erp/erp.component';
 import { MesComponent } from './components/mes/mes.component';
 import { OrdenPedidoComponent } from './pages/erp/orden-pedido/orden-pedido.component';
-import { StockComponent } from './components/stock/stock.component';
 import { ControlComponent } from './components/control/control.component';
 import { ParametrosReferenciasComponent } from './pages/parametros-referencias/parametros-referencias.component';
 import { MateriaPrimaComponent } from './pages/erp/materia-prima/materia-prima.component';
@@ -23,6 +22,7 @@ import { HeaderComponent } from './shared/header/header.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { NoPageFoundComponent } from './pages/no-page-found/no-page-found.component';
 import { PagesComponent } from './pages/pages.component';
+import { InventarioComponent } from './pages/inventario/inventario.component';
 
 
 @NgModule({
@@ -32,7 +32,6 @@ import { PagesComponent } from './pages/pages.component';
     ErpComponent,
     MesComponent,
     OrdenPedidoComponent,
-    StockComponent,
     ControlComponent,
     ParametrosReferenciasComponent,
     MateriaPrimaComponent,
@@ -44,7 +43,8 @@ import { PagesComponent } from './pages/pages.component';
     HeaderComponent,
     SidebarComponent,
     NoPageFoundComponent,
-    PagesComponent
+    PagesComponent,
+    InventarioComponent
     
   ],
   imports: [

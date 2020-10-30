@@ -1,3 +1,4 @@
+import { InventarioComponent } from './pages/inventario/inventario.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
@@ -7,7 +8,6 @@ import { MateriaPrimaComponent } from './pages/erp/materia-prima/materia-prima.c
 import { MesComponent } from './components/mes/mes.component';
 import { OrdenPedidoComponent } from './pages/erp/orden-pedido/orden-pedido.component';
 import { ParametrosReferenciasComponent } from './pages/parametros-referencias/parametros-referencias.component';
-import { StockComponent } from './components/stock/stock.component';
 import { NoPageFoundComponent } from './pages/no-page-found/no-page-found.component';
 import { PagesComponent } from './pages/pages.component';
 
@@ -22,7 +22,7 @@ const routes: Routes = [
         children: [
           {
             path: 'inventario',
-            component: StockComponent
+            component: InventarioComponent
           },
           {
             path: 'materia-prima',
