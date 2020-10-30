@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MateriaPrimaService } from 'src/app/services/materia-prima.service';
+import { MateriaPrimaService } from './../../../services/materia-prima.service';
 
 @Component({
   selector: 'app-materia-prima',

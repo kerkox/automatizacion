@@ -1,6 +1,6 @@
 import { OrdenPedido } from '../../../interfaces/OrdenPedido.interface';
 import { Component, OnInit } from '@angular/core';
-import { OrdenesPedidoService } from 'src/app/services/ordenes-pedido.service';
+import { OrdenesPedidoService } from './../../../services/ordenes-pedido.service';
 
 @Component({
   selector: 'app-orden-pedido',

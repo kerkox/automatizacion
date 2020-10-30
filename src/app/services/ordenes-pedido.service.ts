@@ -1,7 +1,7 @@
 import { OrdenPedido } from '../interfaces/ordenPedido.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { environment } from './../../environments/environment';
 import { types } from '../types/types';
 
 const BASE_URL = environment.base_url;
