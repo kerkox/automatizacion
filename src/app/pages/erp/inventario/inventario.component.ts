@@ -1,5 +1,5 @@
-import { MateriaPrimaService } from './../../services/materia-prima.service';
-import { InventarioService } from './../../services/inventario.service';
+import { MateriaPrimaService } from './../../../services/materia-prima.service';
+import { InventarioService } from './../../../services/inventario.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 

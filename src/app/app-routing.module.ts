@@ -1,4 +1,4 @@
-import { InventarioComponent } from './pages/inventario/inventario.component';
+import { InventarioComponent } from './pages/erp/inventario/inventario.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
@@ -7,7 +7,7 @@ import { ErpComponent } from './pages/erp/erp.component';
 import { MateriaPrimaComponent } from './pages/erp/materia-prima/materia-prima.component';
 import { MesComponent } from './components/mes/mes.component';
 import { OrdenPedidoComponent } from './pages/erp/orden-pedido/orden-pedido.component';
-import { ParametrosReferenciasComponent } from './pages/parametros-referencias/parametros-referencias.component';
+import { ParametrosReferenciasComponent } from './pages/erp/parametros-referencias/parametros-referencias.component';
 import { NoPageFoundComponent } from './pages/no-page-found/no-page-found.component';
 import { PagesComponent } from './pages/pages.component';
 

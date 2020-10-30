@@ -1,4 +1,4 @@
-import { OrdenesPedidoService } from '../../services/ordenes-pedido.service';
+import { OrdenesPedidoService } from '../../../services/ordenes-pedido.service';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { materiaPrima } from 'src/app/interfaces/materiaPrima.interface';

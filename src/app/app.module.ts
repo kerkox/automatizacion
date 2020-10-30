@@ -11,7 +11,7 @@ import { ErpComponent } from './pages/erp/erp.component';
 import { MesComponent } from './components/mes/mes.component';
 import { OrdenPedidoComponent } from './pages/erp/orden-pedido/orden-pedido.component';
 import { ControlComponent } from './components/control/control.component';
-import { ParametrosReferenciasComponent } from './pages/parametros-referencias/parametros-referencias.component';
+import { ParametrosReferenciasComponent } from './pages/erp/parametros-referencias/parametros-referencias.component';
 import { MateriaPrimaComponent } from './pages/erp/materia-prima/materia-prima.component';
 import { LoadingComponent } from './components/shared/loading/loading.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -22,7 +22,7 @@ import { HeaderComponent } from './shared/header/header.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { NoPageFoundComponent } from './pages/no-page-found/no-page-found.component';
 import { PagesComponent } from './pages/pages.component';
-import { InventarioComponent } from './pages/inventario/inventario.component';
+import { InventarioComponent } from './pages/erp/inventario/inventario.component';
 
 
 @NgModule({
