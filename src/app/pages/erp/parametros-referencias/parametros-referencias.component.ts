@@ -1,6 +1,6 @@
 import { OrdenesPedidoService } from '../../../services/ordenes-pedido.service';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { materiaPrima } from 'src/app/interfaces/materiaPrima.interface';
 import { RecetasService } from 'src/app/services/recetas.service';
 import { MateriaPrimaService } from 'src/app/services/materia-prima.service';
