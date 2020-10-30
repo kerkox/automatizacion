@@ -1,4 +1,4 @@
-import { OrdenPedido } from '../interfaces/ordenPedido.interface';
+import { OrdenPedido } from '../interfaces/orden-pedido.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from './../../environments/environment';
