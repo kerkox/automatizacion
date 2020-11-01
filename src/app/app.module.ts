@@ -23,6 +23,8 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { NoPageFoundComponent } from './pages/no-page-found/no-page-found.component';
 import { PagesComponent } from './pages/pages.component';
 import { InventarioComponent } from './pages/erp/inventario/inventario.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @NgModule({
@@ -52,7 +54,9 @@ import { InventarioComponent } from './pages/erp/inventario/inventario.component
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule
   ],
   providers: [],
   bootstrap: [AppComponent]
