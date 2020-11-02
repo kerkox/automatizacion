@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MateriaPrimaService } from './../../../services/materia-prima.service';
 
 @Component({
@@ -8,6 +9,7 @@ import { MateriaPrimaService } from './../../../services/materia-prima.service';
 })
 export class MateriaPrimaComponent implements OnInit {
 
+  formMateriaPrima: FormGroup
   materia_prima: {
     id: string,
     descripcion: string
@@ -19,20 +21,40 @@ export class MateriaPrimaComponent implements OnInit {
   loading: boolean = false;
   loadingTable: boolean = false;
   error: boolean = false;
-  constructor(private materiaPrimaService: MateriaPrimaService) {
+  constructor(private materiaPrimaService: MateriaPrimaService,
+              private formBuilder:FormBuilder) {
     this.materia_prima = { id: '', descripcion: '' }
     this.materias_primas = []
     this.texto_boton = "Crear";
+    this.buildForm()
   }
 
   ngOnInit(): void {
     this.cargarMateriasPrimas();
   }
 
+  private buildForm(){
+    this.formMateriaPrima = this.formBuilder.group({
+      id: [''],
+      descripcion: ['', Validators.required]
+    })
+  }
+
+  get descripcion () {
+    return this.formMateriaPrima.get('descripcion')
+  }
+  get isInvalid_descripcion() {
+    return this.descripcion.invalid && this.descripcion.touched
+  }
+  
+  get materia_prima_id() {
+    return this.formMateriaPrima.get('id');
+  }
+
   resetarFormulario() {
 
     this.loading = false;
-    this.materia_prima.descripcion = "";
+    this.formMateriaPrima.reset({descripcion: ''});
     this.ocultarMensajeGuardado()
     this.cargarMateriasPrimas();
   }
@@ -57,28 +79,41 @@ export class MateriaPrimaComponent implements OnInit {
   }
 
   guardar() {
-    this.loading = true;
-    this.saved = false;
-    if (this.actualizar) {
-      this.materiaPrimaService.actualizar(this.materia_prima.id, this.materia_prima.descripcion)
-        .then(res => {
-          this.resetarFormulario()
+    if(this.formMateriaPrima.valid){
+      this.loading = true;
+      this.saved = false;
+      let materia_prima = this.formMateriaPrima.value;
+      if (this.actualizar) {
+        if(this.descripcion.pristine){
+          // Aqui se retorno si no fue modificado y se resetea
           this.cancelarActualizacion()
           this.saved = true;
-        }).catch(error => {
+          return;
+        }
+        this.materiaPrimaService.actualizar(materia_prima)
+          .then(res => {
+            this.resetarFormulario()
+            this.cancelarActualizacion()
+            this.saved = true;
+          }).catch(error => {
+            this.resetarFormulario()
+            this.error = true;
+            console.error(error)
+          })
+      } else {
+        this.materiaPrimaService.crear(materia_prima).then(res => {
+          this.resetarFormulario()
+          this.saved = true;
+        }).catch(err => {
           this.resetarFormulario()
           this.error = true;
-          console.error(error)
         })
+      }
     } else {
-      this.materiaPrimaService.crear(this.materia_prima.descripcion).then(res => {
-        this.resetarFormulario()
-        this.saved = true;
-      }).catch(err => {
-        this.resetarFormulario()
-        this.error = true;
-      })
+      this.formMateriaPrima.markAllAsTouched()
+      // console.log("Aun no se han marcado nada para enviar")
     }
+    
   }
 
   ocultarMensajeGuardado() {
@@ -90,8 +125,11 @@ export class MateriaPrimaComponent implements OnInit {
     console.log(this.materias_primas[index])
     this.actualizar = true;
     this.texto_boton = "Actualizar"
-    this.materia_prima.descripcion = this.materias_primas[index]['descripcion']
-    this.materia_prima.id = this.materias_primas[index]['id']
+
+    this.descripcion.setValue(this.materias_primas[index]['descripcion']);
+    this.materia_prima_id.setValue(this.materias_primas[index]['id']);
+    // this.materia_prima.descripcion = this.materias_primas[index]['descripcion']
+    // this.materia_prima.id = this.materias_primas[index]['id']
 
   }
 

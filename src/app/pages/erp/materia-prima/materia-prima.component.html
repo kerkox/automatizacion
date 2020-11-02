@@ -1,21 +1,22 @@
 <div class="">
   <div class="">
     <h3>Formulario creacion</h3>
-    <form>
+    <form [formGroup]="formMateriaPrima" (ngSubmit)="guardar()">
       <div class="form-row">
 
         <div class="col-md-6">
-          <label for="descripcion">Descripcion materia prima</label>
+          <!-- <label for="descripcion">Descripcion materia prima</label> -->
           <div class="input-group mb-3 input-linea-button">
-            <mat-form-field appearance="legacy">
-              <mat-label>Legacy form field</mat-label>
-              <input matInput placeholder="Placeholder">
-              <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-              <mat-hint>Hint</mat-hint>
+            <mat-form-field appearance="legacy" class="width-60">
+              <mat-label>Descripcion materia prima</mat-label>
+              <input matInput formControlName="descripcion" placeholder="Descripcion">
+              <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+              <!-- <mat-hint>Descripcion de la materia prima</mat-hint> -->
+              <mat-error *ngIf="isInvalid_descripcion">La descripcion es <strong>requerida</strong></mat-error>
             </mat-form-field>
             <!-- <input type="text" [(ngModel)]="materia_prima.descripcion" class="form-control" name="descripcion"
               id="descripcion" placeholder="Descripcion materia prima"> -->
-            <button type="submit" (click)="guardar()" class=" btn btn-primary">{{texto_boton}}</button>
+            <button type="submit" class=" btn btn-primary">{{texto_boton}}</button>
             <button *ngIf="actualizar" type="submit" (click)="cancelarActualizacion()"
               class=" btn btn-danger">Cancelar</button>
           </div>

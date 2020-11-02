@@ -1,6 +1,8 @@
+import { ActualizarMateriaPrima } from './../interfaces/materiaPrima.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { CrearMateriaPrima } from '../interfaces/materiaPrima.interface';
 import { types } from '../types/types';
 
 
@@ -15,8 +17,8 @@ export class MateriaPrimaService {
   }
 
  
-  crear(materiaPrima: string) {
-    return this.http.post(`${BASE_URL}/${types.API.MateriaPrimas}`, {descripcion: materiaPrima}).toPromise();
+  crear(crearMateriaPrima: CrearMateriaPrima) {
+    return this.http.post(`${BASE_URL}/${types.API.MateriaPrimas}`, crearMateriaPrima).toPromise();
   }
 
   obtenerMateriasPrimas() {
@@ -27,8 +29,8 @@ export class MateriaPrimaService {
     return this.http.delete(`${BASE_URL}/${types.API.MateriaPrimas}/${id}`).toPromise();
   }
 
-  actualizar(id: string, descripcion: string) {
-    return this.http.put(`${BASE_URL}/${types.API.MateriaPrimas}/${id}`, { descripcion }).toPromise();
+  actualizar(actualizarMateriaPrima:ActualizarMateriaPrima ) {
+    return this.http.put(`${BASE_URL}/${types.API.MateriaPrimas}/${actualizarMateriaPrima.id}`, actualizarMateriaPrima).toPromise();
   }
 
 }
