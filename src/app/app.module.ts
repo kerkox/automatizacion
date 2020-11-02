@@ -24,7 +24,9 @@ import { NoPageFoundComponent } from './pages/no-page-found/no-page-found.compon
 import { PagesComponent } from './pages/pages.component';
 import { InventarioComponent } from './pages/erp/inventario/inventario.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MaterialModule } from './material/material.module';
+
+
 
 
 @NgModule({
@@ -56,7 +58,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatFormFieldModule
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -7,9 +7,11 @@
         <div class="col-md-6">
           <label for="descripcion">Descripcion materia prima</label>
           <div class="input-group mb-3 input-linea-button">
-            <mat-form-field appearance="fill">
-              <mat-label>Input</mat-label>
-              <input matInput>
+            <mat-form-field appearance="legacy">
+              <mat-label>Legacy form field</mat-label>
+              <input matInput placeholder="Placeholder">
+              <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+              <mat-hint>Hint</mat-hint>
             </mat-form-field>
             <!-- <input type="text" [(ngModel)]="materia_prima.descripcion" class="form-control" name="descripcion"
               id="descripcion" placeholder="Descripcion materia prima"> -->
