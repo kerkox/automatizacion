@@ -1,25 +1,39 @@
-<form [formGroup]="inventarioForm" (ngSubmit)="guardarInventario()">
+<form [formGroup]="formInventario" (ngSubmit)="guardarInventario()">
   <div class="form-row">
     <div class="col-md-6">
-      <label for="referencia">Materia Prima</label>
       <div class="input-group mb-3">
-        <select class="form-control" formControlName="materia_prima_id" name="materia_prima"
+        <mat-form-field appearance="fill" class="width-100">
+          <mat-label>Materia Prima</mat-label>
+          <mat-select [formControl]="materia_prima_id" >
+            <mat-option *ngFor="let item of materias_primas_seleccionar; index as i" [value]="item['id']">{{item.descripcion}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="isInvalid_materia_prima_id">Por favor seleccione una materia prima</mat-error>
+        </mat-form-field>
+        
+        <!-- <label for="referencia">Materia Prima</label> -->
+        <!-- <select class="form-control" formControlName="materia_prima_id" name="materia_prima"
           [class.is-invalid]="isInvalid_materia_prima_id" [class.is-valid]="isValid_materia_prima_id"
           id="materia_prima">
           <option hidden value="" selected>Seleccionar Materia Prima</option>
           <option *ngFor="let item of materias_primas_seleccionar; index as i" [value]="item['id']">{{item.descripcion}}
           </option>
-        </select>
+        </select> -->
       </div>
-      <div class="messages" *ngIf="isInvalid_materia_prima_id">
+      <!-- <div class="messages" *ngIf="isInvalid_materia_prima_id">
         <div class="invalid-feedback">
           Por favor seleccione una materia prima
         </div>
-      </div>
+      </div> -->
     </div>
   
     <div class="col-md-6">
-      <label for="cantidad">Cantidad <span class="input-group-text">Ton</span></label>
+      <mat-form-field appearance="fill" class="width-100">
+        <mat-label>Cantidad (Ton)</mat-label>
+        <input matInput type="number" formControlName="cantidad">
+        <mat-error *ngIf="isInvalid_cantidad">Por favor ingrese la cantidad</mat-error>
+      </mat-form-field>
+      
+      <!-- <label for="cantidad">Cantidad <span class="input-group-text">Ton</span></label>
       <div class="input-group mb-3 ">
         <input type="number" min="0" formControlName="cantidad" [class.is-invalid]="isInvalid_cantidad"
           [class.is-valid]="isValid_cantidad" class="form-control" aria-describedby="cantidadFeedback" name="cantidad"
@@ -29,7 +43,7 @@
         <div class="invalid-feedback">
           Por favor ingrese la cantidad
         </div>
-      </div>
+      </div> -->
     
     </div>
   

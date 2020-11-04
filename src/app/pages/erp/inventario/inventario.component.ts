@@ -13,7 +13,7 @@ export class InventarioComponent implements OnInit {
 
   inventarios: any
   materias_primas_seleccionar: Array<any>
-  inventarioForm: FormGroup
+  formInventario: FormGroup
   constructor(private inventarioService: InventarioService, 
     private materiaPrimaService: MateriaPrimaService,
     private formBuilder: FormBuilder) {
@@ -27,34 +27,34 @@ export class InventarioComponent implements OnInit {
   }
 
   private buildForm() {
-    this.inventarioForm = this.formBuilder.group({
+    this.formInventario = this.formBuilder.group({
       materia_prima_id: ['', Validators.required],
       cantidad: ['', [Validators.required, Validators.min(0)]],      
     });
   }
 
   get materia_prima_id(){
-    return this.inventarioForm.get('materia_prima_id')
+    return this.formInventario.get('materia_prima_id')
   }
 
   get cantidad() {
-    return this.inventarioForm.get('cantidad')
+    return this.formInventario.get('cantidad')
   }
 
   get isValid_cantidad() {
-    return this.inventarioForm.get('cantidad').valid && this.inventarioForm.get('cantidad').touched
+    return this.cantidad.valid && this.cantidad.touched
   }
 
   get isInvalid_cantidad() {
-    return this.inventarioForm.get('cantidad').invalid && this.inventarioForm.get('cantidad').touched
+    return this.cantidad.invalid && this.cantidad.touched
   }
 
   get isValid_materia_prima_id() {
-    return this.inventarioForm.get('materia_prima_id').valid && this.inventarioForm.get('materia_prima_id').touched
+    return this.materia_prima_id.valid && this.materia_prima_id.touched
   }
 
   get isInvalid_materia_prima_id() {
-    return this.inventarioForm.get('materia_prima_id').invalid && this.inventarioForm.get('materia_prima_id').touched
+    return this.materia_prima_id.invalid && this.materia_prima_id.touched
   }
 
   cargarMateriasPrimasSeleccionar() {
@@ -77,19 +77,23 @@ export class InventarioComponent implements OnInit {
       })
   }
 
+  resetearFormulario() {
+    this.formInventario.reset();    
+  }
+
   guardarInventario() {
-    if(this.inventarioForm.valid) {
+    if(this.formInventario.valid) {
       // console.log("this.inventarioForm.value",this.inventarioForm.value)
-      this.inventarioService.crear(this.inventarioForm.value)
+      this.inventarioService.crear(this.formInventario.value)
       .then(res => {
-        this.inventarioForm.reset();
+        this.resetearFormulario();
         this.cargarInventario()
       })
       .catch(err => {
         console.error("err: ",err)
       })
     }else {
-      this.inventarioForm.markAllAsTouched();
+      this.formInventario.markAllAsTouched();
     }
   }
 

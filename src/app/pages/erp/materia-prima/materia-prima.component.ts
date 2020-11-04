@@ -10,10 +10,6 @@ import { MateriaPrimaService } from './../../../services/materia-prima.service';
 export class MateriaPrimaComponent implements OnInit {
 
   formMateriaPrima: FormGroup
-  materia_prima: {
-    id: string,
-    descripcion: string
-  }
   texto_boton: string
   materias_primas: [];
   actualizar: boolean = false;
@@ -23,7 +19,6 @@ export class MateriaPrimaComponent implements OnInit {
   error: boolean = false;
   constructor(private materiaPrimaService: MateriaPrimaService,
               private formBuilder:FormBuilder) {
-    this.materia_prima = { id: '', descripcion: '' }
     this.materias_primas = []
     this.texto_boton = "Crear";
     this.buildForm()
@@ -128,8 +123,6 @@ export class MateriaPrimaComponent implements OnInit {
 
     this.descripcion.setValue(this.materias_primas[index]['descripcion']);
     this.materia_prima_id.setValue(this.materias_primas[index]['id']);
-    // this.materia_prima.descripcion = this.materias_primas[index]['descripcion']
-    // this.materia_prima.id = this.materias_primas[index]['id']
 
   }
 

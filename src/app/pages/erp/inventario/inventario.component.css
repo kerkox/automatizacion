@@ -3,3 +3,11 @@
   margin-top: -15px;
   margin-bottom: 15px;
 }
+
+.mat-error {
+  font-size: 0.875rem;
+}
+
+.width-100 {
+  width: 100%;
+}
