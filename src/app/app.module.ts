@@ -8,7 +8,7 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ErpComponent } from './pages/erp/erp.component';
-import { MesComponent } from './components/mes/mes.component';
+import { MesComponent } from './pages/mes/mes.component';
 import { OrdenPedidoComponent } from './pages/erp/orden-pedido/orden-pedido.component';
 import { ControlComponent } from './components/control/control.component';
 import { ParametrosReferenciasComponent } from './pages/erp/parametros-referencias/parametros-referencias.component';
@@ -25,6 +25,7 @@ import { PagesComponent } from './pages/pages.component';
 import { InventarioComponent } from './pages/erp/inventario/inventario.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
+import { OrdenProduccionComponent } from './pages/mes/orden-produccion/orden-produccion.component';
 
 
 
@@ -48,7 +49,8 @@ import { MaterialModule } from './material/material.module';
     SidebarComponent,
     NoPageFoundComponent,
     PagesComponent,
-    InventarioComponent
+    InventarioComponent,
+    OrdenProduccionComponent
     
   ],
   imports: [

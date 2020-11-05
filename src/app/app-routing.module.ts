@@ -5,11 +5,12 @@ import { LoginComponent } from './auth/login/login.component';
 import { ControlComponent } from './components/control/control.component';
 import { ErpComponent } from './pages/erp/erp.component';
 import { MateriaPrimaComponent } from './pages/erp/materia-prima/materia-prima.component';
-import { MesComponent } from './components/mes/mes.component';
+import { MesComponent } from './pages/mes/mes.component';
 import { OrdenPedidoComponent } from './pages/erp/orden-pedido/orden-pedido.component';
 import { ParametrosReferenciasComponent } from './pages/erp/parametros-referencias/parametros-referencias.component';
 import { NoPageFoundComponent } from './pages/no-page-found/no-page-found.component';
 import { PagesComponent } from './pages/pages.component';
+import { OrdenProduccionComponent } from './pages/mes/orden-produccion/orden-produccion.component';
 
 const routes: Routes = [
 
@@ -44,11 +45,21 @@ const routes: Routes = [
         ]
       },
       {
+        path:'mes',
+        component: MesComponent,
+        children: [
+          {
+            path: 'orden-produccion',
+            component: OrdenProduccionComponent
+          }
+
+        ]
+      },
+      {
         path: '',
         redirectTo: 'erp',
         pathMatch: 'full'
       },
-      { path: 'mes', component: MesComponent },
       { path: 'control', component: ControlComponent },
     ]
   },

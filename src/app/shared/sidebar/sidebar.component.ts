@@ -10,13 +10,13 @@ import { types } from './../../types/types';
 })
 export class SidebarComponent implements OnInit {
 
-  menus:any = [];
+  modulos:any = [];
   constructor() {
-    this.menus = types.MENUS;
+    this.modulos = types.MODULOS;
    }
 
   ngOnInit(): void {
-    this.menus = types.MENUS;
+    this.modulos = types.MODULOS;
   }
 
 }
