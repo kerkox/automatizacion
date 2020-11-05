@@ -1,3 +1,4 @@
+import { GeneralService } from './../../../services/general.service';
 import { OrdenPedido } from '../../../interfaces/orden-pedido.interface';
 import { Component, OnInit } from '@angular/core';
 import { OrdenPedidoService } from '../../../services/orden-pedido.service';
@@ -15,7 +16,8 @@ export class OrdenPedidoComponent implements OnInit {
   tipos: []
   presentaciones: []
   prioridades: []
-  constructor(private OrdenesPedidoService: OrdenPedidoService) {
+  constructor(private OrdenesPedidoService: OrdenPedidoService,
+    private generalService: GeneralService) {
     this.orden_pedido = {
       referencia_producto_id: '',
       tipo_producto_id: '',
@@ -77,15 +79,8 @@ export class OrdenPedidoComponent implements OnInit {
     });
   }
 
-  colorBadgeEstadoOrden(estado:string){
-    switch(estado){
-      case 'GENERADA':
-        return 'badge badge-secondary'
-      case 'EN PRODUCCION':
-        return 'badge badge-secondary'
-      case 'TERMINADA':
-        return 'badge badge-success'
-    }
+  colorBadgeEstadoOrden(estado: string) {
+    return this.generalService.colorBadgeEstadoOrden(estado);
   }
 
 }
