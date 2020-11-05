@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrdenProduccionComponent implements OnInit {
 
-  constructor() { }
+  ordenes_produccion:any
+  constructor() { 
+    this.ordenes_produccion = []
+  }
 
   ngOnInit(): void {
   }

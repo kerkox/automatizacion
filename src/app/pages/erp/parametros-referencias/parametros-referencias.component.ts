@@ -1,4 +1,4 @@
-import { OrdenesPedidoService } from '../../../services/ordenes-pedido.service';
+import { OrdenPedidoService } from '../../../services/orden-pedido.service';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { materiaPrima } from './../../../interfaces/materiaPrima.interface';
@@ -33,7 +33,7 @@ export class ParametrosReferenciasComponent implements OnInit {
 
   constructor(public recetasService: RecetasService, 
               private materiaPrimaService: MateriaPrimaService,
-              public ordenesPedidoService: OrdenesPedidoService,
+              public ordenesPedidoService: OrdenPedidoService,
               private formBuilder: FormBuilder) {
     
     this.buildForm()

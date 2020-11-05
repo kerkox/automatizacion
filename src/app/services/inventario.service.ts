@@ -1,34 +1,29 @@
+import { ApiService } from './api.service';
 import { IInventario } from './../interfaces/inventario.interface';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
 import { types } from '../types/types';
 
-
-const BASE_URL = environment.base_url; 
 
 @Injectable({
   providedIn: 'root'
 })
 export class InventarioService {
 
-  constructor(private http: HttpClient) {
-
-  }
+  constructor(private api: ApiService) {}
 
   crear(inventario: IInventario) {
-    return this.http.post(`${BASE_URL}/${types.API.Inventario}`, inventario).toPromise();
+    return this.api.post(types.API.Inventario, inventario);
   }
 
   obtenerInventarios() {
-    return this.http.get(`${BASE_URL}/${types.API.Inventario}`).toPromise();
+    return this.api.get(types.API.Inventario);
   }
 
   borrar(id: string) {
-    return this.http.delete(`${BASE_URL}/${types.API.Inventario}/${id}`).toPromise();
+    return this.api.delete(types.API.Inventario,id);
   }
 
   actualizar(id: string, inventario: IInventario) {
-    return this.http.put(`${BASE_URL}/${types.API.Inventario}/${id}`, inventario).toPromise();
+    return this.api.put(types.API.Inventario,id, inventario);
   }
 }

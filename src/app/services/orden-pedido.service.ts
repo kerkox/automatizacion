@@ -1,15 +1,13 @@
+import { ApiService } from './api.service';
 import { OrdenPedido } from '../interfaces/orden-pedido.interface';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from './../../environments/environment';
 import { types } from '../types/types';
 
-const BASE_URL = environment.base_url;
 @Injectable({
   providedIn: 'root',
 })
-export class OrdenesPedidoService {
-  constructor(private http: HttpClient) { 
+export class OrdenPedidoService {
+  constructor(private api: ApiService) { 
     this.inicializarValores();
   }
 
@@ -63,7 +61,7 @@ export class OrdenesPedidoService {
   }
 
   consultarData(campo: any) {
-    return this.http.get(`${BASE_URL}/${campo}`).toPromise();
+    return this.api.get(campo);
   }
 
   guardarOrdenPedido(ordenPedido:OrdenPedido) {
@@ -71,8 +69,7 @@ export class OrdenesPedidoService {
   }
 
   guardarData(campo: any, valor: any) {
-    return this.http.post(`${BASE_URL}/${campo}`, valor).toPromise();
-    
+    return this.api.post(campo, valor);    
   }
 
   

@@ -1,1 +1,25 @@
-<p>orden-produccion works!</p>
+<h3>Ordenes creadas</h3>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Cliente</th>
+      <th scope="col">Prioridad </th>
+      <th scope="col">Referencia</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Presentacion</th>
+      <th scope="col">Cantidad</th>
+      <th scope="col">Estado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let orden of ordenes_produccion; index as i">
+      <th scope="row">{{ i + 1}}</th>
+      <td>{{ orden.cliente }}</td>
+      <td>{{ orden.prioridad.descripcion}}</td>
+      <td>{{ orden.referencia_producto.descripcion }}</td>
+      <td>{{ orden.tipo_producto.descripcion }}</td>
+      <td>{{ orden.presentacion_producto.descripcion }}</td>
+      <td>{{ orden.cantidad }}</td>      
+    </tr>
+  </tbody>

@@ -1,6 +1,6 @@
 import { OrdenPedido } from '../../../interfaces/orden-pedido.interface';
 import { Component, OnInit } from '@angular/core';
-import { OrdenesPedidoService } from './../../../services/ordenes-pedido.service';
+import { OrdenPedidoService } from '../../../services/orden-pedido.service';
 
 @Component({
   selector: 'app-orden-pedido',
@@ -15,7 +15,7 @@ export class OrdenPedidoComponent implements OnInit {
   tipos: []
   presentaciones: []
   prioridades: []
-  constructor(private OrdenesPedidoService: OrdenesPedidoService) {
+  constructor(private OrdenesPedidoService: OrdenPedidoService) {
     this.orden_pedido = {
       referencia_producto_id: '',
       tipo_producto_id: '',
