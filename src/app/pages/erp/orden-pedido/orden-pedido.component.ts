@@ -1,3 +1,4 @@
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GeneralService } from './../../../services/general.service';
 import { OrdenPedido } from '../../../interfaces/orden-pedido.interface';
 import { Component, OnInit } from '@angular/core';
@@ -10,6 +11,7 @@ import { OrdenPedidoService } from '../../../services/orden-pedido.service';
 })
 export class OrdenPedidoComponent implements OnInit {
 
+  formOrdenPedido: FormGroup
   ordenes_pedido: []
   orden_pedido: OrdenPedido 
   referencias: []
@@ -17,20 +19,74 @@ export class OrdenPedidoComponent implements OnInit {
   presentaciones: []
   prioridades: []
   constructor(private OrdenesPedidoService: OrdenPedidoService,
-    private generalService: GeneralService) {
-    this.orden_pedido = {
-      referencia_producto_id: '',
-      tipo_producto_id: '',
-      presentacion_producto_id: '',
-      cliente: null,
-      prioridad_id: '',
-      cantidad: 0,
-    }
+    private generalService: GeneralService,
+    private formBuilder: FormBuilder) {
+      this.buildForm();
   }
 
   ngOnInit(): void {
     this.cargarDatos()
   }
+
+  private buildForm() {
+    this.formOrdenPedido = this.formBuilder.group({
+      cliente: ['', Validators.required],
+      cantidad: ['', [Validators.required, Validators.min(1)]],
+      referencia_producto_id: ['', [Validators.required]],
+      tipo_producto_id: ['', [Validators.required]],
+      presentacion_producto_id: ['', [Validators.required]],
+      prioridad_id: ['', [Validators.required]],
+    });
+  }
+
+  get cliente() {
+    return this.formOrdenPedido.get('cliente')
+  }
+
+  get isInvalid_cliente() {
+    return this.cliente.invalid && this.cliente.touched
+  }
+
+  get cantidad() {
+    return this.formOrdenPedido.get('cantidad')
+  }
+
+  get isInvalid_cantidad() {
+    return this.cantidad.invalid && this.cantidad.touched
+  }
+
+  get referencia_producto_id() {
+    return this.formOrdenPedido.get('referencia_producto_id')
+  }
+
+  get isInvalid_referencia_producto_id() {
+    return this.referencia_producto_id.invalid && this.referencia_producto_id.touched
+  }
+
+  get tipo_producto_id() {
+    return this.formOrdenPedido.get('tipo_producto_id')
+  }
+
+  get isInvalid_tipo_producto_id() {
+    return this.tipo_producto_id.invalid && this.tipo_producto_id.touched
+  }
+
+  get presentacion_producto_id() {
+    return this.formOrdenPedido.get('presentacion_producto_id')
+  }
+
+  get isInvalid_presentacion_producto_id() {
+    return this.presentacion_producto_id.invalid && this.presentacion_producto_id.touched
+  }
+
+  get prioridad_id() {
+    return this.formOrdenPedido.get('prioridad_id')
+  }
+
+  get isInvalid_prioridad_id() {
+    return this.prioridad_id.invalid && this.prioridad_id.touched
+  }
+
 
   cargarDatos() {
     this.consultarOrdenesPedido();
@@ -65,12 +121,18 @@ export class OrdenPedidoComponent implements OnInit {
   }
 
   guardarOrdenPedido(){
-    this.OrdenesPedidoService.guardarOrdenPedido(this.orden_pedido).then(res => {
-      this.consultarOrdenesPedido();
-    }).catch(err => {
-      console.error("ocurrio un error");
-      console.error(err);
-    })
+    if(this.formOrdenPedido.valid){
+      this.orden_pedido = this.formOrdenPedido.value;
+      console.log("this.orden_pedido", this.orden_pedido)
+      // this.OrdenesPedidoService.guardarOrdenPedido(this.orden_pedido).then(res => {
+      //   this.consultarOrdenesPedido();
+      // }).catch(err => {
+      //   console.error("ocurrio un error");
+      //   console.error(err);
+      // })
+    } else {
+      this.formOrdenPedido.markAllAsTouched();
+    }
   }
 
   consultarOrdenesPedido() {
