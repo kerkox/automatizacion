@@ -3,6 +3,7 @@ import { GeneralService } from './../../../services/general.service';
 import { OrdenPedido } from '../../../interfaces/orden-pedido.interface';
 import { Component, OnInit } from '@angular/core';
 import { OrdenPedidoService } from '../../../services/orden-pedido.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-orden-pedido',
@@ -123,13 +124,14 @@ export class OrdenPedidoComponent implements OnInit {
   guardarOrdenPedido(){
     if(this.formOrdenPedido.valid){
       this.orden_pedido = this.formOrdenPedido.value;
-      console.log("this.orden_pedido", this.orden_pedido)
-      // this.OrdenesPedidoService.guardarOrdenPedido(this.orden_pedido).then(res => {
-      //   this.consultarOrdenesPedido();
-      // }).catch(err => {
-      //   console.error("ocurrio un error");
-      //   console.error(err);
-      // })
+      // console.log("this.orden_pedido", this.orden_pedido)
+      this.OrdenesPedidoService.guardarOrdenPedido(this.orden_pedido).then(res => {
+        this.consultarOrdenesPedido();
+      }).catch(err => {
+        let message = err.error.message;
+        console.error("ocurrio un error",err);
+        Swal.fire('Error',message,'error');
+      })
     } else {
       this.formOrdenPedido.markAllAsTouched();
     }
