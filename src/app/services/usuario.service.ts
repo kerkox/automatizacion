@@ -1,3 +1,4 @@
+import { Usuario } from './../models/usuario.model';
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap, map, catchError } from 'rxjs/operators';
@@ -21,12 +22,33 @@ declare const gapi: any;
 export class UsuarioService {
 
   public auth2: any;
+  public usuario: Usuario;
 
   constructor(private http: HttpClient,
     private router: Router,
     private ngZone: NgZone) {
 
     // this.googleInit();
+  }
+
+  get token(): string {
+    return localStorage.getItem('token') || '';
+  }
+
+  get role(): 'ADMINISTRATIVO' | 'INGENIERO_QUIMICO' {
+    return this.usuario.role;
+  }
+
+  get uid(): string {
+    return this.usuario.uid || '';
+  }
+
+  get headers() {
+    return {
+      headers: {
+        'Authorization': "Bearer "+this.token
+      }
+    }
   }
 
 
@@ -47,32 +69,40 @@ export class UsuarioService {
 
   logout() {
     localStorage.removeItem('token');
+    this.router.navigateByUrl('/login');
 
-    this.auth2.signOut().then(() => {
+    // this.auth2.signOut().then(() => {
 
-      this.ngZone.run(() => {
-        this.router.navigateByUrl('/login');
-      })
-    });
+    //   this.ngZone.run(() => {
+    //     this.router.navigateByUrl('/login');
+    //   })
+    // });
 
   }
 
-  // validarToken(): Observable<boolean> {
-  //   const token = localStorage.getItem('token') || '';
+  validarToken(): Observable<boolean> {
+    const token = localStorage.getItem('token') || '';
+    console.log("base_url", base_url)
+    return this.http.get(`${base_url}/user/login/renew`, {
+      headers: {
+        'Authorization': "Bearer "+token
+      }
+    }).pipe(
+      tap((resp: any) => {
+        console.log("resp",resp)
+        localStorage.setItem('token', resp.data.token);
+      }),
+      map(resp =>{
+        console.log("resp", resp)
+        return true;
+      } ),
+      catchError(error =>{
+        console.log("error", error)
+        return of(false)
+      } )
+    );
 
-  //   return this.http.get(`${base_url}/login/renew`, {
-  //     headers: {
-  //       'x-token': token
-  //     }
-  //   }).pipe(
-  //     tap((resp: any) => {
-  //       localStorage.setItem('token', resp.token);
-  //     }),
-  //     map(resp => true),
-  //     catchError(error => of(false))
-  //   );
-
-  // }
+  }
 
 
   crearUsuario(formData: RegisterForm) {
@@ -80,7 +110,7 @@ export class UsuarioService {
     return this.http.post(`${base_url}/user/register`, formData)
       .pipe(
         tap((resp: any) => {
-          localStorage.setItem('token', resp.token)
+          localStorage.setItem('token', resp.data.token)
         })
       )
 
@@ -91,7 +121,7 @@ export class UsuarioService {
     return this.http.post(`${base_url}/user/login`, formData)
       .pipe(
         tap((resp: any) => {
-          localStorage.setItem('token', resp.token)
+          localStorage.setItem('token', resp.data.token)
         })
       );
 
