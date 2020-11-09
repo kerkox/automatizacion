@@ -28,6 +28,12 @@ Login register and recover password Page
   position: fixed;
 }
 
+.text-logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: black;
+}
+
 .login-box {
   width: 400px;
   margin: 0 auto;

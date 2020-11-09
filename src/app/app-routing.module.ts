@@ -1,3 +1,4 @@
+import { RegisterComponent } from './auth/register/register.component';
 import { InventarioComponent } from './pages/erp/inventario/inventario.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -66,6 +67,7 @@ const routes: Routes = [
 
   //Ruta para el login
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
 
   { path: '**', component: NoPageFoundComponent }
 ];
