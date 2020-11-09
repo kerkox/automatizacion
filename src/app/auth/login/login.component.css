@@ -58,3 +58,9 @@ Login register and recover password Page
   position: absolute;
   height: 100%;
 }
+
+.text-logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: black;
+}
