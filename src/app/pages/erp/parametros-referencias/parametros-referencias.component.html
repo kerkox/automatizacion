@@ -1,6 +1,7 @@
 <form [formGroup]="recetaForm" (ngSubmit)="guardarReceta()">
   <div class="">
     <div class="form-row">
+
       <div class="col-md-6">
 
         <mat-form-field appearance="fill" class="width-100">
@@ -9,88 +10,52 @@
             <mat-option *ngFor="let item of referencias; index as i" [value]="item['id']">{{item.descripcion}}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="isInvalid_referencia_producto_id">Por favor seleccione una referencia</mat-error>
+          <mat-error *ngIf="isInvalid_campo(referencia_producto_id)">{{ getErrorMessage(referencia_producto_id) }}</mat-error>
         </mat-form-field>
-        
-        <!-- <label for="referencia">Referencia</label>
-        <div class="input-group mb-3">
-          <select class="form-control" formControlName="referencia_producto_id" name="referencia_producto"
-            [class.is-invalid]="isInvalid_referencia_producto_id" [class.is-valid]="isValid_referencia_producto_id"
-            id="referencia_producto">
-            <option hidden value="" selected>Seleccionar referencia</option>
-            <option *ngFor="let item of referencias; index as i" [value]="item['id']">{{item.descripcion}}
-            </option>
-          </select>
-        </div>
-        <div class="messages" *ngIf="isInvalid_referencia_producto_id">
-          <div class="invalid-feedback">
-            Por favor seleccione una referencia de producto
-          </div>
-        </div> -->
+
       </div>
 
       <div class="col-md-6">
-        <label for="tipo">Tipo</label>
-        <div class="input-group mb-3">
-          <select class="form-control" formControlName="tipo_producto_id" name="tipo_producto" id="tipo_producto"
-            [class.is-invalid]="isInvalid_tipo_producto_id" [class.is-valid]="isValid_tipo_producto_id">
-            <option hidden value="" selected>Seleccionar tipo</option>
-            <option *ngFor="let item of tipos; index as i" [value]="item['id']">{{item.descripcion}}</option>
-          </select>
-        </div>
-        <div class="messages" *ngIf="isInvalid_tipo_producto_id">
-          <div class="invalid-feedback">
-            Por favor seleccione un tipo de producto
-          </div>
-        </div>
+
+        <mat-form-field appearance="fill" class="width-100">
+          <mat-label>Tipo</mat-label>
+          <mat-select [formControl]="tipo_producto_id">
+            <mat-option *ngFor="let item of tipos; index as i" [value]="item['id']">{{item.descripcion}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="isInvalid_campo(tipo_producto_id)">{{ getErrorMessage(tipo_producto_id) }}</mat-error>
+        </mat-form-field>
+
       </div>
 
     </div>
-
 
 
     <div formArrayName="materias_primas" *ngFor="let materiaPrima of materias_primas.controls, index as i">
       <div [formGroupName]="i">
         <div class="form-row">
           <div class="col-md-6">
-            <label [for]="'nombre_materia_prima_'+i">Nombre Materia Prima {{i + 1}}</label>
-            <div class="input-group mb-3 ">
-              <select class="form-control" 
-              [class.is-invalid]="isInvalidMateriaPrimaId(i)"
-              [class.is-valid]="isValidMateriaPrimaId(i)"
-              formControlName="materia_prima_id" [name]="'nombre_materia_prima_'+(i + 1)"
-                [id]="'nombre_materia_prima_'+i">
-                <option hidden value="" selected>Seleccionar materia Prima</option>
-                <option *ngFor="let item of materias_primas_seleccionar" [value]="item['id']">
-                  {{item.descripcion}}</option>
-              </select>
-            </div>
-            <div class="messages" *ngIf="isInvalidMateriaPrimaId(i)">
-              <div class="invalid-feedback">
-                Por favor seleccione una materia prima
-              </div>
-            </div>
+
+            <mat-form-field appearance="fill" class="width-100">
+              <mat-label>Materia Prima {{ i + 1 }}</mat-label>
+              <mat-select formControlName="materia_prima_id">
+                <mat-option *ngFor="let item of materias_primas_seleccionar; index as i" [value]="item['id']">{{item.descripcion}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="isInvalid_campo(materia_prima_id_by_index(i))">{{ getErrorMessage(materia_prima_id_by_index(i)) }}</mat-error>
+            </mat-form-field>
+
           </div>
 
           <div class="col-md-6">
-            <label [for]="'cantidad_materia_prima_'+i">Cantidad Materia Prima {{i + 1}} <span class="input-group-text">(%)</span></label>
-            <div class="input-group mb-3 ">
-              <div class="input-linea-button">
-                <input type="number" min="1" max="100" formControlName="porcentaje" [name]="'cantidad_materia_prima_'+i"
-                  class="form-control" [id]="'cantidad_materia_prima_'+i"
-                  [class.is-invalid]="isInvalidMateriaPrimaPorcentaje(i)"
-                  [class.is-valid]="isValidMateriaPrimaPorcentaje(i)"
-                  [placeholder]="'Cantidad Materia Prima '+ (i + 1)">
-                
-                <button *ngIf="materias_primas.length > 1" type="button" class="btn btn-danger"
-                  (click)="borrarMateriaPrima(i)">borrar</button>
-              </div>
-            </div>
-            <div class="messages" *ngIf="isInvalidMateriaPrimaPorcentaje(i)">
-              <div class="invalid-feedback">
-                Por favor ingrese un porcentaje para la materia prima
-              </div>
-            </div>
+
+            <mat-form-field appearance="fill" class="width-100">
+              <mat-label>Cantidad Materia Prima {{i + 1}} <span class="input-group-text">(%)</span></mat-label>
+              <input matInput type="number" formControlName="porcentaje" min="0" class="right-align">
+              <span matSuffix>%</span>
+              <mat-error *ngIf="isInvalid_campo(materia_prima_porcentaje_by_index(i))">{{ getErrorMessage(materia_prima_porcentaje_by_index(i)) }}</mat-error>
+            </mat-form-field>
+
           </div>
         </div>
 
@@ -104,92 +69,69 @@
   <div class="form-row">
 
     <div class="col-md-6">
-      <label for="densidad">Densidad <span class="input-group-text">(Ton/ml)</span></label>
-      <div class="input-group mb-3 ">
-        <input type="number" min="0" formControlName="densidad" [class.is-invalid]="isInvalid_densidad"
-          [class.is-valid]="isValid_densidad" class="form-control" aria-describedby="densidadFeedback" name="densidad"
-          id="densidad" placeholder="Densidad">        
-      </div>
-      <div class="messages" *ngIf="isInvalid_densidad">
-        <div class="invalid-feedback">
-          Por favor ingrese la densidad
-        </div>
-      </div>
+
+        <mat-form-field appearance="fill" class="width-100">
+          <mat-label>Densidad</mat-label>
+          <input matInput type="number" [formControl]="densidad" min="0" class="right-align">
+          <span matSuffix>&nbsp;Ton/ml</span>
+          <mat-error *ngIf="isInvalid_campo(densidad)">{{ getErrorMessage(densidad) }}</mat-error>
+        </mat-form-field>
 
     </div>
 
     <div class="col-md-6">
-      <label for="tiempo_premezclado">Tiempo premezclado <span class="input-group-text">(Min.)</span></label>
-      <div class="input-group mb-3 ">
-        <input type="number" min="1" formControlName="tiempo_premezclado" class="form-control"
-          [class.is-invalid]="isInvalid_tiempo_premezclado" [class.is-valid]="isValid_tiempo_premezclado"
-          name="tiempo_premezclado" id="tiempo_premezclado" placeholder="Tiempo premezclado">
-      </div>
-      <div class="messages" *ngIf="isInvalid_tiempo_premezclado">
-        <div class="invalid-feedback">
-          Por favor ingrese el tiempo premezclado
-        </div>
-      </div>
+
+      <mat-form-field appearance="fill" class="width-100">
+        <mat-label>Tiempo premezclado <span class="input-group-text">(Min.)</span></mat-label>
+        <input matInput type="number" [formControl]="tiempo_premezclado" min="0" class="right-align">
+        <span matSuffix>&nbsp;Min.</span>
+        <mat-error *ngIf="isInvalid_campo(tiempo_premezclado)">{{ getErrorMessage(tiempo_premezclado) }}</mat-error>
+      </mat-form-field>
+
     </div>
 
     <div class="col-md-6">
-      <label for="temperatura_precalentamiento">Temperatura precalentamiento <span class="input-group-text">(ºC)</span></label>
-      <div class="input-group mb-3 ">
-        <input type="number" min="1" formControlName="temperatura_precalentamiento" class="form-control"
-          [class.is-invalid]="isInvalid_temperatura_precalentamiento"
-          [class.is-valid]="isValid_temperatura_precalentamiento" name="temperatura_precalentamiento"
-          id="temperatura_precalentamiento" placeholder="Temperatura precalentamiento">
-      </div>
-      <div class="messages" *ngIf="isInvalid_temperatura_precalentamiento">
-        <div class="invalid-feedback">
-          Por favor ingrese el temperatura precalentamiento
-        </div>
-      </div>
+
+      <mat-form-field appearance="fill" class="width-100">
+        <mat-label>Temperatura precalentamiento <span class="input-group-text">(ºC)</span></mat-label>
+        <input matInput type="number" [formControl]="temperatura_precalentamiento" min="0" class="right-align">
+        <span matSuffix>&nbsp;ºC</span>
+        <mat-error *ngIf="isInvalid_campo(temperatura_precalentamiento)">{{ getErrorMessage(temperatura_precalentamiento) }}</mat-error>
+      </mat-form-field>
+
     </div>
 
     <div class="col-md-6">
-      <label for="tiempo_precalentamiento">Tiempo precalentamiento <span class="input-group-text">(Min.)</span></label>
-      <div class="input-group mb-3 ">
-        <input type="number" min="1" formControlName="tiempo_precalentamiento" class="form-control"
-          [class.is-invalid]="isInvalid_tiempo_precalentamiento" [class.is-valid]="isValid_tiempo_precalentamiento"
-          name="tiempo_precalentamiento" id="tiempo_precalentamiento" placeholder="Tiempo precalentamiento">
-        
-      </div>
-      <div class="messages" *ngIf="isInvalid_tiempo_precalentamiento">
-        <div class="invalid-feedback">
-          Por favor ingrese el tiempo precalentamiento
-        </div>
-      </div>
+
+      <mat-form-field appearance="fill" class="width-100">
+        <mat-label>Tiempo precalentamiento <span class="input-group-text">(Min.)</span></mat-label>
+        <input matInput type="number" [formControl]="tiempo_precalentamiento" min="0" class="right-align">
+        <span matSuffix>&nbsp;Min.</span>
+        <mat-error *ngIf="isInvalid_campo(tiempo_precalentamiento)">{{ getErrorMessage(tiempo_precalentamiento) }}</mat-error>
+      </mat-form-field>
+
     </div>
 
     <div class="col-md-6">
-      <label for="tiempo_mezclado">Tiempo Mezclado <span class="input-group-text">(Min.)</span></label>
-      <div class="input-group mb-3 ">
-        <input type="number" min="1" formControlName="tiempo_mezclado" class="form-control"
-          [class.is-invalid]="isInvalid_tiempo_mezclado" [class.is-valid]="isValid_tiempo_mezclado"
-          name="tiempo_mezclado" id="tiempo_mezclado" placeholder="Tiempo Mezclado">
-        
-      </div>
-      <div class="messages" *ngIf="isInvalid_tiempo_mezclado">
-        <div class="invalid-feedback">
-          Por favor ingrese el tiempo mezclado
-        </div>
-      </div>
+
+      <mat-form-field appearance="fill" class="width-100">
+        <mat-label>Tiempo Mezclado <span class="input-group-text">(Min.)</span></mat-label>
+        <input matInput type="number" [formControl]="tiempo_mezclado" min="0" class="right-align">
+        <span matSuffix>&nbsp;Min.</span>
+        <mat-error *ngIf="isInvalid_campo(tiempo_mezclado)">{{ getErrorMessage(tiempo_mezclado) }}</mat-error>
+      </mat-form-field>
+
     </div>
 
     <div class="col-md-6">
-      <label for="temperatura_calentamiento">Temperatura Calentamiento <span class="input-group-text">(ºC)</span></label>
-      <div class="input-group mb-3 ">
-        <input type="number" min="1" formControlName="temperatura_calentamiento" class="form-control"
-          [class.is-invalid]="isInvalid_temperatura_calentamiento" [class.is-valid]="isValid_temperatura_calentamiento"
-          name="temperatura_calentamiento" id="temperatura_calentamiento" placeholder="Temperatura Calentamiento">
-        
-      </div>
-      <div class="messages" *ngIf="isInvalid_temperatura_calentamiento">
-        <div class="invalid-feedback">
-          Por favor ingrese el temperatura calentamiento
-        </div>
-      </div>
+
+      <mat-form-field appearance="fill" class="width-100">
+        <mat-label>Temperatura Calentamiento <span class="input-group-text">(ºC)</span></mat-label>
+        <input matInput type="number" [formControl]="temperatura_calentamiento" min="0" class="right-align">
+        <span matSuffix>&nbsp;ºC</span>
+        <mat-error *ngIf="isInvalid_campo(temperatura_calentamiento)">{{ getErrorMessage(temperatura_calentamiento) }}</mat-error>
+      </mat-form-field>
+
     </div>
   </div>
   <button type="submit" class="btn btn-primary">Crear</button>

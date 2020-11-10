@@ -1,6 +1,6 @@
 import { OrdenPedidoService } from '../../../services/orden-pedido.service';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { materiaPrima } from './../../../interfaces/materiaPrima.interface';
 import { RecetasService } from './../../../services/recetas.service';
 import { MateriaPrimaService } from './../../../services/materia-prima.service';
@@ -62,7 +62,7 @@ export class ParametrosReferenciasComponent implements OnInit {
 
   private buildForm(){
     this.recetaForm = this.formBuilder.group({
-      densidad: ['', Validators.required],
+      densidad: ['', [Validators.required, Validators.min(0)]],
       referencia_producto_id: ['', [Validators.required]],
       tipo_producto_id: ['', [Validators.required, Validators.min(0)]],
       tiempo_premezclado: ['', [Validators.required, Validators.min(0)]],
@@ -105,86 +105,35 @@ export class ParametrosReferenciasComponent implements OnInit {
     return this.recetaForm.get('temperatura_calentamiento');
   }
 
-  get isInvalid_densidad(){
-    return this.recetaForm.get('densidad').invalid && this.recetaForm.get('densidad').touched
+  isInvalid_campo(campo: AbstractControl){
+    return campo.invalid && campo.touched
   }
 
-  get isValid_densidad(){
-    return this.recetaForm.get('densidad').valid && this.recetaForm.get('densidad').touched
+  getErrorMessage(campo: AbstractControl): String {
+    if(campo.hasError('required')) {
+
+      return "El campo es requerido"
+
+    } else if(campo.hasError('min')) {
+
+      return `El valor minimo es: ${campo.errors.min.min}`
+
+    }
+
+    return '';
   }
 
-  get isInvalid_referencia_producto_id(){
-    return this.recetaForm.get('referencia_producto_id').invalid && this.recetaForm.get('referencia_producto_id').touched
+  isValid_campo(campo: AbstractControl){
+    return campo.valid && campo.touched
   }
 
-  get isValid_referencia_producto_id(){
-    return this.recetaForm.get('referencia_producto_id').valid && this.recetaForm.get('referencia_producto_id').touched
+  materia_prima_id_by_index(index: number): AbstractControl{
+    return this.materias_primas.controls[index].get('materia_prima_id')
   }
 
-  get isInvalid_tipo_producto_id(){
-    return this.recetaForm.get('tipo_producto_id').invalid && this.recetaForm.get('tipo_producto_id').touched
+  materia_prima_porcentaje_by_index(index: number): AbstractControl{
+    return this.materias_primas.controls[index].get('porcentaje')
   }
-
-  get isValid_tipo_producto_id(){
-    return this.recetaForm.get('tipo_producto_id').valid && this.recetaForm.get('tipo_producto_id').touched
-  }
-
-  get isInvalid_tiempo_premezclado(){
-    return this.recetaForm.get('tiempo_premezclado').invalid && this.recetaForm.get('tiempo_premezclado').touched
-  }
-
-  get isValid_tiempo_premezclado(){
-    return this.recetaForm.get('tiempo_premezclado').valid && this.recetaForm.get('tiempo_premezclado').touched
-  }
-
-  get isInvalid_tiempo_precalentamiento(){
-    return this.recetaForm.get('tiempo_precalentamiento').invalid && this.recetaForm.get('tiempo_precalentamiento').touched
-  }
-
-  get isValid_tiempo_precalentamiento(){
-    return this.recetaForm.get('tiempo_precalentamiento').valid && this.recetaForm.get('tiempo_precalentamiento').touched
-  }
-
-  get isInvalid_tiempo_mezclado(){
-    return this.recetaForm.get('tiempo_mezclado').invalid && this.recetaForm.get('tiempo_mezclado').touched
-  }
-
-  get isValid_tiempo_mezclado(){
-    return this.recetaForm.get('tiempo_mezclado').valid && this.recetaForm.get('tiempo_mezclado').touched
-  }
-
-  get isInvalid_temperatura_precalentamiento(){
-    return this.recetaForm.get('temperatura_precalentamiento').invalid && this.recetaForm.get('temperatura_precalentamiento').touched
-  }
-
-  get isValid_temperatura_precalentamiento(){
-    return this.recetaForm.get('temperatura_precalentamiento').valid && this.recetaForm.get('temperatura_precalentamiento').touched
-  }
-
-  get isInvalid_temperatura_calentamiento(){
-    return this.recetaForm.get('temperatura_calentamiento').invalid && this.recetaForm.get('temperatura_calentamiento').touched
-  }
-
-  get isValid_temperatura_calentamiento(){
-    return this.recetaForm.get('temperatura_calentamiento').valid && this.recetaForm.get('temperatura_calentamiento').touched
-  }
-
-  isInvalidMateriaPrimaId(index: number){
-    return this.materias_primas.controls[index].get('materia_prima_id').invalid && this.materias_primas.controls[index].get('materia_prima_id').touched;
-  }
-
-  isValidMateriaPrimaId(index: number) {
-    return this.materias_primas.controls[index].get('materia_prima_id').valid && this.materias_primas.controls[index].get('materia_prima_id').touched;
-  }
-
-  isInvalidMateriaPrimaPorcentaje(index: number){
-    return this.materias_primas.controls[index].get('porcentaje').invalid && this.materias_primas.controls[index].get('porcentaje').touched;
-  }
-
-  isValidMateriaPrimaPorcentaje(index: number) {
-    return this.materias_primas.controls[index].get('porcentaje').valid && this.materias_primas.controls[index].get('porcentaje').touched;
-  }
-
 
   consultarReferencias() {
     this.ordenesPedidoService.consultarReferenciasProducto().then((res: any) => {
