@@ -9,7 +9,7 @@
         <mat-form-field appearance="fill" class="width-100">
           <mat-label>Cliente</mat-label>
           <input matInput formControlName="cliente" placeholder="Cliente">
-          <mat-error *ngIf="isInvalid_cliente">El cliente es <strong>requerido</strong></mat-error>
+          <mat-error *ngIf="isInvalid_campo(cliente)">El cliente es <strong>requerido</strong></mat-error>
         </mat-form-field>
 
       </div>
@@ -22,7 +22,7 @@
             <mat-option *ngFor="let item of prioridades; index as i" [value]="item['id']">{{item.descripcion}}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="isInvalid_prioridad_id">Por favor seleccione una prioridad</mat-error>
+          <mat-error *ngIf="isInvalid_campo(prioridad_id)">Por favor seleccione una prioridad</mat-error>
         </mat-form-field>
 
       </div>
@@ -35,7 +35,7 @@
             <mat-option *ngFor="let item of referencias; index as i" [value]="item['id']">{{item.descripcion}}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="isInvalid_referencia_producto_id">Por favor seleccione una referencia</mat-error>
+          <mat-error *ngIf="isInvalid_campo(referencia_producto_id)">Por favor seleccione una referencia</mat-error>
         </mat-form-field>
 
       </div>
@@ -48,7 +48,7 @@
             <mat-option *ngFor="let item of tipos; index as i" [value]="item['id']">{{item.descripcion}}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="isInvalid_tipo_producto_id">Por favor seleccione una tipo de producto</mat-error>
+          <mat-error *ngIf="isInvalid_campo(tipo_producto_id)">Por favor seleccione una tipo de producto</mat-error>
         </mat-form-field>
 
       </div>
@@ -61,7 +61,7 @@
             <mat-option *ngFor="let item of presentaciones; index as i" [value]="item['id']">{{item.descripcion}}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="isInvalid_presentacion_producto_id">Por favor seleccione una presentacion de producto
+          <mat-error *ngIf="isInvalid_campo(presentacion_producto_id)">Por favor seleccione una presentacion de producto
           </mat-error>
         </mat-form-field>
 
@@ -72,7 +72,7 @@
         <mat-form-field appearance="fill" class="width-100">
           <mat-label>Cantidad</mat-label>
           <input matInput type="number" [formControl]="cantidad">
-          <mat-error *ngIf="isInvalid_cantidad">Por favor ingrese la cantidad</mat-error>
+          <mat-error *ngIf="isInvalid_campo(cantidad)">Por favor ingrese la cantidad</mat-error>
         </mat-form-field>
 
       </div>
