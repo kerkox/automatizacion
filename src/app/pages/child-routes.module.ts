@@ -20,45 +20,21 @@ const childRoutes: Routes = [
     path: 'erp',
     component: ErpComponent,
     children: [
-      {
-        path: 'inventario',
-        component: InventarioComponent
-      },
-      {
-        path: 'materia-prima',
-        component: MateriaPrimaComponent
-      },
-      {
-        path: 'orden-pedido',
-        component: OrdenPedidoComponent
-      },
-      {
-        path: 'parametros-referencia',
-        component: ParametrosReferenciasComponent
-      },
-      {
-        path: '',
-        redirectTo: 'materia-prima',
-        pathMatch: 'full'
-      }
+      { path: 'inventario', component: InventarioComponent, data: {titulo: 'Inventario'} },
+      { path: 'materia-prima', component: MateriaPrimaComponent, data: { titulo: 'Materia Prima'} },
+      { path: 'orden-pedido', component: OrdenPedidoComponent, data: {titulo: 'Orden Pedido'} },
+      { path: 'parametros-referencia', component: ParametrosReferenciasComponent, data: {titulo: 'Parametros Referencia'} },
+      { path: '', redirectTo: 'materia-prima', pathMatch: 'full'}
     ]
   },
   {
     path: 'mes',
     component: MesComponent,
     children: [
-      {
-        path: 'orden-produccion',
-        component: OrdenProduccionComponent
-      }
-
+      { path: 'orden-produccion', component: OrdenProduccionComponent, data: {titulo: 'Orden Producción'} }
     ]
   },
-  {
-    path: '',
-    redirectTo: 'erp',
-    pathMatch: 'full'
-  },
+  { path: '', redirectTo: 'erp', pathMatch: 'full' },
   { path: 'control', component: ControlComponent },
 
 ]
