@@ -7,7 +7,7 @@
           <mat-select [formControl]="materia_prima_id" >
             <mat-option *ngFor="let item of materias_primas_seleccionar; index as i" [value]="item['id']">{{item.descripcion}}</mat-option>
           </mat-select>
-          <mat-error *ngIf="isInvalid_materia_prima_id">Por favor seleccione una materia prima</mat-error>
+          <mat-error *ngIf="isInvalid_campo(materia_prima_id)">Por favor seleccione una materia prima</mat-error>
         </mat-form-field>
       </div>
     </div>
@@ -16,7 +16,7 @@
       <mat-form-field appearance="fill" class="width-100">
         <mat-label>Cantidad (Ton)</mat-label>
         <input matInput type="number" formControlName="cantidad">
-        <mat-error *ngIf="isInvalid_cantidad">Por favor ingrese la cantidad</mat-error>
+        <mat-error *ngIf="isInvalid_campo(cantidad)">Por favor ingrese la cantidad</mat-error>
       </mat-form-field>
       
     </div>

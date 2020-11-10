@@ -1,7 +1,7 @@
 import { MateriaPrimaService } from './../../../services/materia-prima.service';
 import { InventarioService } from './../../../services/inventario.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-inventario',
@@ -41,20 +41,12 @@ export class InventarioComponent implements OnInit {
     return this.formInventario.get('cantidad')
   }
 
-  get isValid_cantidad() {
-    return this.cantidad.valid && this.cantidad.touched
+  isValid_campo(campo: AbstractControl) {
+    return campo.valid && campo.touched
   }
 
-  get isInvalid_cantidad() {
-    return this.cantidad.invalid && this.cantidad.touched
-  }
-
-  get isValid_materia_prima_id() {
-    return this.materia_prima_id.valid && this.materia_prima_id.touched
-  }
-
-  get isInvalid_materia_prima_id() {
-    return this.materia_prima_id.invalid && this.materia_prima_id.touched
+  isInvalid_campo(campo: AbstractControl) {
+    return campo.invalid && campo.touched
   }
 
   cargarMateriasPrimasSeleccionar() {

@@ -2,7 +2,17 @@
   <div class="">
     <div class="form-row">
       <div class="col-md-6">
-        <label for="referencia">Referencia</label>
+
+        <mat-form-field appearance="fill" class="width-100">
+          <mat-label>Referencia</mat-label>
+          <mat-select [formControl]="referencia_producto_id">
+            <mat-option *ngFor="let item of referencias; index as i" [value]="item['id']">{{item.descripcion}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="isInvalid_referencia_producto_id">Por favor seleccione una referencia</mat-error>
+        </mat-form-field>
+        
+        <!-- <label for="referencia">Referencia</label>
         <div class="input-group mb-3">
           <select class="form-control" formControlName="referencia_producto_id" name="referencia_producto"
             [class.is-invalid]="isInvalid_referencia_producto_id" [class.is-valid]="isValid_referencia_producto_id"
@@ -16,7 +26,7 @@
           <div class="invalid-feedback">
             Por favor seleccione una referencia de producto
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div class="col-md-6">
