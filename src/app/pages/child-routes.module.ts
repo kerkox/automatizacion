@@ -8,7 +8,6 @@ import { OrdenPedidoComponent } from './erp/orden-pedido/orden-pedido.component'
 import { ParametrosReferenciasComponent } from './erp/parametros-referencias/parametros-referencias.component';
 import { MesComponent } from './mes/mes.component';
 import { OrdenProduccionComponent } from './mes/orden-produccion/orden-produccion.component';
-import { PagesComponent } from './pages.component';
 
 
 // Mantenimientos
