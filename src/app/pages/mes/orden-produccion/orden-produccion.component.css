@@ -1,3 +1,12 @@
 table {
   width: 100%;
 }
+
+.options {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.badge {
+  font-size: 0.8rem;
+}
