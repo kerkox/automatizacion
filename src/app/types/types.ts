@@ -7,6 +7,7 @@ export const types = {
     PresentacionProductos: "presentacion-producto",
     Prioridades: "prioridad",
     OrdenesProducciones: "orden-produccion",
+    OrdenProduccionByEstado: (estado:string) => "orden-produccion/estado/"+estado,
     OrdenesPedidos: "orden-pedido",
     Inventario: "inventario",
     OrdenProduccionAprobar: "orden-produccion/aprobar"

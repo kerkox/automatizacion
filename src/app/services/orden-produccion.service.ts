@@ -1,3 +1,4 @@
+import { EstadoOrden } from './../enums/estado-orden.enum';
 import { ApiService } from './api.service';
 import { Injectable } from '@angular/core';
 import { types } from '../types/types';
@@ -11,8 +12,8 @@ export class OrdenProduccionService {
   constructor(private api: ApiService) { }
 
 
-  consultarOrdenesProduccion() {
-    return this.api.get(types.API.OrdenesProducciones);
+  consultarOrdenesProduccion(estadoOrden: EstadoOrden = EstadoOrden.GENERADA) {
+    return this.api.get(types.API.OrdenProduccionByEstado(estadoOrden.toString()));
   }
 
   aprobar(ordenProduccionAprobar:OrdenProduccionAprobar[]){

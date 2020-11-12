@@ -6,16 +6,16 @@ import { OrdenProduccionService } from './../../../services/orden-produccion.ser
 import { MatSort } from '@angular/material/sort';
 
 @Component({
-  selector: 'app-orden-produccion',
-  templateUrl: './orden-produccion.component.html',
-  styleUrls: ['./orden-produccion.component.css']
+  selector: 'app-orden-produccion-aprobada',
+  templateUrl: './orden-produccion-aprobada.component.html',
+  styleUrls: ['./orden-produccion-aprobada.component.css']
 })
-export class OrdenProduccionComponent implements OnInit {
+export class OrdenProduccionAprobadaComponent implements OnInit {
 
-  ordenes_produccion:any = []
-  orden_generada= EstadoOrden.GENERADA
-  orden_en_produccion= EstadoOrden["EN PRODUCCION"]
-  orden_terminada= EstadoOrden.TERMINADA
+  ordenes_produccion: any = []
+  orden_generada = EstadoOrden.GENERADA
+  orden_en_produccion = EstadoOrden["EN PRODUCCION"]
+  orden_terminada = EstadoOrden.TERMINADA
   titulos_columnas: string[] = [
     'id',
     'cliente',
@@ -32,7 +32,7 @@ export class OrdenProduccionComponent implements OnInit {
     // 'detalle',
   ];
   constructor(private ordenProduccionService: OrdenProduccionService,
-    private generalService: GeneralService) { 
+    private generalService: GeneralService) {
     this.ordenes_produccion = []
   }
 
@@ -46,51 +46,52 @@ export class OrdenProduccionComponent implements OnInit {
     this.consultarOrdenesProduccion();
   }
 
-  consultarOrdenesProduccion(){
-    this.ordenProduccionService.consultarOrdenesProduccion().then((res:any) => {
-      this.ordenes_produccion = res.data.map((orden:any) => {
+  consultarOrdenesProduccion() {
+    this.ordenProduccionService.consultarOrdenesProduccion().then((res: any) => {
+      this.ordenes_produccion = res.data.map((orden: any) => {
         return {
           select: false,
           ...orden
         }
-      });      
+      });
     })
-    .catch(err => {
-      console.error(err)
-    })
+      .catch(err => {
+        console.error(err)
+      })
   }
 
-  colorBadgeEstadoOrden(estado: string){
+  colorBadgeEstadoOrden(estado: string) {
     return this.generalService.colorBadgeEstadoOrden(estado);
   }
 
-  colorBadgePrioridad(nivel: number){
+  colorBadgePrioridad(nivel: number) {
     return this.generalService.colorBadgePrioridad(nivel);
   }
 
-  aprobar_ordenes(){
+  aprobar_ordenes() {
     let ordenes = this.ordenes_produccion
-                  .filter(orden =>  orden.select)
-                  .map(orden => {
-                    return {id: orden.id}
-                  });
+      .filter(orden => orden.select)
+      .map(orden => {
+        return { id: orden.id }
+      });
     console.log("Ordenes seleccionadas para aprobar", ordenes)
 
-    this.ordenProduccionService.aprobar(ordenes).then(res=> {
+    this.ordenProduccionService.aprobar(ordenes).then(res => {
       // mensaje de se aprobo correctamente
-      Swal.fire("Aprobadas","Las ordenes de produccion han sido aprobadas",'success')
+      Swal.fire("Aprobadas", "Las ordenes de produccion han sido aprobadas", 'success')
       this.consultarOrdenesProduccion();
     })
-    .catch(err => {
-      // mensaje ocurrio algun error
-      Swal.fire("Aprobacion Error", "Ocurrrio un error al intentar aprobar las ordenes de produccion", 'error')
-    })
+      .catch(err => {
+        // mensaje ocurrio algun error
+        Swal.fire("Aprobacion Error", "Ocurrrio un error al intentar aprobar las ordenes de produccion", 'error')
+      })
   }
 
-  detalle_orden_produccion(id: number){
+  detalle_orden_produccion(id: number) {
     console.log("Detalle de la orden de produccion")
     // Navegar a una pantalla donde a traves del ID de la orden se puedan ver mas detalles
 
   }
+
 
 }

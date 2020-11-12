@@ -8,6 +8,7 @@ import { OrdenPedidoComponent } from './erp/orden-pedido/orden-pedido.component'
 import { ParametrosReferenciasComponent } from './erp/parametros-referencias/parametros-referencias.component';
 import { MesComponent } from './mes/mes.component';
 import { OrdenProduccionComponent } from './mes/orden-produccion/orden-produccion.component';
+import { OrdenProduccionAprobadaComponent } from './mes/orden-produccion-aprobada/orden-produccion-aprobada.component';
 
 
 // Mantenimientos
@@ -30,7 +31,8 @@ const childRoutes: Routes = [
     path: 'mes',
     component: MesComponent,
     children: [
-      { path: 'orden-produccion', component: OrdenProduccionComponent, data: {titulo: 'Orden Producción'} }
+      { path: 'orden-produccion', component: OrdenProduccionComponent, data: {titulo: 'Orden Producción'} },
+      { path: 'orden-produccion-aprobada', component: OrdenProduccionAprobadaComponent, data: {titulo: 'Orden Producción Aprobadas'} }
     ]
   },
   { path: '', redirectTo: 'erp', pathMatch: 'full' },
@@ -42,6 +44,7 @@ const childRoutes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(childRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  declarations: []
 })
 export class ChildRoutesModule { }

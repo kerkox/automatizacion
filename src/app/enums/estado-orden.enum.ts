@@ -1,0 +1,5 @@
+export enum EstadoOrden {
+  "GENERADA" = "GENERADA",
+  "EN PRODUCCION" = "EN PRODUCCION",
+  "TERMINADA" = "TERMINADA"
+}

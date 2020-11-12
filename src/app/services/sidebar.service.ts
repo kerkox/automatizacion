@@ -19,6 +19,7 @@ export class SidebarService {
       name: 'MES',
       menus: [
         { path: '/mes/orden-produccion', name: 'Orden produccion' },
+        { path: '/mes/orden-produccion-aprobada', name: 'Orden produccion Aprobadas' },
       ]
     }
 

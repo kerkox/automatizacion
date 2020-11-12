@@ -26,6 +26,8 @@ import { InventarioComponent } from './pages/erp/inventario/inventario.component
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { OrdenProduccionComponent } from './pages/mes/orden-produccion/orden-produccion.component';
+import { OrdenProduccionAprobadaComponent } from './pages/mes/orden-produccion-aprobada/orden-produccion-aprobada.component';
+import { OrdenProduccionTablaComponent } from './components/orden-produccion-tabla/orden-produccion-tabla.component';
 
 
 
@@ -50,8 +52,9 @@ import { OrdenProduccionComponent } from './pages/mes/orden-produccion/orden-pro
     NoPageFoundComponent,
     PagesComponent,
     InventarioComponent,
-    OrdenProduccionComponent
-    
+    OrdenProduccionComponent,
+    OrdenProduccionTablaComponent,
+    OrdenProduccionAprobadaComponent    
   ],
   imports: [
     BrowserModule,
