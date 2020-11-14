@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MateriaPrimaService } from './../../../services/materia-prima.service';
 
 @Component({
@@ -17,6 +17,7 @@ export class MateriaPrimaComponent implements OnInit {
   loading: boolean = false;
   loadingTable: boolean = false;
   error: boolean = false;
+  trimText: boolean = true;
   constructor(private materiaPrimaService: MateriaPrimaService,
               private formBuilder:FormBuilder) {
     this.materias_primas = []
@@ -31,9 +32,29 @@ export class MateriaPrimaComponent implements OnInit {
   private buildForm(){
     this.formMateriaPrima = this.formBuilder.group({
       id: [''],
-      descripcion: ['', Validators.required]
+      descripcion: ['', [Validators.required, Validators.pattern('^[\s.*]|[\s\w\W]')]]
     })
+
   }
+
+  isInvalid_campo(campo: AbstractControl) {
+    return campo.invalid && campo.touched
+  }
+
+  getErrorMessage(campo: AbstractControl): String {
+    if (campo.hasError('required')) {
+
+      return "El campo es requerido"
+
+    } else if (campo.hasError('pattern')) {
+
+      return `No se permiten espacios solamente`
+
+    }
+
+    return '';
+  }
+
 
   get descripcion () {
     return this.formMateriaPrima.get('descripcion')
@@ -49,7 +70,7 @@ export class MateriaPrimaComponent implements OnInit {
   resetarFormulario() {
 
     this.loading = false;
-    this.formMateriaPrima.reset({descripcion: ''});
+    this.formMateriaPrima.reset();
     this.ocultarMensajeGuardado()
     this.cargarMateriasPrimas();
   }
@@ -78,6 +99,7 @@ export class MateriaPrimaComponent implements OnInit {
       this.loading = true;
       this.saved = false;
       let materia_prima = this.formMateriaPrima.value;
+      materia_prima.descripcion = materia_prima.descripcion.trim()
       if (this.actualizar) {
         if(this.descripcion.pristine){
           // Aqui se retorno si no fue modificado y se resetea
@@ -106,7 +128,6 @@ export class MateriaPrimaComponent implements OnInit {
       }
     } else {
       this.formMateriaPrima.markAllAsTouched()
-      // console.log("Aun no se han marcado nada para enviar")
     }
     
   }

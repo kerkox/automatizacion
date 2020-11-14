@@ -82,18 +82,18 @@ export class UsuarioService {
 
   validarToken(): Observable<boolean> {
     const token = localStorage.getItem('token') || '';
-    console.log("base_url", base_url)
+    // console.log("base_url", base_url)
     return this.http.get(`${base_url}/user/login/renew`, {
       headers: {
         'Authorization': "Bearer "+token
       }
     }).pipe(
       tap((resp: any) => {
-        console.log("resp",resp)
+        // console.log("resp",resp)
         localStorage.setItem('token', resp.data.token);
       }),
       map(resp =>{
-        console.log("resp", resp)
+        // console.log("resp", resp)
         return true;
       } ),
       catchError(error =>{

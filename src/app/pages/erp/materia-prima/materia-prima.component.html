@@ -7,16 +7,17 @@
         <div class="col-md-6">
           <!-- <label for="descripcion">Descripcion materia prima</label> -->
           <div class="input-group mb-3 input-linea-button">
-            <mat-form-field appearance="fill" class="width-60">
+            <mat-form-field appearance="fill" class="width-60" >
               <mat-label>Descripcion materia prima</mat-label>
-              <input matInput formControlName="descripcion" placeholder="Descripcion">
+              <input matInput formControlName="descripcion" placeholder="Descripcion" >
               <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
               <!-- <mat-hint>Descripcion de la materia prima</mat-hint> -->
-              <mat-error *ngIf="isInvalid_descripcion">La descripcion es <strong>requerida</strong></mat-error>
+              <!-- <mat-error *ngIf="isInvalid_descripcion">La descripcion es <strong>requerida</strong></mat-error> -->
+              <mat-error *ngIf="isInvalid_campo(descripcion)">{{ getErrorMessage(descripcion) }}</mat-error>
             </mat-form-field>
             <!-- <input type="text" [(ngModel)]="materia_prima.descripcion" class="form-control" name="descripcion"
               id="descripcion" placeholder="Descripcion materia prima"> -->
-            <button type="submit" class=" btn btn-primary">{{texto_boton}}</button>
+            <button type="submit" [disabled]="loading" class=" btn btn-primary">{{texto_boton}}</button>
             <button *ngIf="actualizar" type="submit" (click)="cancelarActualizacion()"
               class=" btn btn-danger">Cancelar</button>
           </div>

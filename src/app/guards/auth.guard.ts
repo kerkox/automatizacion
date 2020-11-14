@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate, CanLoad {
     private router: Router) { }
 
   canLoad(route: Route, segments: import("@angular/router").UrlSegment[]): boolean | import("@angular/router").UrlTree | import("rxjs").Observable<boolean | import("@angular/router").UrlTree> | Promise<boolean | import("@angular/router").UrlTree> {
-    console.log("canLoad")
+    // console.log("canLoad")
     return true;
     // return this.usuarioService.validarToken()
     //   .pipe(
@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate, CanLoad {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot) {
-      console.log("canActivate")
+      // console.log("canActivate")
     // return true;
     
     
