@@ -32,13 +32,13 @@
   <!-- Symbol Column -->
   <ng-container matColumnDef="referencia_producto">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Referencia </th>
-    <td mat-cell *matCellDef="let element"> {{element.orden_pedido.referencia_producto.descripcion}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.orden_pedido.receta.referencia_producto.descripcion}} </td>
   </ng-container>
 
   <!--  -->
   <ng-container matColumnDef="tipo_producto">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
-    <td mat-cell *matCellDef="let element"> {{element.orden_pedido.tipo_producto.descripcion}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.orden_pedido.receta.tipo_producto.descripcion}} </td>
   </ng-container>
 
   <!--  -->
