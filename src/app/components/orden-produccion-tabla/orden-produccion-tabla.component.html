@@ -49,8 +49,22 @@
 
   <!--  -->
   <ng-container matColumnDef="cantidad">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad (Ton) </th>
     <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
+  </ng-container>
+
+  <!--  -->
+  <ng-container matColumnDef="materias_primas">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Materias Primas </th>
+    <td mat-cell *matCellDef="let element"> 
+      <table>
+        <tr *ngFor="let item of element.orden_pedido.receta.materias_primas">
+          <td>{{item.descripcion }}</td>
+          <td align="right"> {{ materiaPrimaPorcentaje(item, element.cantidad) }} Ton</td>
+          <td align="right">{{ item.MateriaPrimaReceta.porcentaje }}%</td>
+        </tr>
+      </table>  
+    </td>
   </ng-container>
 
   <!--  -->

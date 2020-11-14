@@ -1,3 +1,4 @@
+import { materiaPrima } from './../../interfaces/materiaPrima.interface';
 import { EstadoOrden } from './../../enums/estado-orden.enum';
 import Swal from 'sweetalert2';
 import { MatSort } from '@angular/material/sort';
@@ -27,6 +28,7 @@ export class OrdenProduccionTablaComponent implements OnInit {
     'fecha_inicio',
     'fecha_terminado',
     'estado',
+    'materias_primas',
     // 'detalle',
   ];
   constructor(private ordenProduccionService: OrdenProduccionService,
@@ -60,6 +62,15 @@ export class OrdenProduccionTablaComponent implements OnInit {
       .catch(err => {
         console.error(err)
       })
+  }
+
+  showMateriaPrima(materia_prima:any, toneladas_totales:number){
+    const toneladas = this.materiaPrimaPorcentaje(materia_prima,toneladas_totales)
+    return `${materia_prima.descripcion}: ${toneladas} Ton (${materia_prima.MateriaPrimaReceta.porcentaje}%)`
+  }
+
+  materiaPrimaPorcentaje(materia_prima:any, toneladas_totales:number){
+    return   (materia_prima.MateriaPrimaReceta.porcentaje / 100) * toneladas_totales
   }
 
   colorBadgeEstadoOrden(estado: string) {
