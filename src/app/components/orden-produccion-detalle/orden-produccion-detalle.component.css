@@ -1,0 +1,36 @@
+.propiedad {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: right;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.valor {
+  font-size: 1.2rem;
+  text-align: left;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.detalles {
+  /* width: ; */
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+@media (max-width: 767px) {
+  .propiedad {
+    font-size: 1.1rem;
+    text-align: left;
+    margin-top:0px;
+    margin-bottom: 0px;
+  }
+  .valor {
+    font-size: 1.1rem;
+    text-align: left;
+    margin-top:0px;
+    margin-bottom: 10px;
+  }
+}

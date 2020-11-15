@@ -1,4 +1,4 @@
-table {
+.caja-tabla > table {
   width: 100%;
 }
 
@@ -9,4 +9,12 @@ table {
 
 .badge {
   font-size: 0.8rem;
+}
+
+.caja-tabla {
+  z-index: inherit;
+}
+
+.table-materias-primas {
+  width: 80%;
 }

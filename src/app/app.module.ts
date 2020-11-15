@@ -28,6 +28,7 @@ import { MaterialModule } from './material/material.module';
 import { OrdenProduccionComponent } from './pages/mes/orden-produccion/orden-produccion.component';
 import { OrdenProduccionAprobadaComponent } from './pages/mes/orden-produccion-aprobada/orden-produccion-aprobada.component';
 import { OrdenProduccionTablaComponent } from './components/orden-produccion-tabla/orden-produccion-tabla.component';
+import { OrdenProduccionDetalleComponent } from './components/orden-produccion-detalle/orden-produccion-detalle.component';
 
 
 
@@ -54,7 +55,8 @@ import { OrdenProduccionTablaComponent } from './components/orden-produccion-tab
     InventarioComponent,
     OrdenProduccionComponent,
     OrdenProduccionTablaComponent,
-    OrdenProduccionAprobadaComponent    
+    OrdenProduccionAprobadaComponent,
+    OrdenProduccionDetalleComponent    
   ],
   imports: [
     BrowserModule,

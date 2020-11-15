@@ -1,10 +1,12 @@
-import { materiaPrima } from './../../interfaces/materiaPrima.interface';
+import { OrdenProduccionDetalle } from './../../interfaces/orden-produccion-detalle.interface';
 import { EstadoOrden } from './../../enums/estado-orden.enum';
 import Swal from 'sweetalert2';
 import { MatSort } from '@angular/material/sort';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { GeneralService } from './../../services/general.service';
 import { OrdenProduccionService } from './../../services/orden-produccion.service';
+import { MatDialog } from '@angular/material/dialog';
+import { OrdenProduccionDetalleComponent } from '../orden-produccion-detalle/orden-produccion-detalle.component';
 
 @Component({
   selector: 'app-orden-produccion-tabla',
@@ -29,10 +31,11 @@ export class OrdenProduccionTablaComponent implements OnInit {
     'fecha_terminado',
     'estado',
     'materias_primas',
-    // 'detalle',
+    'detalle',
   ];
   constructor(private ordenProduccionService: OrdenProduccionService,
-    private generalService: GeneralService) {
+    private generalService: GeneralService, 
+    public dialog: MatDialog) {
     this.ordenes_produccion = []
   }
 
@@ -100,10 +103,23 @@ export class OrdenProduccionTablaComponent implements OnInit {
       })
   }
 
-  detalle_orden_produccion(id: number) {
+  detalle_orden_produccion(orden_produccion: OrdenProduccionDetalle) {
     console.log("Detalle de la orden de produccion")
+    this.openDialog(orden_produccion)
     // Navegar a una pantalla donde a traves del ID de la orden se puedan ver mas detalles
 
+  }
+
+  openDialog(orden_produccion: OrdenProduccionDetalle): void {
+    const dialogRef = this.dialog.open(OrdenProduccionDetalleComponent, {
+      // width: '250px',
+      data: orden_produccion
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed result:', result);
+      // this.animal = result;
+    });
   }
 
 
