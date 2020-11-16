@@ -1,22 +1,24 @@
-import { OrdenProduccionDetalle } from './../../interfaces/orden-produccion-detalle.interface';
+import { OrdenProduccionDetalle, OrdenProduccionDetalleFlat } from './../../interfaces/orden-produccion-detalle.interface';
 import { EstadoOrden } from './../../enums/estado-orden.enum';
 import Swal from 'sweetalert2';
 import { MatSort } from '@angular/material/sort';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { GeneralService } from './../../services/general.service';
 import { OrdenProduccionService } from './../../services/orden-produccion.service';
 import { MatDialog } from '@angular/material/dialog';
 import { OrdenProduccionDetalleComponent } from '../orden-produccion-detalle/orden-produccion-detalle.component';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-orden-produccion-tabla',
   templateUrl: './orden-produccion-tabla.component.html',
   styleUrls: ['./orden-produccion-tabla.component.css']
 })
-export class OrdenProduccionTablaComponent implements OnInit {
+export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit  {
 
-  @Input() estadoOrden: EstadoOrden
+  @Input('estadoOrden') estadoOrden: EstadoOrden
   ordenes_produccion: any = []
+  @Input('columns_show') columns_show: ColumnsTable[]
   titulos_columnas: string[] = [
     'id',
     'cliente',
@@ -33,19 +35,24 @@ export class OrdenProduccionTablaComponent implements OnInit {
     'materias_primas',
     'detalle',
   ];
+  dataSource: MatTableDataSource<any>
   constructor(private ordenProduccionService: OrdenProduccionService,
     private generalService: GeneralService, 
     public dialog: MatDialog) {
     this.ordenes_produccion = []
+    this.dataSource = new MatTableDataSource(this.ordenes_produccion)
   }
 
   @ViewChild(MatSort) sort: MatSort;
 
   ngAfterViewInit() {
-    this.ordenes_produccion.sort = this.sort;
+    this.dataSource.sort = this.sort;
   }
 
   ngOnInit(): void {
+    if(this.columns_show) {
+      this.titulos_columnas = this.columns_show;
+    }
     this.consultarOrdenesProduccion();
   }
 
@@ -55,16 +62,43 @@ export class OrdenProduccionTablaComponent implements OnInit {
 
   consultarOrdenesProduccion() {
     this.ordenProduccionService.consultarOrdenesProduccion(this.estadoOrden).then((res: any) => {
-      this.ordenes_produccion = res.data.map((orden: any) => {
+      this.ordenes_produccion = res.data;
+      this.dataSource = new MatTableDataSource(res.data.map((orden: any) => {
         return {
           select: false,
-          ...orden
+          ...this.flatOrdenProduccion(orden)
         }
-      });
+      }))
     })
       .catch(err => {
         console.error(err)
       })
+  }
+
+  flatOrdenProduccion(orden:OrdenProduccionDetalle): OrdenProduccionDetalleFlat {
+    return {
+      id_orden_produccion: orden.id,
+      id_orden_pedido:orden.orden_pedido.id,
+      receta_id: orden.orden_pedido.receta.id,
+      cantidad_toneladas: orden.cantidad,
+      cliente: orden.orden_pedido.cliente,
+      lotes_ejecutados: orden.lotes_ejecutados,
+      lotes_totales:orden.lotes_totales,
+      cantidad_productos:orden.orden_pedido.cantidad,
+      estado:orden.orden_pedido.estado,
+      presentacion_descripcion:orden.orden_pedido.presentacion_producto.descripcion,
+      presentacion_cantidad: orden.orden_pedido.presentacion_producto.cantidad,
+      prioridad_nivel:orden.orden_pedido.prioridad.nivel,
+      prioridad_descripcion:orden.orden_pedido.prioridad.descripcion,
+      referencia_producto_descripcion:orden.orden_pedido.receta.referencia_producto.descripcion,
+      tipo_producto_descripcion:orden.orden_pedido.receta.tipo_producto.descripcion,
+      temperatura_precalentamiento:orden.orden_pedido.receta.temperatura_precalentamiento,
+      tiempo_precalentamiento:orden.orden_pedido.receta.tiempo_precalentamiento,
+      temperatura_calentamiento:orden.orden_pedido.receta.temperatura_calentamiento,
+      tiempo_premezclado:orden.orden_pedido.receta.tiempo_premezclado,
+      tiempo_mezclado:orden.orden_pedido.receta.tiempo_mezclado,
+      materias_primas: orden.orden_pedido.receta.materias_primas
+    }
   }
 
   showMateriaPrima(materia_prima:any, toneladas_totales:number){
@@ -85,7 +119,7 @@ export class OrdenProduccionTablaComponent implements OnInit {
   }
 
   aprobar_ordenes() {
-    let ordenes = this.ordenes_produccion
+    let ordenes = this.dataSource.data
       .filter(orden => orden.select)
       .map(orden => {
         return { id: orden.id }
@@ -103,7 +137,8 @@ export class OrdenProduccionTablaComponent implements OnInit {
       })
   }
 
-  detalle_orden_produccion(orden_produccion: OrdenProduccionDetalle) {
+  detalle_orden_produccion(orden_produccion_flat: OrdenProduccionDetalleFlat) {
+    const orden_produccion = this.ordenes_produccion.find(orden => orden.id === orden_produccion_flat.id_orden_produccion)
     console.log("Detalle de la orden de produccion")
     this.openDialog(orden_produccion)
     // Navegar a una pantalla donde a traves del ID de la orden se puedan ver mas detalles
@@ -122,5 +157,28 @@ export class OrdenProduccionTablaComponent implements OnInit {
     });
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
+
+}
+
+
+export enum ColumnsTable {
+  id ='id',
+  cliente ='cliente',
+  prioridad ='prioridad',
+  referencia_producto ='referencia_producto',
+  tipo_producto ='tipo_producto',
+  presentacion_producto ='presentacion_producto',
+  cantidad ='cantidad',
+  lotes_ejecutados ='lotes_ejecutados',
+  lotes_totales ='lotes_totales',
+  fecha_inicio ='fecha_inicio',
+  fecha_terminado ='fecha_terminado',
+  estado ='estado',
+  materias_primas ='materias_primas',
+  detalle ='detalle',
 }

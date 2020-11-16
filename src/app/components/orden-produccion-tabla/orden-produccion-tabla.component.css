@@ -18,3 +18,31 @@
 .table-materias-primas {
   width: 80%;
 }
+
+.mat-form-field {
+  font-size: 1rem;
+  width: 50%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.table-responsive {
+  padding: 15px;
+}
+
+.mat-table {
+  
+  width: 100%;
+  min-width: 1200px;
+}
+
+.mat-column-select {
+  overflow: initial;
+}
+
+.columna-materias-primas {
+  min-width: 200px;
+}
+

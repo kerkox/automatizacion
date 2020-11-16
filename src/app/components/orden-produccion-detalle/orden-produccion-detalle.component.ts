@@ -62,7 +62,7 @@ export class OrdenProduccionDetalleComponent implements OnInit {
         col_right:
         {
           propiedad: 'Cantidad en Toneladas:',
-          valor: this.data.orden_pedido.cantidad,
+          valor: this.data.cantidad,
           ...this.getColumnClassCalculated({col:8,sm:8,lg:8})          
         },
       },

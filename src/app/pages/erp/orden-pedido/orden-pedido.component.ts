@@ -105,6 +105,7 @@ export class OrdenPedidoComponent implements OnInit {
       this.orden_pedido = this.formOrdenPedido.value;
       // console.log("this.orden_pedido", this.orden_pedido)
       this.OrdenesPedidoService.guardarOrdenPedido(this.orden_pedido).then(res => {
+        this.formOrdenPedido.reset();
         this.consultarOrdenesPedido();
       }).catch(err => {
         let message = err.error.message;

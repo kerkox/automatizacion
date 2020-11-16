@@ -1,5 +1,6 @@
 import { EstadoOrden } from './../../../enums/estado-orden.enum';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ColumnsTable } from 'src/app/components/orden-produccion-tabla/orden-produccion-tabla.component';
 
 @Component({
   selector: 'app-orden-produccion',
@@ -15,6 +16,22 @@ export class OrdenProduccionComponent implements OnInit {
   private ctx: CanvasRenderingContext2D;
   
   orden_generada= EstadoOrden.GENERADA
+  columns_show = [
+      ColumnsTable.id,
+      ColumnsTable.cliente,
+      ColumnsTable.prioridad,
+      ColumnsTable.referencia_producto,
+      ColumnsTable.tipo_producto,
+      ColumnsTable.presentacion_producto,
+      ColumnsTable.cantidad,
+      ColumnsTable.lotes_ejecutados,
+      ColumnsTable.lotes_totales,
+      // ColumnsTable.fecha_inicio,
+      // ColumnsTable.fecha_terminado,
+      ColumnsTable.estado,
+      ColumnsTable.materias_primas,
+      ColumnsTable.detalle,
+  ]
 
   ngOnInit(): void {
     this.ctx = this.canvas.nativeElement.getContext('2d');
