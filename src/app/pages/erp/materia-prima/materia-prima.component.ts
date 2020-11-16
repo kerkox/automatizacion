@@ -30,9 +30,11 @@ export class MateriaPrimaComponent implements OnInit {
   }
 
   private buildForm(){
+    // const regExp = new RegExp('^[\s.*]|[\s\w\W]', 'gi')
+    const regExp = new RegExp('^[^\\s][\\w\\W\\d]+')
     this.formMateriaPrima = this.formBuilder.group({
       id: [''],
-      descripcion: ['', [Validators.required, Validators.pattern('^[\s.*]|[\s\w\W]')]]
+      descripcion: ['', [Validators.required, Validators.pattern(regExp)]]
     })
 
   }
@@ -42,6 +44,7 @@ export class MateriaPrimaComponent implements OnInit {
   }
 
   getErrorMessage(campo: AbstractControl): String {
+    console.log("campo:",campo)
     if (campo.hasError('required')) {
 
       return "El campo es requerido"
