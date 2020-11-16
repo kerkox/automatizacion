@@ -112,7 +112,7 @@ export class OrdenProduccionTablaComponent implements OnInit {
 
   openDialog(orden_produccion: OrdenProduccionDetalle): void {
     const dialogRef = this.dialog.open(OrdenProduccionDetalleComponent, {
-      // width: '250px',
+      width: '1200px',
       data: orden_produccion
     });
 
