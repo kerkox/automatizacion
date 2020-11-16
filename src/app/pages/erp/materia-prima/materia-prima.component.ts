@@ -85,7 +85,6 @@ export class MateriaPrimaComponent implements OnInit {
   }
 
 
-
   cargarMateriasPrimas() {
     this.loadingTable = true;
     this.materiaPrimaService.obtenerMateriasPrimas().then((res: any) => {

@@ -107,6 +107,8 @@ export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit  {
   }
 
   materiaPrimaPorcentaje(materia_prima:any, toneladas_totales:number){
+    console.log("materia_prima:", materia_prima)
+    console.log("toneladas_totales:", toneladas_totales)
     return   (materia_prima.MateriaPrimaReceta.porcentaje / 100) * toneladas_totales
   }
 
