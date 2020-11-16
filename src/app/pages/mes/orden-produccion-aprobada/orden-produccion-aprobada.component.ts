@@ -13,9 +13,7 @@ import { MatSort } from '@angular/material/sort';
 export class OrdenProduccionAprobadaComponent implements OnInit {
 
   ordenes_produccion: any = []
-  orden_generada = EstadoOrden.GENERADA
-  orden_en_produccion = EstadoOrden["EN PRODUCCION"]
-  orden_terminada = EstadoOrden.TERMINADA
+  ordenes_aprobadas: EstadoOrden[];
   titulos_columnas: string[] = [
     'id',
     'cliente',
@@ -34,6 +32,7 @@ export class OrdenProduccionAprobadaComponent implements OnInit {
   constructor(private ordenProduccionService: OrdenProduccionService,
     private generalService: GeneralService) {
     this.ordenes_produccion = []
+    this.ordenes_aprobadas = [EstadoOrden["EN PRODUCCION"], EstadoOrden.EN_COLA]
   }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -47,7 +46,7 @@ export class OrdenProduccionAprobadaComponent implements OnInit {
   }
 
   consultarOrdenesProduccion() {
-    this.ordenProduccionService.consultarOrdenesProduccion().then((res: any) => {
+    this.ordenProduccionService.consultarOrdenesProduccion(this.ordenes_aprobadas).then((res: any) => {
       this.ordenes_produccion = res.data.map((orden: any) => {
         return {
           select: false,

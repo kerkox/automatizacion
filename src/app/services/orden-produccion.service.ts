@@ -12,8 +12,8 @@ export class OrdenProduccionService {
   constructor(private api: ApiService) { }
 
 
-  consultarOrdenesProduccion(estadoOrden: EstadoOrden = EstadoOrden.GENERADA) {
-    return this.api.get(types.API.OrdenProduccionByEstado(estadoOrden.toString()));
+  consultarOrdenesProduccion(estadosOrden: EstadoOrden[] = [EstadoOrden.GENERADA]) {
+    return this.api.post(types.API.OrdenProduccionByEstados, estadosOrden);
   }
 
   aprobar(ordenProduccionAprobar:OrdenProduccionAprobar[]){

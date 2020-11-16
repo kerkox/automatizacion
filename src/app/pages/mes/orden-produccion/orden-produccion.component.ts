@@ -15,7 +15,7 @@ export class OrdenProduccionComponent implements OnInit {
 
   private ctx: CanvasRenderingContext2D;
   
-  orden_generada= EstadoOrden.GENERADA
+  orden_generada= [EstadoOrden.GENERADA]
   columns_show = [
       ColumnsTable.id,
       ColumnsTable.cliente,

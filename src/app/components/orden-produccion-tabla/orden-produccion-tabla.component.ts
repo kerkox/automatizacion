@@ -16,7 +16,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit  {
 
-  @Input('estadoOrden') estadoOrden: EstadoOrden
+  @Input('estadosOrden') estadosOrden: EstadoOrden[]
   ordenes_produccion: any = []
   @Input('columns_show') columns_show: ColumnsTable[]
   titulos_columnas: string[] = [
@@ -57,11 +57,11 @@ export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit  {
   }
 
   get isGenerada() {
-    return this.estadoOrden == EstadoOrden.GENERADA;
+    return this.estadosOrden.includes(EstadoOrden.GENERADA);
   }
 
   consultarOrdenesProduccion() {
-    this.ordenProduccionService.consultarOrdenesProduccion(this.estadoOrden).then((res: any) => {
+    this.ordenProduccionService.consultarOrdenesProduccion(this.estadosOrden).then((res: any) => {
       this.ordenes_produccion = res.data;
       this.dataSource = new MatTableDataSource(res.data.map((orden: any) => {
         return {
@@ -107,8 +107,6 @@ export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit  {
   }
 
   materiaPrimaPorcentaje(materia_prima:any, toneladas_totales:number){
-    console.log("materia_prima:", materia_prima)
-    console.log("toneladas_totales:", toneladas_totales)
     return   (materia_prima.MateriaPrimaReceta.porcentaje / 100) * toneladas_totales
   }
 
@@ -124,9 +122,10 @@ export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit  {
     let ordenes = this.dataSource.data
       .filter(orden => orden.select)
       .map(orden => {
-        return { id: orden.id }
+        
+        return { id: orden.id_orden_produccion }
       });
-    console.log("Ordenes seleccionadas para aprobar", ordenes)
+    // console.log("Ordenes seleccionadas para aprobar", ordenes)
 
     this.ordenProduccionService.aprobar(ordenes).then(res => {
       // mensaje de se aprobo correctamente

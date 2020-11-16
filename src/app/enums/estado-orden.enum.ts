@@ -1,5 +1,8 @@
 export enum EstadoOrden {
   "GENERADA" = "GENERADA",
+  EN_COLA = "EN COLA",
   "EN PRODUCCION" = "EN PRODUCCION",
-  "TERMINADA" = "TERMINADA"
+  "TERMINADA" = "TERMINADA",
+  ABORTADA = "ABORTADA"
+
 }

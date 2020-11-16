@@ -44,7 +44,6 @@ export class MateriaPrimaComponent implements OnInit {
   }
 
   getErrorMessage(campo: AbstractControl): String {
-    console.log("campo:",campo)
     if (campo.hasError('required')) {
 
       return "El campo es requerido"

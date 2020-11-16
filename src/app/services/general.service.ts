@@ -11,10 +11,14 @@ export class GeneralService {
     switch (estado) {
       case 'GENERADA':
         return 'badge badge-secondary'
-      case 'EN PRODUCCION':
+      case 'EN COLA':
         return 'badge badge-primary'
+      case 'EN PRODUCCION':
+        return 'badge badge-warning'
       case 'TERMINADA':
         return 'badge badge-success'
+      case 'ABORTADA':
+        return 'badge badge-danger'
     }
   }
 
