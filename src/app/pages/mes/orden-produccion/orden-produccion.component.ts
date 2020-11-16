@@ -1,9 +1,5 @@
 import { EstadoOrden } from './../../../enums/estado-orden.enum';
-import Swal from 'sweetalert2';
-import { GeneralService } from './../../../services/general.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { OrdenProduccionService } from './../../../services/orden-produccion.service';
-import { MatSort } from '@angular/material/sort';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-orden-produccion',
@@ -12,85 +8,51 @@ import { MatSort } from '@angular/material/sort';
 })
 export class OrdenProduccionComponent implements OnInit {
 
-  ordenes_produccion:any = []
+  @ViewChild('canvas', { static: true })
+
+  canvas: ElementRef<HTMLCanvasElement>;
+
+  private ctx: CanvasRenderingContext2D;
+  
   orden_generada= EstadoOrden.GENERADA
-  orden_en_produccion= EstadoOrden["EN PRODUCCION"]
-  orden_terminada= EstadoOrden.TERMINADA
-  titulos_columnas: string[] = [
-    'id',
-    'cliente',
-    'prioridad',
-    'referencia_producto',
-    'tipo_producto',
-    'presentacion_producto',
-    'cantidad',
-    'lotes_ejecutados',
-    'lotes_totales',
-    'fecha_inicio',
-    'fecha_terminado',
-    'estado',
-    // 'detalle',
-  ];
-  constructor(private ordenProduccionService: OrdenProduccionService,
-    private generalService: GeneralService) { 
-    this.ordenes_produccion = []
-  }
-
-  @ViewChild(MatSort) sort: MatSort;
-
-  ngAfterViewInit() {
-    this.ordenes_produccion.sort = this.sort;
-  }
 
   ngOnInit(): void {
-    this.consultarOrdenesProduccion();
+    this.ctx = this.canvas.nativeElement.getContext('2d');
+    this.animate()
   }
 
-  consultarOrdenesProduccion(){
-    this.ordenProduccionService.consultarOrdenesProduccion().then((res:any) => {
-      this.ordenes_produccion = res.data.map((orden:any) => {
-        return {
-          select: false,
-          ...orden
-        }
-      });      
-    })
-    .catch(err => {
-      console.error(err)
-    })
+  animate(): void {
+    const canvas = this.ctx.canvas;
+    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    this.ctx.fillStyle = 'red';
+    const square = new Square(this.ctx);
+    square.draw(5, 1, 20);
+    square.move(2, 30);
   }
 
-  colorBadgeEstadoOrden(estado: string){
-    return this.generalService.colorBadgeEstadoOrden(estado);
+  
+
+
+}
+
+export class Square {
+  constructor(private ctx: CanvasRenderingContext2D) { }
+
+  draw(x: number, y: number, z: number) {
+    this.ctx.fillRect(z * x, z * y, z, z);
   }
 
-  colorBadgePrioridad(nivel: number){
-    return this.generalService.colorBadgePrioridad(nivel);
+  move(y: number, z: number) {
+    const max = this.ctx.canvas.width / z;
+    const canvas = this.ctx.canvas;
+    let x = 0;
+    const i = setInterval(() => {
+      // this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+      this.draw(x, y, z);
+      x++;
+      if (x >= max) {
+        clearInterval(i);
+      }
+    }, 100);
   }
-
-  aprobar_ordenes(){
-    let ordenes = this.ordenes_produccion
-                  .filter(orden =>  orden.select)
-                  .map(orden => {
-                    return {id: orden.id}
-                  });
-    console.log("Ordenes seleccionadas para aprobar", ordenes)
-
-    this.ordenProduccionService.aprobar(ordenes).then(res=> {
-      // mensaje de se aprobo correctamente
-      Swal.fire("Aprobadas","Las ordenes de produccion han sido aprobadas",'success')
-      this.consultarOrdenesProduccion();
-    })
-    .catch(err => {
-      // mensaje ocurrio algun error
-      Swal.fire("Aprobacion Error", "Ocurrrio un error al intentar aprobar las ordenes de produccion", 'error')
-    })
-  }
-
-  detalle_orden_produccion(id: number){
-    console.log("Detalle de la orden de produccion")
-    // Navegar a una pantalla donde a traves del ID de la orden se puedan ver mas detalles
-
-  }
-
 }

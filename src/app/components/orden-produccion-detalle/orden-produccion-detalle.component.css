@@ -1,36 +1,45 @@
-.propiedad {
+.materias-primas {
+  margin-top: 2rem;
   font-size: 1.2rem;
-  font-weight: bold;
-  text-align: right;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-.valor {
-  font-size: 1.2rem;
-  text-align: left;
-  margin-top: 10px;
-  margin-bottom: 10px;
+.table-materias-primas {
+  width: 60%;
 }
+
+.right {
+  text-align: right;
+}
+
 
 .detalles {
-  /* width: ; */
   display: flex;
   justify-content: space-between;
   flex-direction: column;
 }
 
-@media (max-width: 767px) {
-  .propiedad {
-    font-size: 1.1rem;
-    text-align: left;
-    margin-top:0px;
-    margin-bottom: 0px;
-  }
-  .valor {
-    font-size: 1.1rem;
-    text-align: left;
-    margin-top:0px;
-    margin-bottom: 10px;
+
+
+@media (max-width: 991px) {
+  .table-materias-primas {
+    width: 100%;
   }
 }
+
+@media (min-width: 575px) and  (max-width: 767px) {
+  .materias-primas {
+    font-size: 1.1rem;
+  
+  }
+}
+
+@media (max-width: 575px){
+  .materias-primas {
+    font-size: 1rem;
+  
+  }
+}
+

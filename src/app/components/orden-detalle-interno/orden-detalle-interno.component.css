@@ -1,0 +1,61 @@
+.propiedad {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: left;
+  
+}
+
+.row-detalle {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.valor {
+  font-size: 1.2rem;
+  text-align: right;
+  
+}
+
+.detalles {
+  /* width: ; */
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+@media (min-width: 575px) and (max-width: 767px) {
+  .propiedad {
+    font-size: 1.1rem;
+    text-align: left;
+  }
+  .valor {
+    font-size: 1.1rem;
+    text-align: right;
+  }
+  .row-detalle {
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+}
+@media (max-width: 575px) {
+  .propiedad {
+    font-size: 1rem;
+    text-align: left;
+  }
+  .valor {
+    font-size: 1rem;
+    text-align: left;
+  }
+  .row-detalle {
+    margin-right:0px;
+    margin-left:0px
+  }
+
+  .row-detalle.propiedad {
+    margin-bottom: 0px;
+  }
+
+  .row-detalle.valor {
+    margin-top: 0px;
+  }
+}

@@ -1,0 +1,20 @@
+<!-- ******************************************** -->
+<!-- Fila con propiedad y valor -->
+<!-- ******************************************** -->
+<div class="row">
+  <div class="{{ class_propiedad || ' col-sm-6'}} propiedad row-detalle">
+    {{propiedad}}
+  </div>
+  <div class="{{ class_valor || ' col-sm-6'}} valor row-detalle">
+    <span *ngIf="valor != null">
+      {{valor}}
+    </span>
+    <div *ngIf="valor == null">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>
+<mat-divider></mat-divider>
+<!-- ******************************************** -->
+<!-- FIN Fila con propiedad y valor -->
+<!-- ******************************************** -->

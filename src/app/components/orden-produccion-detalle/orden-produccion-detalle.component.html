@@ -1,166 +1,34 @@
 <h2 mat-dialog-title>Detalle Orden Produccion: {{ data.id }}</h2>
 <mat-dialog-content class="mat-typography">
   <div class="container detalles">
-    <div class="row">
-      <div class="col-sm-6 propiedad">
-        Cliente:
-      </div>
-      <div class="col-sm-6 valor">
-        {{data.orden_pedido.cliente}}
-      </div>
-    </div>
-    <mat-divider></mat-divider>
-    <div class="row">
-      <div class="col-sm-6 propiedad">
-        Cantidad en Toneladas:
-      </div>
-      <div class="col-sm-6 valor">
-        {{data.cantidad}}
-      </div>
-    </div>
-    <mat-divider></mat-divider>
-
-    <div class="row">
-      <div class="col-sm-6 propiedad">
-        Lotes Ejecutados:
-      </div>
-      <div class="col-sm-6 valor">
-        {{data.lotes_ejecutados}}
-      </div>
-    </div>
-    <mat-divider></mat-divider>
-    <div class="row">
-      <div class="col-sm-6 propiedad">
-        Lotes Totales:
-      </div>
-      <div class="col-sm-6 valor">
-        {{data.lotes_totales}}
-      </div>
-    </div>
-    <mat-divider></mat-divider>
-    <div class="row">
-      <div class="col-sm-6 propiedad">
-        Cantidad de productos pedido:
-      </div>
-      <div class="col-sm-6 valor">
-        {{data.orden_pedido.cantidad}}
-      </div>
-    </div>
-    <mat-divider></mat-divider>
-
-    <div class="row">
-      <div class="col-sm-6 propiedad">
-        Estado:
-      </div>
-      <div class="col-sm-6 valor">
-        <span [class]="colorBadgeEstadoOrden(data.orden_pedido.estado)">
-          {{ data.orden_pedido.estado }}
-        </span>
-      </div>
-    </div>
-    <mat-divider></mat-divider>
-
-    <div class="row">
-      <div class="col-sm-6 propiedad">
-        Presentacion producto:
-      </div>
-      <div class="col-sm-6 valor">
-        {{ data.orden_pedido.presentacion_producto.descripcion }}
-      </div>
-    </div>
-    <mat-divider></mat-divider>
-
-    <div class="row">
-      <div class="col-sm-6 propiedad">
-        Prioridad:
-      </div>
-      <div class="col-sm-6 valor">
-        <span [class]="colorBadgePrioridad(data.orden_pedido.prioridad.nivel)">
-          {{data.orden_pedido.prioridad.descripcion.toUpperCase()}}
-        </span>
-      </div>
-    </div>
-    <mat-divider></mat-divider>
 
 
-    <div class="row">
-      <div class="col-sm-6 propiedad">
-        Referencia:
-      </div>
-      <div class="col-sm-6 valor">
-        {{data.orden_pedido.receta.referencia_producto.descripcion}}
-      </div>
-    </div>
-    <mat-divider></mat-divider>
+    <div class="row" *ngFor="let item of data_mostrar">
+      <app-orden-detalle-interno ngClass="col-lg-6" *ngIf="item.col_left != null"
+        [propiedad]="item.col_left.propiedad" [valor]="item.col_left.valor"
+        [class_propiedad]="item.col_left.class_propiedad" 
+        [class_valor]="item.col_left.class_valor">
+        <span [innerHTML]="item.col_left.template"></span>
 
-    <div class="row">
-      <div class="col-sm-6 propiedad">
-        Tipo:
-      </div>
-      <div class="col-sm-6 valor">
-        {{data.orden_pedido.receta.tipo_producto.descripcion}}
-      </div>
+      </app-orden-detalle-interno>
+      <app-orden-detalle-interno ngClass="col-lg-6"  *ngIf="item.col_right != null"
+        [propiedad]="item.col_right.propiedad" [valor]="item.col_right.valor"
+        [class_propiedad]="item.col_right.class_propiedad" 
+        [class_valor]="item.col_right.class_valor">
+        <span [innerHTML]="item.col_right.template"></span>
+      </app-orden-detalle-interno>
+      
     </div>
-    <mat-divider></mat-divider>
-    <div class="row">
-      <div class="col-sm-6 propiedad">
-        Temperatura Precalentamiento:
-      </div>
-      <div class="col-sm-6 valor">
 
-        {{data.orden_pedido.receta.temperatura_precalentamiento}}
-      </div>
-    </div>
-    <mat-divider></mat-divider>
-    <div class="row">
-      <div class="col-sm-6 propiedad">
-        Tiempo Precalentamiento:
-      </div>
-      <div class="col-sm-6 valor">
 
-        {{data.orden_pedido.receta.tiempo_precalentamiento}}
-
-      </div>
-    </div>
-    <mat-divider></mat-divider>
-    <div class="row">
-      <div class="col-sm-6 propiedad">
-        Temperatura Calentamiento:
-      </div>
-      <div class="col-sm-6 valor">
-
-        {{data.orden_pedido.receta.temperatura_calentamiento}}
-      </div>
-    </div>
-    <mat-divider></mat-divider>
-    <div class="row">
-      <div class="col-sm-6 propiedad">
-        Tiempo Premezclado:
-      </div>
-      <div class="col-sm-6 valor">
-
-        {{data.orden_pedido.receta.tiempo_premezclado}}
-      </div>
-    </div>
-    <mat-divider></mat-divider>
-    <div class="row">
-      <div class="col-sm-6 propiedad">
-        Tiempo Mezclado:
-      </div>
-      <div class="col-sm-6 valor">
-
-        {{data.orden_pedido.receta.tiempo_mezclado}}
-      </div>
-    </div>
-    <mat-divider></mat-divider>
     <div class="row">
       <div class="materias-primas">
         <table class="table table-materias-primas">
           <thead>
             <tr>
               <th>Materia Prima</th>
-              <th>Toneladas</th>
-              <th>Porcentaje</th>
+              <th class="right">Toneladas</th>
+              <th class="right">Porcentaje</th>
             </tr>
           </thead>
           <tbody>
