@@ -29,6 +29,7 @@ export class OrdenProduccionComponent implements OnInit {
       // ColumnsTable.fecha_inicio,
       // ColumnsTable.fecha_terminado,
       ColumnsTable.estado,
+      ColumnsTable.tiene_observaciones,
       ColumnsTable.materias_primas,
       ColumnsTable.detalle,
   ]

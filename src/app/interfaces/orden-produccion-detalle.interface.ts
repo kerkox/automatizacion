@@ -24,6 +24,7 @@ export interface OrdenProduccionDetalleFlat {
   tiempo_mezclado: number,
   tiempo_precalentamiento: number,
   tiempo_premezclado: number,
+  observaciones?:string
   materias_primas: MateriaPrimaDetalle[],
 
 }
@@ -35,6 +36,7 @@ export interface OrdenProduccionDetalle {
   id:number,
   lotes_ejecutados: number,
   lotes_totales: number,
+  observaciones?:string,
   orden_pedido: OrdenPedidoDetalle,
   created_at: Date
 }

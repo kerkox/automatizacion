@@ -125,6 +125,19 @@
       </td>
     </ng-container>
 
+    <!--  -->
+    <ng-container matColumnDef="tiene_observaciones">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Tiene Observaciones </th>
+      <td mat-cell *matCellDef="let element">
+        <!-- <span [class]="colorBadgeEstadoOrden(element.orden_pedido.estado)">
+          {{ element.orden_pedido.estado }}
+        </span> -->
+        <span [ngClass]="{'badge':true, 'badge-success': element.observaciones != null, 'badge-secondary': element.observaciones == null }">
+          {{ element.observaciones != null && 'SI' || 'NO' }}
+        </span>
+      </td>
+    </ng-container>
+
     <!-- Detalles  -->
     <ng-container matColumnDef="detalle">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>

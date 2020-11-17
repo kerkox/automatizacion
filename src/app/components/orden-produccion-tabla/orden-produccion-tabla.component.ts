@@ -32,6 +32,7 @@ export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit  {
     'fecha_inicio',
     'fecha_terminado',
     'estado',
+    'tiene_observaciones',
     'materias_primas',
     'detalle',
   ];
@@ -97,7 +98,8 @@ export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit  {
       temperatura_calentamiento:orden.orden_pedido.receta.temperatura_calentamiento,
       tiempo_premezclado:orden.orden_pedido.receta.tiempo_premezclado,
       tiempo_mezclado:orden.orden_pedido.receta.tiempo_mezclado,
-      materias_primas: orden.orden_pedido.receta.materias_primas
+      materias_primas: orden.orden_pedido.receta.materias_primas,
+      observaciones:orden.observaciones
     }
   }
 
@@ -182,4 +184,5 @@ export enum ColumnsTable {
   estado ='estado',
   materias_primas ='materias_primas',
   detalle ='detalle',
+  tiene_observaciones = 'tiene_observaciones'
 }
