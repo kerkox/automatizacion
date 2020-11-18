@@ -7,6 +7,10 @@
   margin-bottom: 20px;
 }
 
+.reintento-ejecutar {
+  margin-bottom: 20px;
+}
+
 .badge {
   font-size: 0.8rem;
 }
@@ -44,5 +48,18 @@ th.mat-sort-header-sorted {
 
 .columna-materias-primas {
   min-width: 200px;
+}
+.columna-prioridad{
+  min-width: 90px;
+  text-align: center;
+}
+
+.columna-referencia_producto{
+  min-width: 90px;
+  text-align: left;
+}
+.columna-tipo_producto{
+  min-width: 90px;
+  text-align: left;
 }
 

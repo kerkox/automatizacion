@@ -123,5 +123,8 @@
       }
     }
   },
-  "defaultProject": "automatizacion-Front"
+  "defaultProject": "automatizacion-Front",
+  "cli": {
+    "analytics": "d9c9ffa8-f0ba-438f-8121-c13f49b719d3"
+  }
 }

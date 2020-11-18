@@ -1,4 +1,8 @@
 <div class="caja-tabla">
+
+  <div *ngIf="showBotonReintentoEjecutar()" class="reintento-ejecutar">
+    <button mat-raised-button color="primary" (click)="reintentarOrdenes()">Reintentar Ejecutar</button>
+  </div>
   <div *ngIf="isGenerada" class="options">
     <button mat-raised-button color="primary" (click)="aprobar_ordenes()">Aprobar Ordenes</button>
   </div>
@@ -12,23 +16,23 @@
 
     <!-- Position Column -->
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
-      <td mat-cell *matCellDef="let element">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="columna-id"> No. </th>
+      <td mat-cell *matCellDef="let element" class="columna-id">
         <mat-checkbox color="primary" [(ngModel)]="element.select"> {{element.id}} </mat-checkbox>
       </td>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="cliente">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Cliente </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="columna-cliente"> Cliente </th>
       <!-- <td mat-cell *matCellDef="let element"> {{element.orden_pedido.cliente}} </td> -->
-      <td mat-cell *matCellDef="let element"> {{element.cliente}} </td>
+      <td mat-cell *matCellDef="let element" class="columna-cliente"> {{element.cliente}} </td>
     </ng-container>
 
     <!-- Weight Column -->
     <ng-container matColumnDef="prioridad">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Prioridad </th>
-      <td mat-cell *matCellDef="let element">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="columna-prioridad"> Prioridad </th>
+      <td mat-cell *matCellDef="let element" class="columna-prioridad">
         <!-- <span [class]="colorBadgePrioridad(element.orden_pedido.prioridad.nivel)">
           {{element.orden_pedido.prioridad.descripcion.toUpperCase()}}
         </span> -->
@@ -40,30 +44,30 @@
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="referencia_producto">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Referencia </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="columna-referencia_producto"> Referencia </th>
       <!-- <td mat-cell *matCellDef="let element"> {{element.orden_pedido.receta.referencia_producto.descripcion}} </td> -->
-      <td mat-cell *matCellDef="let element"> {{element.referencia_producto_descripcion}} </td>
+      <td mat-cell *matCellDef="let element" class="columna-referencia_producto"> {{element.referencia_producto_descripcion}} </td>
     </ng-container>
 
     <!--  -->
     <ng-container matColumnDef="tipo_producto">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="columna-tipo_producto"> Tipo </th>
       <!-- <td mat-cell *matCellDef="let element"> {{element.orden_pedido.receta.tipo_producto.descripcion}} </td> -->
-      <td mat-cell *matCellDef="let element"> {{element.tipo_producto_descripcion}} </td>
+      <td mat-cell *matCellDef="let element" class="columna-tipo_producto"> {{element.tipo_producto_descripcion}} </td>
     </ng-container>
 
     <!--  -->
     <ng-container matColumnDef="presentacion_producto">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Presentacion </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="columna-presentacion_producto"> Presentacion </th>
       <!-- <td mat-cell *matCellDef="let element"> {{element.orden_pedido.presentacion_producto.descripcion}} </td> -->
-      <td mat-cell *matCellDef="let element"> {{element.presentacion_descripcion}} </td>
+      <td mat-cell *matCellDef="let element" class="columna-presentacion_producto"> {{element.presentacion_descripcion}} </td>
     </ng-container>
 
     <!--  -->
     <ng-container matColumnDef="cantidad">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad (Ton) </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="columna-cantidad"> Cantidad (Ton) </th>
       <!-- <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td> -->
-      <td mat-cell *matCellDef="let element"> {{element.cantidad_toneladas | number }} </td>
+      <td mat-cell *matCellDef="let element" class="columna-cantidad"> {{element.cantidad_toneladas | number }} </td>
     </ng-container>
 
     <!--  -->
