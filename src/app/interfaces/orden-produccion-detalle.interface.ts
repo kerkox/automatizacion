@@ -2,6 +2,7 @@ import { Prioridad } from './prioridad.interface';
 import { EstadoOrden } from './../enums/estado-orden.enum';
 
 export interface OrdenProduccionDetalleFlat {
+  
   cantidad_toneladas: number,
   fecha_inicio?: Date
   fecha_terminado?: Date
@@ -30,6 +31,7 @@ export interface OrdenProduccionDetalleFlat {
 }
 
 export interface OrdenProduccionDetalle {
+  select?: boolean,
   cantidad: number,
   fecha_inicio?: Date
   fecha_terminado?: Date

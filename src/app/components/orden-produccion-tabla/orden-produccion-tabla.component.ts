@@ -165,6 +165,31 @@ export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit  {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  reintentarOrdenes() {
+    if (!this.isNotEnProduccion()) return;
+    this.ordenProduccionService.ejecutarOrden({ id: this.ordenes_produccion[0].id })
+      .then(res => {
+        Swal.fire("Ejecutada", "La ordenes de produccion ha sido ejecutada", 'success')
+        console.log("res", res)
+        this.consultarOrdenesProduccion();
+      })
+      .catch(err => {
+        console.log("err", err)
+        const message = err.error.message;
+        Swal.fire("Ejecucion Error", `Ocurrrio un error al intentar ejecutar la orden: \n<br><strong>${message}</strong>`, 'error')
+        this.consultarOrdenesProduccion();
+      })
+
+  }
+
+  isNotEnProduccion(): boolean {
+    return this.ordenes_produccion.filter(orden => orden.orden_pedido.estado == EstadoOrden["EN PRODUCCION"]).length == 0
+  }
+
+  showBotonReintentoEjecutar(): boolean {
+    return this.isNotEnProduccion() && this.estadosOrden.includes(EstadoOrden["EN PRODUCCION"])
+  }
+
 
 }
 

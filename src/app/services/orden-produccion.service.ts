@@ -20,5 +20,9 @@ export class OrdenProduccionService {
     return this.api.post(types.API.OrdenProduccionAprobar, ordenProduccionAprobar)
   }
 
+  ejecutarOrden(ordenProduccionAprobar: OrdenProduccionAprobar){
+    return this.api.post(types.API.OrdenProduccionEjecutar, ordenProduccionAprobar)
+  }
+
 
 }
