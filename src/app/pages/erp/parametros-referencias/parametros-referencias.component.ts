@@ -4,6 +4,7 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '
 import { materiaPrima } from './../../../interfaces/materiaPrima.interface';
 import { RecetasService } from './../../../services/recetas.service';
 import { MateriaPrimaService } from './../../../services/materia-prima.service';
+import Swal from 'sweetalert2'
 
 
 @Component({
@@ -203,6 +204,8 @@ export class ParametrosReferenciasComponent implements OnInit {
       this.cargarRecetas();
     })
     .catch(err => {
+      const message = err.error.message;
+      Swal.fire('Error al borrar', message,'error')
       console.error(err)
     })
   }
