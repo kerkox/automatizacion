@@ -1,3 +1,4 @@
+import { Role } from './../enums/roles.enum';
 import { Usuario } from './../models/usuario.model';
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -35,7 +36,7 @@ export class UsuarioService {
     return localStorage.getItem('token') || '';
   }
 
-  get role(): 'ADMINISTRATIVO' | 'INGENIERO_QUIMICO' {
+  get role(): Role {
     return this.usuario.role;
   }
 
@@ -93,7 +94,10 @@ export class UsuarioService {
         localStorage.setItem('token', resp.data.token);
       }),
       map(resp =>{
-        // console.log("resp", resp)
+        console.log("resp renew", resp)
+        const { email, id, lastname, name, role } = resp.data
+        this.usuario = new Usuario(name, lastname, email, role, id)
+        console.log("Se creo el usuario:", this.usuario)
         return true;
       } ),
       catchError(error =>{

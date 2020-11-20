@@ -1,17 +1,20 @@
 import { environment } from '../../environments/environment';
+import { Role } from '../enums/roles.enum';
 
 const base_url = environment.base_url;
 
 export class Usuario {
 
   constructor(
-    public nombre: string,
+    public name: string,
+    public lastname: string,
     public email: string,
+    public role?: Role,
+    public id?: number,
     public password?: string,
     public img?: string,
     public google?: boolean,
-    public role?: 'ADMINISTRATIVO' | 'INGENIERO_QUIMICO',
-    public uid?: string,
+    public uid?: string
   ) { }
 
   get imagenUrl() {
