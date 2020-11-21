@@ -35,7 +35,7 @@ export class AuthGuard implements CanActivate, CanLoad {
     return this.usuarioService.validarToken()
       .pipe(
         tap(estaAutenticado => {
-          console.log("estaAutenticado",estaAutenticado)
+          // console.log("estaAutenticado",estaAutenticado)
           if (!estaAutenticado) {
             this.router.navigateByUrl('/login');
           }

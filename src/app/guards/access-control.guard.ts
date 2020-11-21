@@ -31,8 +31,6 @@ export class AccessControlGuard implements CanActivate {
     let valid = false;
     for( let modulo of this.sidebarService.cargarMenu(this.usuarioService.role)){
       for(let menu of modulo.menus){
-        console.log("menu.path", menu.path)
-        console.log("url: ", url)
         if(menu.path == url){
           valid = true;
           break;
