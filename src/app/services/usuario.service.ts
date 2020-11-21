@@ -94,10 +94,10 @@ export class UsuarioService {
         localStorage.setItem('token', resp.data.token);
       }),
       map(resp =>{
-        console.log("resp renew", resp)
+        // console.log("resp renew", resp)
         const { email, id, lastname, name, role } = resp.data
         this.usuario = new Usuario(name, lastname, email, role, id)
-        console.log("Se creo el usuario:", this.usuario)
+        // console.log("Se creo el usuario:", this.usuario)
         return true;
       } ),
       catchError(error =>{

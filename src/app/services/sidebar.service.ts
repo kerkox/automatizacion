@@ -8,6 +8,12 @@ export class SidebarService {
 
   MODULOS: any[] = [
     {
+      name:'DASHBOARD',
+      menus:[
+        {path: '/dashboard', 'name': 'Dashboard', roles:[Role.ADMIN,Role.ADMINISTRATIVO,Role.INGENIERO_QUIMICO,Role.OPERARIO]}
+      ]
+    },
+    {
       name: 'ERP',
       menus: [
         { path: '/erp/inventario', name: 'Inventario', roles:[Role.ADMIN, Role.ADMINISTRATIVO] },
@@ -39,7 +45,7 @@ export class SidebarService {
   }
 
   private filterByRole(role: Role){
-    console.log("rol a filtrar", role)
+    // console.log("rol a filtrar", role)
     let modulos_filter = []
     for (let modulo of this.MODULOS) {
       let module_filter = JSON.parse(JSON.stringify(modulo));
