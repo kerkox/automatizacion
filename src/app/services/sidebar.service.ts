@@ -32,7 +32,7 @@ export class SidebarService {
     {
       name: 'Sistema de Control',
       menus: [
-
+        {path: '/control/sistema-control', name:'Sistema Control', roles: [Role.ADMIN, Role.OPERARIO]}
       ]
     }
 

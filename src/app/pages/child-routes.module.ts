@@ -2,7 +2,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccessControlGuard } from '../guards/access-control.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ControlComponent } from '../components/control/control.component';
 import { ErpComponent } from './erp/erp.component';
 import { InventarioComponent } from './erp/inventario/inventario.component';
 import { MateriaPrimaComponent } from './erp/materia-prima/materia-prima.component';
@@ -11,6 +10,8 @@ import { ParametrosReferenciasComponent } from './erp/parametros-referencias/par
 import { MesComponent } from './mes/mes.component';
 import { OrdenProduccionComponent } from './mes/orden-produccion/orden-produccion.component';
 import { OrdenProduccionAprobadaComponent } from './mes/orden-produccion-aprobada/orden-produccion-aprobada.component';
+import { SistemaControlComponent } from './control/sistema-control/sistema-control.component';
+import { ControlComponent } from './control/control.component';
 
 // Mantenimientos
 // import { AdminGuard } from '../guards/admin.guard';
@@ -37,7 +38,12 @@ const childRoutes: Routes = [
       { path: 'orden-produccion-aprobada', canActivate: [AccessControlGuard], component: OrdenProduccionAprobadaComponent, data: {titulo: 'Orden Producción Aprobadas'} }
     ]
   },
-  { path: 'control', component: ControlComponent },
+  { 
+    path: 'control', component: ControlComponent,
+    children: [
+      { path: 'sistema-control', canActivate: [AccessControlGuard], component: SistemaControlComponent, data: { titulo: 'Sistema Control'}}
+    ]
+  },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 
 ]
@@ -47,6 +53,5 @@ const childRoutes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(childRoutes)],
   exports: [RouterModule],
-  declarations: []
 })
 export class ChildRoutesModule { }

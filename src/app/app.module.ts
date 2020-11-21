@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ErpComponent } from './pages/erp/erp.component';
 import { MesComponent } from './pages/mes/mes.component';
 import { OrdenPedidoComponent } from './pages/erp/orden-pedido/orden-pedido.component';
-import { ControlComponent } from './components/control/control.component';
+import { ControlComponent } from './pages/control/control.component';
 import { ParametrosReferenciasComponent } from './pages/erp/parametros-referencias/parametros-referencias.component';
 import { MateriaPrimaComponent } from './pages/erp/materia-prima/materia-prima.component';
 import { LoadingComponent } from './components/shared/loading/loading.component';
