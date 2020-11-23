@@ -38,6 +38,7 @@ import { AnimacionComponent } from './components/animacion/animacion.component';
 @NgModule({
   declarations: [
     AppComponent,
+    AnimacionComponent,
     NavbarComponent,
     ErpComponent,
     MesComponent,
@@ -60,7 +61,6 @@ import { AnimacionComponent } from './components/animacion/animacion.component';
     OrdenProduccionAprobadaComponent,
     OrdenProduccionDetalleComponent,
     OrdenDetalleInternoComponent,
-    AnimacionComponent    
   ],
   imports: [
     BrowserModule,
