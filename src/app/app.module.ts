@@ -30,6 +30,7 @@ import { OrdenProduccionAprobadaComponent } from './pages/mes/orden-produccion-a
 import { OrdenProduccionTablaComponent } from './components/orden-produccion-tabla/orden-produccion-tabla.component';
 import { OrdenProduccionDetalleComponent } from './components/orden-produccion-detalle/orden-produccion-detalle.component';
 import { OrdenDetalleInternoComponent } from './components/orden-detalle-interno/orden-detalle-interno.component';
+import { AnimacionComponent } from './components/animacion/animacion.component';
 
 
 
@@ -58,7 +59,8 @@ import { OrdenDetalleInternoComponent } from './components/orden-detalle-interno
     OrdenProduccionTablaComponent,
     OrdenProduccionAprobadaComponent,
     OrdenProduccionDetalleComponent,
-    OrdenDetalleInternoComponent    
+    OrdenDetalleInternoComponent,
+    AnimacionComponent    
   ],
   imports: [
     BrowserModule,
