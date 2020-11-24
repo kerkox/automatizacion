@@ -1,3 +1,5 @@
+import { Dimension, TanqueDimension } from './interfaces/tanqueDimension.interface';
+import { Rectangle } from './rectangle.animation';
 export class Tanque {
 
   _colorTanque = '#A0A0A0';
@@ -18,6 +20,10 @@ export class Tanque {
   _anchoSimbolo = 90;
   _altoSimbolo = 90;
 
+  _posX: number = 0;
+  _posY: number = 0;
+  _size: number = 1;
+
   constructor(private ctx: CanvasRenderingContext2D){
 
   }
@@ -27,17 +33,43 @@ export class Tanque {
  * @param y position X
  * @param size multiplo para el tamaño del tanque
  */
-  setPosition(x:number,y: number,size: number){
-
+  setPosition(x:number,y: number,size: number  = 1){
+    this._posX = x;
+    this._posY = y;
+    this._size = size;
   }
 
   draw(){
     //Taque y bloques de fondo
     this.ctx.fillStyle = this._colorTanque; //tanqueprincipal
-    this.ctx.fillRect(90, 87, 181, 181);
-    this.ctx.fillRect(34, 87, 100, 38);
-    this.ctx.fillRect(227, 87, 100, 38);
-    this.ctx.fillRect(150, 268, 62, 76);
+    const r_left = new Rectangle(this.ctx)
+    const r_right = new Rectangle(this.ctx)
+    const r_center = new Rectangle(this.ctx)
+    const r_bottom = new Rectangle(this.ctx)
+
+    const { left, center, right, bottom } =  this.calculatePosAndSizeTanque(this._posX, this._posY, this._size )
+
+
+    r_left.draw(left);
+    r_center.draw(center);
+    r_right.draw(right);
+    r_bottom.draw(bottom);
+    
+    // this.ctx.fillRect(34, 87, 100, 38); // left 
+    // this.ctx.fillRect(90, 87, 181, 181); // central
+    // this.ctx.fillRect(150, 268, 62, 76); // botom
+    // this.ctx.fillRect(227, 87, 100, 38); // right
+  }
+
+  private calculatePosAndSizeTanque(x:number,y: number,size: number): TanqueDimension{
+    let tanqueDimensions: TanqueDimension;
+    const left: Dimension = { posX: x, posY: y, width: 56 * size, height: 38 * size }
+    const center: Dimension = { posX: left.posX + left.width, posY: y, width: 180 * size, height: 180 * size}
+    const right: Dimension = { posX: center.posX + center.width, posY: y, width: 56 * size, height: 38 * size}
+    const bottom: Dimension = { posX: center.posX + (60 * size), posY: center.posY + center.height, width: 60 * size, height: 76 * size}
+    
+    tanqueDimensions = { left, center, right, bottom}
+    return tanqueDimensions;
   }
 
   set colorTanque(color :string) {
