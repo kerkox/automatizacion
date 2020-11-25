@@ -1,3 +1,6 @@
+import { Arrow } from './arrow.animation';
+import { Util } from './util.animation';
+import { SizePos } from './interfaces/sizePos.interface';
 import { Dimension, TanqueDimension } from './interfaces/tanqueDimension.interface';
 import { Rectangle } from './rectangle.animation';
 export class Tanque {
@@ -24,10 +27,13 @@ export class Tanque {
   _posY: number = 0;
   _size: number = 1;
 
+  _showLeft: boolean = true;
+  _showRight: boolean = true;
+
   _tanqueDimension: TanqueDimension;
 
   constructor(private ctx: CanvasRenderingContext2D){
-
+    this.ctx.fillStyle = this._colorTanque; //tanqueprincipal
   }
 /**
  * 
@@ -41,20 +47,31 @@ export class Tanque {
     this._size = size;
   }
 
+  set showLeft(show:boolean) {
+    this._showLeft = show;
+  }
+
+  set showRight(show:boolean) {
+    this._showRight = show;
+  }
+
   draw(){
-    //Taque y bloques de fondo
-    this.ctx.fillStyle = this._colorTanque; //tanqueprincipal
-    const r_left = new Rectangle(this.ctx)
-    const r_right = new Rectangle(this.ctx)
-    const r_center = new Rectangle(this.ctx)
-    const r_bottom = new Rectangle(this.ctx)
     this._tanqueDimension = this.calculatePosAndSizeTanque(this._posX, this._posY, this._size)
     const { left, center, right, bottom } = this._tanqueDimension
+    //Taque y bloques de fondo
+    if(this._showLeft){
+      const r_left = new Rectangle(this.ctx)
+      r_left.draw(left);
+    }
+    if (this._showRight) {
+      const r_right = new Rectangle(this.ctx)
+      r_right.draw(right);
+    }
 
-
-    r_left.draw(left);
+    const r_center = new Rectangle(this.ctx)
     r_center.draw(center);
-    r_right.draw(right);
+
+    const r_bottom = new Rectangle(this.ctx)
     r_bottom.draw(bottom);
     
     // this.ctx.fillRect(34, 87, 100, 38); // left 
@@ -76,11 +93,13 @@ export class Tanque {
 
   set colorTanque(color :string) {
     this._colorTanque = color;
+    this.ctx.fillStyle = this._colorTanque
   }
 
   llenar() {
     //liquidos y compuerta
     //liquido a la izquierda
+    
     this.leftFluid(this._colorLiquidoA)
     // this.ctx.fillStyle = this._colorLiquidoA;  
     // this.ctx.fillRect(34, 90, 57, 32);
@@ -104,30 +123,71 @@ export class Tanque {
 
 
     //simbolo
-    this.ctx.fillStyle = this._colorSimboloA;    //Caja simbolo
-    this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
-    this.ctx.fillStyle = this._colorSimboloB;    //lo que carga
-    this.ctx.fillRect(this._posXsimbolo + 5, this._posYsimbolo + 5, this._anchoSimbolo - 10, this._altoSimbolo - 10);
+    //Caja simbolo
+    // this.ctx.fillStyle = this._colorSimboloA;    
+    // this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
+    this.simbolBox(this._colorSimboloA, this._colorSimboloB, this._colorSimboloF)
 
-    this.ctx.fillStyle = this._colorSimboloF; //Laflecha
-    this.ctx.fillRect(this._posXsimbolo + 33, this._posYsimbolo + 45, this._anchoSimbolo - 66, this._altoSimbolo - 55);
-    this.ctx.beginPath(); //El trinagulo de arriba
-    this.ctx.moveTo(this._posXsimbolo + 15, this._posYsimbolo + 45);
-    this.ctx.lineTo(this._posXsimbolo + 75, this._posYsimbolo + 45);
-    this.ctx.lineTo(this._posXsimbolo + 45, this._posYsimbolo + 10);
-    //c.fillStyle=colorSimboloC;
-    this.ctx.fill();
+
+
+    // this.ctx.fillStyle = this._colorSimboloB;    //lo que carga
+    // this.ctx.fillRect(this._posXsimbolo + 5, this._posYsimbolo + 5, this._anchoSimbolo - 10, this._altoSimbolo - 10);
+
+    // this.ctx.fillStyle = this._colorSimboloF; //Laflecha
+    // this.ctx.fillRect(this._posXsimbolo + 33, this._posYsimbolo + 45, this._anchoSimbolo - 66, this._altoSimbolo - 55);
+    // this.ctx.beginPath(); //El trinagulo de arriba
+    // let posY = this._posYsimbolo + 45
+    // this.ctx.moveTo(this._posXsimbolo + 15, posY);
+    // this.ctx.lineTo(this._posXsimbolo + 75, posY);
+    // this.ctx.lineTo(this._posXsimbolo + 45, this._posYsimbolo + 10);
+    // //c.fillStyle=colorSimboloC;
+    // this.ctx.fill();
+  }
+
+  private simbolBox(color:string, colorContent:string, colorArrow:string){
+    const { center } = this._tanqueDimension;
+    const simbolDimension = this.drawSimbolBox(this.ctx,color,center)
+    this.drawSimbolContent(this.ctx,colorContent, simbolDimension)
+    this.drawSimbolArrow(this.ctx, colorArrow,simbolDimension)
+  }
+
+  private drawSimbolContent(ctx: CanvasRenderingContext2D, color: string, simbolDimension: Dimension) {
+    const r_simbol = new Rectangle(ctx);
+    const { posX, posY, width, height } = simbolDimension
+    const { size: width_simbol_content, pos: posX_simbol_content } = Util.calculateSizePos(width, posX,95)
+    const { size: height_simbol_content, pos: posY_simbol_content } = Util.calculateSizePos(height, posY, 95)
+    const dimension: Dimension = { posX: posX_simbol_content, posY: posY_simbol_content, width: width_simbol_content, height: height_simbol_content }
+    r_simbol.color = color;
+    r_simbol.draw(dimension);
+  }
+
+  private drawSimbolArrow(ctx: CanvasRenderingContext2D, color: string, simbolDimension: Dimension) {
+    const arrow = new Arrow(ctx)
+    arrow.draw(simbolDimension)
+  }
+
+  private drawSimbolBox(ctx: CanvasRenderingContext2D,color: string, centerDimension: Dimension): Dimension{
+    const r_simbol = new Rectangle(ctx);
+    const { posX, posY, width, height } = centerDimension
+    const width_simbol = Math.ceil(width / 2);
+    const height_simbol = Math.ceil(height / 2);
+    const posX_simbol = posX + Math.floor((height - height_simbol)/2);
+    const posY_simbol = posY + Math.floor((width - width_simbol)/2);
+    const dimension:Dimension = { posX: posX_simbol, posY:posY_simbol, width:width_simbol, height:height_simbol }
+    r_simbol.color = color;
+    r_simbol.draw(dimension);
+    return dimension;
   }
 
   private bottomCover(color: string){
     // tapa de abajo
     const { bottom } = this._tanqueDimension;
-    this.drawBottomCover(color, bottom)
+    this.drawBottomCover(this.ctx,color, bottom)
   }
 
-  private drawBottomCover(color: string, bottomDimension:Dimension) {
+  private drawBottomCover(ctx: CanvasRenderingContext2D,color: string, bottomDimension:Dimension) {
     
-    const r_bottomCover = new Rectangle(this.ctx);
+    const r_bottomCover = new Rectangle(ctx);
     r_bottomCover.color = color;
     const { posX, posY, width, height } = bottomDimension
     const dimension: Dimension = { posX, posY, width, height: height * 0.5 }
@@ -137,11 +197,13 @@ export class Tanque {
 
   private leftFluid(color:  string){
     //liquido a la izquierda
+    if(!this._showLeft) return;
     const { left } = this._tanqueDimension;
     this.drawFluid(this.ctx, left, color)    
   }
   private rightFluid(color: string){
     //liquido a la derecha
+    if (!this._showRight) return;
     const { right } = this._tanqueDimension;
     this.drawFluid(this.ctx, right, color)    
 
@@ -150,8 +212,7 @@ export class Tanque {
   private drawFluid(ctx: CanvasRenderingContext2D, sideFluid: Dimension, color:string){
     const r_fluid = new Rectangle(ctx)
     const {  posX, posY, width, height }  = sideFluid
-    let height_fluid = Math.floor(height * 0.80);
-    let posY_fluid = posY + Math.ceil((height - height_fluid) / 2)
+    const { size: height_fluid, pos: posY_fluid } = Util.calculateSizePos(height, posY,80)
     
     const dimension: Dimension = { posX, posY: posY_fluid, width, height: height_fluid  }
 
@@ -175,8 +236,7 @@ export class Tanque {
 
   private percentMezcla(centerFluid: Dimension, percent:number): Dimension{
     const { posX, posY, width, height } = centerFluid
-    const width_mezcla = Math.floor(width * 0.94)
-    const posX_mezcla = posX + Math.ceil((width - width_mezcla) /2 )
+    const { size: width_mezcla, pos: posX_mezcla} = Util.calculateSizePos(width, posX,94)
     
     const height_mezcla = (height * 0.95)
     const height_percent = height_mezcla * (percent / 100)

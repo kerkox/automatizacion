@@ -63,12 +63,19 @@ export class AnimacionComponent implements OnInit {
   dibujar() {
     this.ctx.clearRect(0, 0, 360, 360); //limpiar ventana
     const tanque =  new Tanque(this.ctx);
-    tanque.setPosition(100,100, 1)
+    const tanque2 =  new Tanque(this.ctx);
+    tanque.setPosition(10,10, 0.8)
     tanque.draw();
+
+    tanque2.setPosition(250,10, 0.8)
+    tanque2.showLeft = false;
+    tanque2.showRight = false;
+    tanque2.draw();
 
     switch(this.estado){
       case 1:
         tanque.llenar();
+        tanque2.llenar();
         break;
       case 2: 
         tanque.mezclar()
