@@ -22,4 +22,8 @@ export class SidebarComponent implements OnInit {
     this.modulos = this.sidebarService.cargarMenu(this.usuarioService.usuario.role);
   }
 
+  nothing() {
+    
+  }
+
 }

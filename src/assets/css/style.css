@@ -752,6 +752,17 @@ File: scss
 /*******************
 Main sidebar
 ******************/
+li.user-profile {
+  display: flex;
+  padding: 14px 14px 14px 20px;
+}
+li > div.title {
+  color: white;
+  display: flex;
+  font-weight: 500;
+}
+
+
 .left-sidebar {
   position: absolute;
   width: 245px;

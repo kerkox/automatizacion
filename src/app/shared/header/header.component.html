@@ -202,7 +202,7 @@
                   <div class="u-text">
                     <h4>{{usuario.name}}</h4>
                     <p class="text-muted">{{usuario.email}}</p>
-                    <h5>Role: {{usuario.role}}</h5>
+                    <h5>Role: {{ usuario.role.toString().replace("_"," ") }}</h5>
                     <!-- <span class="btn btn-rounded btn-danger btn-sm">Ver perfil</span> -->
                   </div>
                 </div>
