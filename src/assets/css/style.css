@@ -49,6 +49,7 @@ File: scss
 /******************* 
 Global Styles 
 *******************/
+@import url(./icons/themify-icons/themify-icons.css);
 @import url(./icons/font-awesome/css/font-awesome.css);
 @import url(../css/spinners.css);
 @import url(../css/animate.css);
