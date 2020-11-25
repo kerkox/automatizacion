@@ -1,0 +1,12 @@
+.gray {
+  width: 850px;
+  height: 850px;
+  padding: 10px;
+  background-color: rgb(230, 230, 230);
+  display: flex;
+  justify-content: center;
+}
+
+#canvas {
+ display: flex;
+}

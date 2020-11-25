@@ -3,7 +3,7 @@ import { Rectangle } from './rectangle.animation';
 export class Tanque {
 
   _colorTanque = '#A0A0A0';
-  _colorEtradas = '#505050';
+  _colorEntradas = '#505050';
   _colorLiquidoA = '#FACB52';
   _colorLiquidoB = '#2D61FA';
   _colorMezcla = '#9CFA20';
@@ -97,9 +97,10 @@ export class Tanque {
     this.mezcla(50, this._colorMezcla)
 
 
-
-    this.ctx.fillStyle = this._colorEtradas; //tapa abajo
-    this.ctx.fillRect(150, 268, 62, 18);
+    // tapa abajo
+    // this.ctx.fillStyle = this._colorEtradas; 
+    // this.ctx.fillRect(150, 268, 62, 18);
+    this.bottomCover(this._colorEntradas)
 
 
     //simbolo
@@ -118,6 +119,22 @@ export class Tanque {
     this.ctx.fill();
   }
 
+  private bottomCover(color: string){
+    // tapa de abajo
+    const { bottom } = this._tanqueDimension;
+    this.drawBottomCover(color, bottom)
+  }
+
+  private drawBottomCover(color: string, bottomDimension:Dimension) {
+    
+    const r_bottomCover = new Rectangle(this.ctx);
+    r_bottomCover.color = color;
+    const { posX, posY, width, height } = bottomDimension
+    const dimension: Dimension = { posX, posY, width, height: height * 0.5 }
+    r_bottomCover.draw(dimension)
+    
+  }
+
   private leftFluid(color:  string){
     //liquido a la izquierda
     const { left } = this._tanqueDimension;
@@ -127,19 +144,23 @@ export class Tanque {
     //liquido a la derecha
     const { right } = this._tanqueDimension;
     this.drawFluid(this.ctx, right, color)    
+
   }
 
   private drawFluid(ctx: CanvasRenderingContext2D, sideFluid: Dimension, color:string){
     const r_fluid = new Rectangle(ctx)
     const {  posX, posY, width, height }  = sideFluid
-    const dimension: Dimension = { posX, posY: posY * 1.03, width, height: height * 0.87 }
+    let height_fluid = Math.floor(height * 0.80);
+    let posY_fluid = posY + Math.ceil((height - height_fluid) / 2)
+    
+    const dimension: Dimension = { posX, posY: posY_fluid, width, height: height_fluid  }
+
     r_fluid.color = color;
     r_fluid.draw(dimension);
   }
 
 
   private mezcla(percent:number, color: string) {
-    // this.ctx.fillStyle = this._colorMezcla;
     const { center } = this._tanqueDimension;
     this.drawMezcla(this.ctx, center,percent, color)    
     
@@ -154,11 +175,14 @@ export class Tanque {
 
   private percentMezcla(centerFluid: Dimension, percent:number): Dimension{
     const { posX, posY, width, height } = centerFluid
-    const height_percent = (height * 0.95) * (percent / 100)
-    const posY_percent = (posY * 1.05) + ((height * 0.95) - height_percent)
-    const dimension: Dimension = { posX: posX * 1.05, posY: posY_percent, width: width * 0.95, height:  height_percent}
-    // this.ctx.fillRect(90, 87, 181, 181); // central
-    // this.ctx.fillRect(95, 223, 171, 40);
+    const width_mezcla = Math.floor(width * 0.94)
+    const posX_mezcla = posX + Math.ceil((width - width_mezcla) /2 )
+    
+    const height_mezcla = (height * 0.95)
+    const height_percent = height_mezcla * (percent / 100)
+    const posY_percent = (posY * 1.05) + (height_mezcla - height_percent)
+    const dimension: Dimension = { posX: posX_mezcla , posY: posY_percent, width: width_mezcla, height:  height_percent}
+    
     return dimension;
   }
 
@@ -169,7 +193,7 @@ export class Tanque {
       //liquidos y compuertas
       this.ctx.fillStyle = this._colorMezcla; //la mescla
       this.ctx.fillRect(95, 128, 171, 133);
-      this.ctx.fillStyle = this._colorEtradas; //tapas
+      this.ctx.fillStyle = this._colorEntradas; //tapas
       this.ctx.fillRect(150, 268, 62, 18); //abajo
       this.ctx.fillRect(271, 87, 18, 38); //derecha
       this.ctx.fillRect(72, 87, 18, 38); //izquierda
@@ -192,7 +216,7 @@ export class Tanque {
     this.ctx.fillStyle = this._colorMezcla; //la mescla
     this.ctx.fillRect(95, 128, 171, 133);
     this.ctx.fillRect(155, 261, 52, 83);
-    this.ctx.fillStyle = this._colorEtradas; //tapas
+    this.ctx.fillStyle = this._colorEntradas; //tapas
     this.ctx.fillRect(271, 87, 18, 38); //derecha
     this.ctx.fillRect(72, 87, 18, 38); //izquierda
 
@@ -233,7 +257,7 @@ export class Tanque {
 
   noDisponible(){
     //Tapas del tanque
-    this.ctx.fillStyle = this._colorEtradas; //tapas
+    this.ctx.fillStyle = this._colorEntradas; //tapas
     this.ctx.fillRect(150, 268, 62, 18); //abajo
     this.ctx.fillRect(271, 87, 18, 38); //derecha
     this.ctx.fillRect(72, 87, 18, 38); //izquierda
