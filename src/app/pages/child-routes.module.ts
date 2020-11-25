@@ -23,7 +23,7 @@ const childRoutes: Routes = [
   {
     path: 'erp',
     component: ErpComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     loadChildren: () => import('./erp/child-routes-erp.module').then(m => m.ChildRoutesErpModule)
   },
   {
@@ -37,7 +37,10 @@ const childRoutes: Routes = [
   { 
     path: 'control', component: ControlComponent,
     children: [
-      { path: 'sistema-control', canActivate: [AccessControlGuard], component: SistemaControlComponent, data: { titulo: 'Sistema Control'}}
+      { 
+        path: 'sistema-control',
+        canActivate: [AccessControlGuard],
+        component: SistemaControlComponent, data: { titulo: 'Sistema Control'}}
     ]
   },
   

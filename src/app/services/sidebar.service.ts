@@ -10,29 +10,29 @@ export class SidebarService {
     {
       name:'DASHBOARD',
       menus:[
-        {path: '/dashboard', 'name': 'Dashboard', roles:[Role.ADMIN,Role.ADMINISTRATIVO,Role.INGENIERO_QUIMICO,Role.OPERARIO]}
+        {path: '/app', 'name': 'Dashboard', roles:[Role.ADMIN,Role.ADMINISTRATIVO,Role.INGENIERO_QUIMICO,Role.OPERARIO]}
       ]
     },
     {
       name: 'ERP',
       menus: [
-        { path: '/erp/inventario', name: 'Inventario', roles:[Role.ADMIN, Role.ADMINISTRATIVO] },
-        { path: '/erp/orden-pedido', name: 'Orden Pedido', roles: [Role.ADMIN, Role.ADMINISTRATIVO] },
-        { path: '/erp/materia-prima', name: 'Materia Prima', roles: [Role.ADMIN, Role.INGENIERO_QUIMICO] },
-        { path: '/erp/parametros-referencia', name: 'Parametros Referencia', roles: [Role.ADMIN, Role.INGENIERO_QUIMICO] }
+        { path: '/app/erp/inventario', name: 'Inventario', roles:[Role.ADMIN, Role.ADMINISTRATIVO] },
+        { path: '/app/erp/orden-pedido', name: 'Orden Pedido', roles: [Role.ADMIN, Role.ADMINISTRATIVO] },
+        { path: '/app/erp/materia-prima', name: 'Materia Prima', roles: [Role.ADMIN, Role.INGENIERO_QUIMICO] },
+        { path: '/app/erp/parametros-referencia', name: 'Parametros Referencia', roles: [Role.ADMIN, Role.INGENIERO_QUIMICO] }
       ]
     },
     {
       name: 'MES',
       menus: [
-        { path: '/mes/orden-produccion', name: 'Orden produccion', roles: [Role.ADMIN, Role.INGENIERO_QUIMICO]},
-        { path: '/mes/orden-produccion-aprobada', name: 'Orden produccion Aprobadas', roles: [Role.ADMIN, Role.INGENIERO_QUIMICO] },
+        { path: '/app/mes/orden-produccion', name: 'Orden produccion', roles: [Role.ADMIN, Role.INGENIERO_QUIMICO]},
+        { path: '/app/mes/orden-produccion-aprobada', name: 'Orden produccion Aprobadas', roles: [Role.ADMIN, Role.INGENIERO_QUIMICO] },
       ]
     },
     {
       name: 'Sistema de Control',
       menus: [
-        {path: '/control/sistema-control', name:'Sistema Control', roles: [Role.ADMIN, Role.OPERARIO]}
+        { path: '/app/control/sistema-control', name:'Sistema Control', roles: [Role.ADMIN, Role.OPERARIO]}
       ]
     }
 
