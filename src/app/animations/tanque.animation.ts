@@ -24,6 +24,8 @@ export class Tanque {
   _posY: number = 0;
   _size: number = 1;
 
+  _tanqueDimension: TanqueDimension;
+
   constructor(private ctx: CanvasRenderingContext2D){
 
   }
@@ -46,8 +48,8 @@ export class Tanque {
     const r_right = new Rectangle(this.ctx)
     const r_center = new Rectangle(this.ctx)
     const r_bottom = new Rectangle(this.ctx)
-
-    const { left, center, right, bottom } =  this.calculatePosAndSizeTanque(this._posX, this._posY, this._size )
+    this._tanqueDimension = this.calculatePosAndSizeTanque(this._posX, this._posY, this._size)
+    const { left, center, right, bottom } = this._tanqueDimension
 
 
     r_left.draw(left);
@@ -78,12 +80,24 @@ export class Tanque {
 
   llenar() {
     //liquidos y compuerta
-    this.ctx.fillStyle = this._colorLiquidoA;  //liquido a la izquierda
-    this.ctx.fillRect(34, 90, 57, 32);
-    this.ctx.fillStyle = this._colorLiquidoB;  //liquido a la derecha
-    this.ctx.fillRect(271, 90, 57, 32);
-    this.ctx.fillStyle = this._colorMezcla;
-    this.ctx.fillRect(95, 223, 171, 40);
+    //liquido a la izquierda
+    this.leftFluid(this._colorLiquidoA)
+    // this.ctx.fillStyle = this._colorLiquidoA;  
+    // this.ctx.fillRect(34, 90, 57, 32);
+
+
+    //liquido a la derecha
+    // this.ctx.fillStyle = this._colorLiquidoB;  
+    // this.ctx.fillRect(271, 90, 57, 32);
+    this.rightFluid(this._colorLiquidoB)
+    
+    //Mezcla
+    // this.ctx.fillStyle = this._colorMezcla;
+    // this.ctx.fillRect(95, 223, 171, 40);
+    this.mezcla(50, this._colorMezcla)
+
+
+
     this.ctx.fillStyle = this._colorEtradas; //tapa abajo
     this.ctx.fillRect(150, 268, 62, 18);
 
@@ -103,6 +117,51 @@ export class Tanque {
     //c.fillStyle=colorSimboloC;
     this.ctx.fill();
   }
+
+  private leftFluid(color:  string){
+    //liquido a la izquierda
+    const { left } = this._tanqueDimension;
+    this.drawFluid(this.ctx, left, color)    
+  }
+  private rightFluid(color: string){
+    //liquido a la derecha
+    const { right } = this._tanqueDimension;
+    this.drawFluid(this.ctx, right, color)    
+  }
+
+  private drawFluid(ctx: CanvasRenderingContext2D, sideFluid: Dimension, color:string){
+    const r_fluid = new Rectangle(ctx)
+    const {  posX, posY, width, height }  = sideFluid
+    const dimension: Dimension = { posX, posY: posY * 1.03, width, height: height * 0.87 }
+    r_fluid.color = color;
+    r_fluid.draw(dimension);
+  }
+
+
+  private mezcla(percent:number, color: string) {
+    // this.ctx.fillStyle = this._colorMezcla;
+    const { center } = this._tanqueDimension;
+    this.drawMezcla(this.ctx, center,percent, color)    
+    
+  }
+
+  private drawMezcla(ctx: CanvasRenderingContext2D, centerFluid: Dimension, percent:number,color: string) {
+    const r_fluidCenter = new Rectangle(ctx)
+    const dimension = this.percentMezcla(centerFluid,percent);
+    r_fluidCenter.color = color;
+    r_fluidCenter.draw(dimension)
+  }
+
+  private percentMezcla(centerFluid: Dimension, percent:number): Dimension{
+    const { posX, posY, width, height } = centerFluid
+    const height_percent = (height * 0.95) * (percent / 100)
+    const posY_percent = (posY * 1.05) + ((height * 0.95) - height_percent)
+    const dimension: Dimension = { posX: posX * 1.05, posY: posY_percent, width: width * 0.95, height:  height_percent}
+    // this.ctx.fillRect(90, 87, 181, 181); // central
+    // this.ctx.fillRect(95, 223, 171, 40);
+    return dimension;
+  }
+
 
   mezclar() {
     //////////////////////////
