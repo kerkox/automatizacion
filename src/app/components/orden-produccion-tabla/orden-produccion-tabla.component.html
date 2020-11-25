@@ -4,7 +4,7 @@
     <button mat-raised-button color="primary" (click)="reintentarOrdenes()">Reintentar Ejecutar</button>
   </div>
   <div *ngIf="isGenerada" class="options">
-    <button mat-raised-button color="primary" (click)="aprobar_ordenes()">Aprobar Ordenes</button>
+    <button mat-raised-button color="primary" [disabled]="ordenes_seleccionadas.length == 0" (click)="aprobar_ordenes()">Aprobar Ordenes</button>
   </div>
   <mat-form-field appearance="fill">
     <mat-label>Filtro</mat-label>

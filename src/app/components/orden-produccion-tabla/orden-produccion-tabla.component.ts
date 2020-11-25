@@ -14,7 +14,7 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './orden-produccion-tabla.component.html',
   styleUrls: ['./orden-produccion-tabla.component.css']
 })
-export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit  {
+export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit {
 
   @Input('estadosOrden') estadosOrden: EstadoOrden[]
   ordenes_produccion: any = []
@@ -38,7 +38,7 @@ export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit  {
   ];
   dataSource: MatTableDataSource<any>
   constructor(private ordenProduccionService: OrdenProduccionService,
-    private generalService: GeneralService, 
+    private generalService: GeneralService,
     public dialog: MatDialog) {
     this.ordenes_produccion = []
     this.dataSource = new MatTableDataSource(this.ordenes_produccion)
@@ -51,7 +51,7 @@ export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit  {
   }
 
   ngOnInit(): void {
-    if(this.columns_show) {
+    if (this.columns_show) {
       this.titulos_columnas = this.columns_show;
     }
     this.consultarOrdenesProduccion();
@@ -76,40 +76,40 @@ export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit  {
       })
   }
 
-  flatOrdenProduccion(orden:OrdenProduccionDetalle): OrdenProduccionDetalleFlat {
+  flatOrdenProduccion(orden: OrdenProduccionDetalle): OrdenProduccionDetalleFlat {
     return {
       id_orden_produccion: orden.id,
-      id_orden_pedido:orden.orden_pedido.id,
+      id_orden_pedido: orden.orden_pedido.id,
       receta_id: orden.orden_pedido.receta.id,
       cantidad_toneladas: orden.cantidad,
       cliente: orden.orden_pedido.cliente,
       lotes_ejecutados: orden.lotes_ejecutados,
-      lotes_totales:orden.lotes_totales,
-      cantidad_productos:orden.orden_pedido.cantidad,
-      estado:orden.orden_pedido.estado,
-      presentacion_descripcion:orden.orden_pedido.presentacion_producto.descripcion,
+      lotes_totales: orden.lotes_totales,
+      cantidad_productos: orden.orden_pedido.cantidad,
+      estado: orden.orden_pedido.estado,
+      presentacion_descripcion: orden.orden_pedido.presentacion_producto.descripcion,
       presentacion_cantidad: orden.orden_pedido.presentacion_producto.cantidad,
-      prioridad_nivel:orden.orden_pedido.prioridad.nivel,
-      prioridad_descripcion:orden.orden_pedido.prioridad.descripcion,
-      referencia_producto_descripcion:orden.orden_pedido.receta.referencia_producto.descripcion,
-      tipo_producto_descripcion:orden.orden_pedido.receta.tipo_producto.descripcion,
-      temperatura_precalentamiento:orden.orden_pedido.receta.temperatura_precalentamiento,
-      tiempo_precalentamiento:orden.orden_pedido.receta.tiempo_precalentamiento,
-      temperatura_calentamiento:orden.orden_pedido.receta.temperatura_calentamiento,
-      tiempo_premezclado:orden.orden_pedido.receta.tiempo_premezclado,
-      tiempo_mezclado:orden.orden_pedido.receta.tiempo_mezclado,
+      prioridad_nivel: orden.orden_pedido.prioridad.nivel,
+      prioridad_descripcion: orden.orden_pedido.prioridad.descripcion,
+      referencia_producto_descripcion: orden.orden_pedido.receta.referencia_producto.descripcion,
+      tipo_producto_descripcion: orden.orden_pedido.receta.tipo_producto.descripcion,
+      temperatura_precalentamiento: orden.orden_pedido.receta.temperatura_precalentamiento,
+      tiempo_precalentamiento: orden.orden_pedido.receta.tiempo_precalentamiento,
+      temperatura_calentamiento: orden.orden_pedido.receta.temperatura_calentamiento,
+      tiempo_premezclado: orden.orden_pedido.receta.tiempo_premezclado,
+      tiempo_mezclado: orden.orden_pedido.receta.tiempo_mezclado,
       materias_primas: orden.orden_pedido.receta.materias_primas,
-      observaciones:orden.observaciones
+      observaciones: orden.observaciones
     }
   }
 
-  showMateriaPrima(materia_prima:any, toneladas_totales:number){
-    const toneladas = this.materiaPrimaPorcentaje(materia_prima,toneladas_totales)
+  showMateriaPrima(materia_prima: any, toneladas_totales: number) {
+    const toneladas = this.materiaPrimaPorcentaje(materia_prima, toneladas_totales)
     return `${materia_prima.descripcion}: ${toneladas} Ton (${materia_prima.MateriaPrimaReceta.porcentaje}%)`
   }
 
-  materiaPrimaPorcentaje(materia_prima:any, toneladas_totales:number){
-    return   (materia_prima.MateriaPrimaReceta.porcentaje / 100) * toneladas_totales
+  materiaPrimaPorcentaje(materia_prima: any, toneladas_totales: number) {
+    return (materia_prima.MateriaPrimaReceta.porcentaje / 100) * toneladas_totales
   }
 
   colorBadgeEstadoOrden(estado: string) {
@@ -120,24 +120,30 @@ export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit  {
     return this.generalService.colorBadgePrioridad(nivel);
   }
 
-  aprobar_ordenes() {
+  get ordenes_seleccionadas() {
     let ordenes = this.dataSource.data
       .filter(orden => orden.select)
       .map(orden => {
-        
+
         return { id: orden.id_orden_produccion }
       });
-    // console.log("Ordenes seleccionadas para aprobar", ordenes)
+      return ordenes;
+  }
 
-    this.ordenProduccionService.aprobar(ordenes).then(res => {
-      // mensaje de se aprobo correctamente
-      Swal.fire("Aprobadas", "Las ordenes de produccion han sido aprobadas", 'success')
-      this.consultarOrdenesProduccion();
-    })
-      .catch(err => {
-        // mensaje ocurrio algun error
-        Swal.fire("Aprobacion Error", "Ocurrrio un error al intentar aprobar las ordenes de produccion", 'error')
+  aprobar_ordenes() {
+    let ordenes = this.ordenes_seleccionadas
+    // console.log("Ordenes seleccionadas para aprobar", ordenes)
+    if (ordenes.length > 0) {
+      this.ordenProduccionService.aprobar(ordenes).then(res => {
+        // mensaje de se aprobo correctamente
+        Swal.fire("Aprobadas", "Las ordenes de produccion han sido aprobadas", 'success')
+        this.consultarOrdenesProduccion();
       })
+        .catch(err => {
+          // mensaje ocurrio algun error
+          Swal.fire("Aprobacion Error", "Ocurrrio un error al intentar aprobar las ordenes de produccion", 'error')
+        })
+    }
   }
 
   detalle_orden_produccion(orden_produccion_flat: OrdenProduccionDetalleFlat) {
@@ -195,19 +201,19 @@ export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit  {
 
 
 export enum ColumnsTable {
-  id ='id',
-  cliente ='cliente',
-  prioridad ='prioridad',
-  referencia_producto ='referencia_producto',
-  tipo_producto ='tipo_producto',
-  presentacion_producto ='presentacion_producto',
-  cantidad ='cantidad',
-  lotes_ejecutados ='lotes_ejecutados',
-  lotes_totales ='lotes_totales',
-  fecha_inicio ='fecha_inicio',
-  fecha_terminado ='fecha_terminado',
-  estado ='estado',
-  materias_primas ='materias_primas',
-  detalle ='detalle',
+  id = 'id',
+  cliente = 'cliente',
+  prioridad = 'prioridad',
+  referencia_producto = 'referencia_producto',
+  tipo_producto = 'tipo_producto',
+  presentacion_producto = 'presentacion_producto',
+  cantidad = 'cantidad',
+  lotes_ejecutados = 'lotes_ejecutados',
+  lotes_totales = 'lotes_totales',
+  fecha_inicio = 'fecha_inicio',
+  fecha_terminado = 'fecha_terminado',
+  estado = 'estado',
+  materias_primas = 'materias_primas',
+  detalle = 'detalle',
   tiene_observaciones = 'tiene_observaciones'
 }

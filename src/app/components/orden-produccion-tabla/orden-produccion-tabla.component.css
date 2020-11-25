@@ -47,7 +47,7 @@ th.mat-sort-header-sorted {
 }
 
 .columna-materias-primas {
-  min-width: 200px;
+  min-width: 280px;
 }
 .columna-prioridad{
   min-width: 90px;
@@ -62,4 +62,16 @@ th.mat-sort-header-sorted {
   min-width: 90px;
   text-align: left;
 }
+
+.columna-presentacion_producto {
+  min-width: 90px;
+}
+
+.columna-cantidad {
+  min-width: 80px;
+}
+
+/* td.columna-cantidad {
+  text-align: right;
+} */
 
