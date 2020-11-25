@@ -6,7 +6,7 @@ import { NoPageFoundComponent } from './no-page-found/no-page-found.component';
 
 const routes: Routes = [
 
-  { path: '', redirectTo: '/erp/materia-prima', pathMatch: 'full'},
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
   { path: '**', component: NoPageFoundComponent }
 ];
 

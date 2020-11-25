@@ -89,14 +89,11 @@ export class UsuarioService {
         'Authorization': "Bearer "+token
       }
     }).pipe(
-      tap((resp: any) => {
-        // console.log("resp",resp)
-        localStorage.setItem('token', resp.data.token);
-      }),
-      map(resp =>{
+      map((resp: any) =>{
         // console.log("resp renew", resp)
         const { email, id, lastname, name, role } = resp.data
         this.usuario = new Usuario(name, lastname, email, role, id)
+          localStorage.setItem('token', resp.data.token);
         // console.log("Se creo el usuario:", this.usuario)
         return true;
       } ),

@@ -12,23 +12,19 @@ import { OrdenProduccionComponent } from './mes/orden-produccion/orden-produccio
 import { OrdenProduccionAprobadaComponent } from './mes/orden-produccion-aprobada/orden-produccion-aprobada.component';
 import { SistemaControlComponent } from './control/sistema-control/sistema-control.component';
 import { ControlComponent } from './control/control.component';
+import { AuthGuard } from '../guards/auth.guard';
 
 // Mantenimientos
 // import { AdminGuard } from '../guards/admin.guard';
 
 
 const childRoutes: Routes = [
-  { path:'dashboard', component: DashboardComponent, data: { titulo:'Dashboard'}},
+  { path:'', component: DashboardComponent, data: { titulo:'Dashboard'}},
   {
     path: 'erp',
     component: ErpComponent,
-    children: [
-      { path: 'inventario', canActivate: [AccessControlGuard], component: InventarioComponent, data: {titulo: 'Inventario'} },
-      { path: 'materia-prima', canActivate: [AccessControlGuard], component: MateriaPrimaComponent, data: { titulo: 'Materia Prima'} },
-      { path: 'orden-pedido', canActivate: [AccessControlGuard], component: OrdenPedidoComponent, data: {titulo: 'Orden Pedido'} },
-      { path: 'parametros-referencia', canActivate: [AccessControlGuard], component: ParametrosReferenciasComponent, data: {titulo: 'Parametros Referencia'} },
-      { path: '', redirectTo: 'materia-prima', pathMatch: 'full'}
-    ]
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./erp/child-routes-erp.module').then(m => m.ChildRoutesErpModule)
   },
   {
     path: 'mes',
@@ -44,7 +40,7 @@ const childRoutes: Routes = [
       { path: 'sistema-control', canActivate: [AccessControlGuard], component: SistemaControlComponent, data: { titulo: 'Sistema Control'}}
     ]
   },
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  
 
 ]
 
