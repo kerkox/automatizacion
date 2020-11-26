@@ -1,3 +1,4 @@
+import { Check } from './../base/check.animation';
 import { EnumSide } from './../enums/enum-side.enum';
 import { Arrow } from '../base/arrow.animation';
 import { Dimension } from '../interfaces/tanqueDimension.interface';
@@ -57,11 +58,21 @@ export class Simbol extends Rectangle {
     this.colorSimbolContent = color;
     const r_simbol = new Rectangle(super.ctx);
     const { posX, posY, width, height } = super.dimension
-    const { size: width_simbol_content, pos: posX_simbol_content } = Util.calculateSizePos(width, posX, 95)
-    const { size: height_simbol_content, pos: posY_simbol_content } = Util.calculateSizePos(height, posY, 95)
+    const { size: width_simbol_content, pos: posX_simbol_content } = Util.calculateSizePos(width, posX, 90)
+    const { size: height_simbol_content, pos: posY_simbol_content } = Util.calculateSizePos(height, posY, 90)
     const dimension: Dimension = { posX: posX_simbol_content, posY: posY_simbol_content, width: width_simbol_content, height: height_simbol_content }
     r_simbol.color = this.colorSimbolContent;
     r_simbol.draw(dimension);
+  }
+
+  drawSimbolCheck(colorSimbolContent: string = '', colorCheck: string = '#FFF'){
+    super.draw()
+    this.drawSimbolContent(colorSimbolContent);
+    this.drawCheck(colorCheck);
+  }
+
+  private drawCheck(color: string = '') {
+    const check = new Check(super.ctx,super.dimension, color)  
   }
 
   drawSimbolArrow(direction:EnumDirection,colorSimbolContent: string = '', colorArrow: string = '') {

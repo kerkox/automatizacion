@@ -254,6 +254,12 @@ export class Tanque {
     simbol.drawSimbolArrow(enumDirection,colorContent);
   }
 
+  private simbolCheck(color: string, colorContent: string, colorCheck: string) {
+    const { center } = this.tanqueDimension;
+    const simbol = new Simbol(this.ctx,center,color);
+    simbol.drawSimbolCheck(colorContent, colorCheck);
+  }
+
   private bottomCover(color: string) {
     // tapa de abajo
     const { bottom } = this.tanqueDimension;
@@ -397,6 +403,9 @@ export class Tanque {
 
   disponible() {
     //simbolo
+    this.simbolCheck(this._colorSimboloA, this._colorSimboloD, this._colorSimboloF);
+
+
     this.ctx.fillStyle = this._colorSimboloA;    //Caja simbolo
     this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
     this.ctx.fillStyle = this._colorSimboloD;    //lo que carga
