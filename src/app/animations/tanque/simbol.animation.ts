@@ -1,3 +1,4 @@
+import { EnumSide } from './../enums/enum-side.enum';
 import { Arrow } from '../base/arrow.animation';
 import { Dimension } from '../interfaces/tanqueDimension.interface';
 import { Util } from '../util.animation';
@@ -6,7 +7,7 @@ import { Rectangle } from './../base/rectangle.animation';
 export class Simbol extends Rectangle {
   
   private _colorSimbolBox: string;
-  private _colorSimbolContent: string;
+  private _colorSimbolContent: string = '#8C538B';
 
   constructor(ctx: CanvasRenderingContext2D, dimension: Dimension, color: string = '') {
     super(ctx);
@@ -69,6 +70,44 @@ export class Simbol extends Rectangle {
     arrow.color = colorArrow;
     arrow.draw(super.dimension)
   }
+
+  drawSimbolMezclar(colorSimbolContent: string = '', colorAspaLeft: string = '#FACB52', colorAspaRight: string = '#2D61FA', colorEje: string = '#FFF') {
+    super.draw();
+    colorSimbolContent != null && this.drawSimbolContent(colorSimbolContent);
+    this.drawAspa(colorAspaLeft, EnumSide.LEFT)
+    this.drawAspa(colorAspaRight, EnumSide.RIGHT)
+    this.drawEje(colorEje);
+  }
+
+  private drawEje(color: string = ''){
+    const eje = new Rectangle(super.ctx);
+    const { posX, posY, width, height } = super.dimension
+    const { size: width_eje, pos: posX_eje } = Util.calculateSizePos(width, posX, 20)
+    const { size: height_eje, pos: posY_eje } = Util.calculateSizePos(height, posY, 90)
+    
+    const dimension: Dimension = { posX: posX_eje, posY: posY_eje, width: width_eje, height: height_eje }
+    eje.color = color;
+    eje.draw(dimension);
+  }
+
+  private drawAspa(color: string, enumSide: EnumSide) {
+    const aspa = new Rectangle(super.ctx);
+    const { posX, posY, width, height } = super.dimension
+    const { size: width_aspa } = Util.calculateSizePos(width, posX, 25)
+    let posX_aspa: number;
+    if (enumSide == EnumSide.LEFT){
+      posX_aspa = posX + (width * 0.15)
+    }else if(enumSide == EnumSide.RIGHT){
+      posX_aspa = posX + (width  - width_aspa - (width * 0.15))
+    } 
+    const { size: height_simbol_content, pos: posY_simbol_content } = Util.calculateSizePos(height, posY, 40)
+    const dimension: Dimension = { posX: posX_aspa, posY: posY_simbol_content, width: width_aspa, height: height_simbol_content }
+    aspa.color = color;
+    aspa.draw(dimension);
+
+  }
+
+  
 
 
 }

@@ -317,6 +317,12 @@ export class Tanque {
     }
   }
 
+  private simbolMezclar(color: string, colorContent: string = '', ){
+    const { center } = this.tanqueDimension;
+    const simbol = new Simbol(this.ctx, center, color);
+    simbol.drawSimbolMezclar(colorContent);  
+  }
+
   mezclar() {
     //////////////////////////
     //Segundo this._estado mezclandoce
@@ -342,6 +348,7 @@ export class Tanque {
     this.showMezcla()
 
     //simbolo
+    this.simbolMezclar(this._colorSimboloA, null)
     //simbolo
     this.ctx.fillStyle = this._colorSimboloA;    //Caja simbolo
     this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
