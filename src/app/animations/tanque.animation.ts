@@ -32,6 +32,8 @@ export class Tanque {
 
   _tanqueDimension: TanqueDimension;
 
+  _percentMezcla: number = 100;
+
   constructor(private ctx: CanvasRenderingContext2D) {
     this.ctx.fillStyle = this._colorTanque; //tanqueprincipal
   }
@@ -53,6 +55,13 @@ export class Tanque {
 
   set showRight(show: boolean) {
     this._showRight = show;
+  }
+
+  set percentMezclaValue(percent: number){
+    this._percentMezcla = percent;
+  }
+  get percentMezclaValue(): number {
+    return this._percentMezcla;
   }
 
   draw() {
@@ -137,7 +146,7 @@ export class Tanque {
     //Mezcla
     // this.ctx.fillStyle = this._colorMezcla;
     // this.ctx.fillRect(95, 223, 171, 40);
-    this.mezcla(50, this._colorMezcla)
+    this.mezcla(this.percentMezclaValue, this._colorMezcla)
 
 
     // tapa abajo
@@ -214,7 +223,7 @@ export class Tanque {
     const r_bottomCover = new Rectangle(ctx);
     r_bottomCover.color = color;
     const { posX, posY, width, height } = bottomDimension
-    const dimension: Dimension = { posX, posY, width, height: height * 0.5 }
+    const dimension: Dimension = { posX, posY, width, height: height * 0.3 }
     r_bottomCover.draw(dimension)
 
   }
@@ -253,12 +262,12 @@ export class Tanque {
 
   private drawMezcla(ctx: CanvasRenderingContext2D, centerFluid: Dimension, percent: number, color: string) {
     const r_fluidCenter = new Rectangle(ctx)
-    const dimension = this.percentMezcla(centerFluid, percent);
+    const dimension = this.getDimensionByPercentMezcla(centerFluid, percent);
     r_fluidCenter.color = color;
     r_fluidCenter.draw(dimension)
   }
 
-  private percentMezcla(centerFluid: Dimension, percent: number): Dimension {
+  private getDimensionByPercentMezcla(centerFluid: Dimension, percent: number): Dimension {
     const { posX, posY, width, height } = centerFluid
     const { size: width_mezcla, pos: posX_mezcla } = Util.calculateSizePos(width, posX, 94)
 
@@ -309,7 +318,8 @@ export class Tanque {
     //izquierda
     // this.ctx.fillRect(72, 87, 18, 38); 
     this.leftCover(this._colorEntradas)
-
+    this.bottomCover(this._colorEntradas)
+    this.mezcla(this.percentMezclaValue,this._colorMezcla)
 
     //simbolo
     //simbolo
