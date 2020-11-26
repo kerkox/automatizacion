@@ -3,7 +3,7 @@ import { Dimension } from '../interfaces/tanqueDimension.interface';
 export class Rectangle {
 
   private _color: string = '#A0A0A0';
-  _dimension:Dimension
+  private _dimension:Dimension
   
   get dimension() :Dimension{
     return this._dimension

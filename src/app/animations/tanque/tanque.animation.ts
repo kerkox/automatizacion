@@ -1,3 +1,4 @@
+import { EnumSide } from './../enums/enum-side.enum';
 import { Side } from './side.animation';
 import { Arrow } from '../base/arrow.animation';
 import { Util } from '../util.animation';
@@ -88,9 +89,15 @@ export class Tanque {
   set showLeft(show: boolean) {
     this._showLeft = show;
   }
+  get showLeft() {
+    return this._showLeft;
+  }
 
   set showRight(show: boolean) {
     this._showRight = show;
+  }
+  get showRight() {
+    return this._showRight;
   }
 
   set percentMezclaValue(percent: number){
@@ -146,7 +153,7 @@ export class Tanque {
     if (this._showLeft) {
       if(this.sideLeft == null){
         const { left } = this.tanqueDimension
-        this.sideLeft = new Side(this.ctx, left, color)  
+        this.sideLeft = new Side(this.ctx, left, EnumSide.LEFT,color)  
       }      
     } 
   }
@@ -155,7 +162,7 @@ export class Tanque {
     if (this._showRight) {
       if (this.sideRight == null) {
         const { right } = this.tanqueDimension
-        this.sideRight = new Side(this.ctx, right, color)
+        this.sideRight = new Side(this.ctx, right, EnumSide.RIGHT,color)
       }  
     }
   }
@@ -325,44 +332,39 @@ export class Tanque {
 
 
   private leftCover(color: string) {
-    const { left } = this.tanqueDimension
-    this.drawSideCover(this.ctx, color, left, 'LEFT')
+    if(this.showLeft) {
+      this.sideLeft.drawCover(color);
+    }    
   }
 
   private rightCover(color: string) {
-    const { right } = this.tanqueDimension
-    this.drawSideCover(this.ctx, color, right, 'RIGHT')
+    if (this.showRight) {
+      this.sideRight.drawCover(color);
+    }
   }
 
-  private drawSideCover(ctx: CanvasRenderingContext2D, color: string, sideDimension: Dimension, side: 'LEFT' | 'RIGHT' ) {
-
-    const r_leftCover = new Rectangle(ctx);
-    r_leftCover.color = color;
-    const { posX, posY, width, height } = sideDimension
-    const width_cover = width * 0.3;
-    const posX_cover = posX + ( side == 'LEFT' && width - width_cover)
-    const dimension: Dimension = { posX: posX_cover, posY, width: width_cover, height }
-    r_leftCover.draw(dimension)
-
-  }
   mezclar() {
     //////////////////////////
     //Segundo this._estado mezclandoce
     //liquidos y compuertas
-    this.ctx.fillStyle = this._colorMezcla; //la mescla
-    this.ctx.fillRect(95, 128, 171, 133);
-    this.ctx.fillStyle = this._colorEntradas; //tapas
-    this.ctx.fillRect(150, 268, 62, 18); //abajo
-
-
+    
+    //tapas
+    // this.ctx.fillStyle = this._colorEntradas; 
     //derecha
     // this.ctx.fillRect(271, 87, 18, 38); 
     this.rightCover(this._colorEntradas)
-
+    
     //izquierda
     // this.ctx.fillRect(72, 87, 18, 38); 
     this.leftCover(this._colorEntradas)
+
+    //abajo
+    // this.ctx.fillRect(150, 268, 62, 18); 
     this.bottomCover(this._colorEntradas)
+
+    //la mescla
+    // this.ctx.fillStyle = this._colorMezcla; 
+    // this.ctx.fillRect(95, 128, 171, 133);
     this.showMezcla()
 
     //simbolo
