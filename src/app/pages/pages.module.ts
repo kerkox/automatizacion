@@ -26,6 +26,7 @@ import { MesComponent } from './mes/mes.component';
 import { OrdenProduccionAprobadaComponent } from './mes/orden-produccion-aprobada/orden-produccion-aprobada.component';
 import { OrdenProduccionComponent } from './mes/orden-produccion/orden-produccion.component';
 import { PagesComponent } from './pages.component';
+import { PipesModule } from '../pipes/pipes.module';
 
 
 
@@ -66,7 +67,8 @@ import { PagesComponent } from './pages.component';
     FormsModule,
     ReactiveFormsModule,
     PagesRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    PipesModule
   ]
 })
 export class PagesModule { }

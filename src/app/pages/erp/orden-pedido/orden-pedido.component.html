@@ -82,7 +82,7 @@
   <hr size="10">
 
   <h3>Ordenes creadas</h3>
-  <table class="table">
+  <table class="table table-responsive">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -103,7 +103,7 @@
         <td>{{ orden.receta.referencia_producto.descripcion }}</td>
         <td>{{ orden.receta.tipo_producto.descripcion }}</td>
         <td>{{ orden.presentacion_producto.descripcion }}</td>
-        <td>{{ orden.cantidad }}</td>
+        <td align="right">{{ orden.cantidad | numberFormat }}</td>
         <td>
           <span [class]="colorBadgeEstadoOrden(orden.estado)">{{ orden.estado }}</span>
         </td>

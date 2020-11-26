@@ -5,8 +5,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class NumberFormatPipe implements PipeTransform {
 
-  transform(value: number, decimals: number = 0, useGrouping:boolean = true): string {
-   return new Intl.NumberFormat("de-DE", { maximumFractionDigits: decimals, useGrouping }).format(value)    
+  transform(value: number | string, decimals: number = 0, useGrouping:boolean = true): string {
+    const value_number = Number(value)
+   return new Intl.NumberFormat("de-DE", { maximumFractionDigits: decimals, useGrouping }).format(value_number)    
   }
 
 }
