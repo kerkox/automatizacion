@@ -1,3 +1,4 @@
+import { EnumDirection } from './../enums/enum-direction.enum';
 import { Simbol } from './simbol.animation';
 import { EnumSide } from './../enums/enum-side.enum';
 import { Side } from './side.animation';
@@ -229,7 +230,7 @@ export class Tanque {
     //Caja simbolo
     // this.ctx.fillStyle = this._colorSimboloA;    
     // this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
-    this.simbolBox(this._colorSimboloA, this._colorSimboloB, this._colorSimboloF)
+    this.simbolArrow(EnumDirection.UP,this._colorSimboloA, this._colorSimboloB, this._colorSimboloF)
 
 
 
@@ -247,10 +248,10 @@ export class Tanque {
     // this.ctx.fill();
   }
 
-  private simbolBox(color: string, colorContent: string, colorArrow: string) {
+  private simbolArrow(enumDirection:EnumDirection, color: string, colorContent: string, colorArrow: string) {
     const { center } = this.tanqueDimension;
     const simbol = new Simbol(this.ctx,center,color);
-    simbol.drawSimbolArrow(colorContent);  
+    simbol.drawSimbolArrow(enumDirection,colorContent);
   }
 
   private bottomCover(color: string) {
@@ -350,24 +351,33 @@ export class Tanque {
     //simbolo
     this.simbolMezclar(this._colorSimboloA, null)
     //simbolo
-    this.ctx.fillStyle = this._colorSimboloA;    //Caja simbolo
-    this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
-    this.ctx.fillStyle = this._colorLiquidoA;  //una de las azpas
-    this.ctx.fillRect(this._posXsimbolo + 15, this._posYsimbolo + 30, this._anchoSimbolo - 68, this._altoSimbolo - 60);
-    this.ctx.fillStyle = this._colorLiquidoB;  //una de las azpas
-    this.ctx.fillRect(this._posXsimbolo + 53, this._posYsimbolo + 30, this._anchoSimbolo - 68, this._altoSimbolo - 60);
-    this.ctx.fillStyle = this._colorSimboloF;    //eje
-    this.ctx.fillRect(this._posXsimbolo + 37, this._posYsimbolo + 5, this._anchoSimbolo - 74, this._altoSimbolo - 10);
+    // this.ctx.fillStyle = this._colorSimboloA;    //Caja simbolo
+    // this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
+    // this.ctx.fillStyle = this._colorLiquidoA;  //una de las azpas
+    // this.ctx.fillRect(this._posXsimbolo + 15, this._posYsimbolo + 30, this._anchoSimbolo - 68, this._altoSimbolo - 60);
+    // this.ctx.fillStyle = this._colorLiquidoB;  //una de las azpas
+    // this.ctx.fillRect(this._posXsimbolo + 53, this._posYsimbolo + 30, this._anchoSimbolo - 68, this._altoSimbolo - 60);
+    // this.ctx.fillStyle = this._colorSimboloF;    //eje
+    // this.ctx.fillRect(this._posXsimbolo + 37, this._posYsimbolo + 5, this._anchoSimbolo - 74, this._altoSimbolo - 10);
   }
 
   vaciar() {
     //liquidos y compuertas
+    this.showMezcla()
     this.ctx.fillStyle = this._colorMezcla; //la mescla
     this.ctx.fillRect(95, 128, 171, 133);
     this.ctx.fillRect(155, 261, 52, 83);
+
+    
+    this.rightCover(this._colorEntradas)
+    this.leftCover(this._colorEntradas)
     this.ctx.fillStyle = this._colorEntradas; //tapas
     this.ctx.fillRect(271, 87, 18, 38); //derecha
     this.ctx.fillRect(72, 87, 18, 38); //izquierda
+
+    
+    this.simbolArrow(EnumDirection.DOWN, this._colorSimboloA, this._colorSimboloB, this._colorSimboloF)
+
 
     //simbolo
     this.ctx.fillStyle = this._colorSimboloA;    //Caja simbolo

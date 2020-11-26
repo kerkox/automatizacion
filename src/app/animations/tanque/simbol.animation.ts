@@ -3,6 +3,7 @@ import { Arrow } from '../base/arrow.animation';
 import { Dimension } from '../interfaces/tanqueDimension.interface';
 import { Util } from '../util.animation';
 import { Rectangle } from './../base/rectangle.animation';
+import { EnumDirection } from '../enums/enum-direction.enum';
 
 export class Simbol extends Rectangle {
   
@@ -63,10 +64,10 @@ export class Simbol extends Rectangle {
     r_simbol.draw(dimension);
   }
 
-  drawSimbolArrow(colorSimbolContent: string = '', colorArrow: string = '') {
+  drawSimbolArrow(direction:EnumDirection,colorSimbolContent: string = '', colorArrow: string = '') {
     super.draw()
     this.drawSimbolContent(colorSimbolContent);
-    const arrow = new Arrow(super.ctx)
+    const arrow = new Arrow(super.ctx, direction)
     arrow.color = colorArrow;
     arrow.draw(super.dimension)
   }
