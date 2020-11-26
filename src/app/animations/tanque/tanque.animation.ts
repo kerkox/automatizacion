@@ -291,28 +291,14 @@ export class Tanque {
   private leftFluid(color: string) {
     //liquido a la izquierda
     if (!this._showLeft) return;
-    const { left } = this.tanqueDimension;
-    this.drawFluid(this.ctx, left, color)
+    this.sideLeft.drawFluid(color)    
   }
   private rightFluid(color: string) {
     //liquido a la derecha
     if (!this._showRight) return;
-    const { right } = this.tanqueDimension;
-    
-    this.drawFluid(this.ctx, right, color)
-
+    this.sideRight.drawFluid(color)
   }
 
-  private drawFluid(ctx: CanvasRenderingContext2D, sideFluid: Dimension, color: string) {
-    const r_fluid = new Rectangle(ctx)
-    const { posX, posY, width, height } = sideFluid
-    const { size: height_fluid, pos: posY_fluid } = Util.calculateSizePos(height, posY, 80)
-
-    const dimension: Dimension = { posX, posY: posY_fluid, width, height: height_fluid }
-
-    r_fluid.color = color;
-    r_fluid.draw(dimension);
-  }
 
 
   private showMezcla() {

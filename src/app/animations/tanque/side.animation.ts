@@ -17,11 +17,11 @@ export class Side extends Rectangle{
     this._colorFluid = color;
   }
 
-  drawFluid(ctx: CanvasRenderingContext2D, color: string = '') {
+  drawFluid(color: string = '') {
     if(color != '') {
       this.colorFluid = color;
     }
-    const r_fluid = new Rectangle(ctx)
+    const r_fluid = new Rectangle(super.ctx)
     const { posX, posY, width, height } = this.dimension
     const { size: height_fluid, pos: posY_fluid } = Util.calculateSizePos(height, posY, 80)
 

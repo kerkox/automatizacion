@@ -4,7 +4,7 @@ export class Rectangle {
 
   private _color: string = '#A0A0A0';
   _dimension:Dimension
-
+  
   get dimension() :Dimension{
     return this._dimension
   }
@@ -12,7 +12,14 @@ export class Rectangle {
   set dimension(dimension: Dimension) {
     this._dimension = dimension
   }
-  constructor(private ctx: CanvasRenderingContext2D) {}
+
+  get ctx(): CanvasRenderingContext2D {
+    return this._ctx;
+  }
+  
+  constructor(private _ctx: CanvasRenderingContext2D) {
+    
+  }
 
   draw(dimension:Dimension): void{
     this.clear();
