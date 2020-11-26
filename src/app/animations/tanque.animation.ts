@@ -271,23 +271,23 @@ export class Tanque {
   }
 
 
-  leftCover(color: string) {
+  private leftCover(color: string) {
     const { left } = this._tanqueDimension
-    this.drawSideCover(this.ctx, color, left)
+    this.drawSideCover(this.ctx, color, left, 'LEFT')
   }
 
-  rightCover(color: string) {
+  private rightCover(color: string) {
     const { right } = this._tanqueDimension
-    this.drawSideCover(this.ctx, color, right)
+    this.drawSideCover(this.ctx, color, right, 'RIGHT')
   }
 
-  private drawSideCover(ctx: CanvasRenderingContext2D, color: string, sideDimension: Dimension) {
+  private drawSideCover(ctx: CanvasRenderingContext2D, color: string, sideDimension: Dimension, side: 'LEFT' | 'RIGHT' ) {
 
     const r_leftCover = new Rectangle(ctx);
     r_leftCover.color = color;
     const { posX, posY, width, height } = sideDimension
     const width_cover = width * 0.3;
-    const posX_cover = posX + width - width_cover
+    const posX_cover = posX + ( side == 'LEFT' && width - width_cover)
     const dimension: Dimension = { posX: posX_cover, posY, width: width_cover, height }
     r_leftCover.draw(dimension)
 
