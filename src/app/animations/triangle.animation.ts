@@ -7,11 +7,11 @@ export class Triangle {
     this.ctx.moveTo(posX, posY);
     this.ctx.lineTo(posX + size, posY);
     const posX_top = posX + (size / 2)
-    console.log("size: ", size)
-    const altura = ((Math.sqrt(3) * size) / 2)
-    console.log("altura: ", altura)
-    const posY_top = posY - altura
-    console.log(`posY: ${posY}, posY_top: ${posY_top}`)
+    // console.log("size: ", size)
+    const altura = ((Math.sqrt(3) / 2) * size)
+    // console.log("altura: ", altura)
+    let posY_top = posY - (altura * 0.7)    
+    // console.log(`posY: ${posY}, posY_top: ${posY_top}`)
     this.ctx.lineTo(posX_top, posY_top);
     this.ctx.fill();
   }

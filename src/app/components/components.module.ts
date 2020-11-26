@@ -1,3 +1,4 @@
+import { LoadingComponent } from './shared/loading/loading.component';
 import { PipesModule } from './../pipes/pipes.module';
 import { MaterialModule } from './../material/material.module';
 import { NgModule } from '@angular/core';
@@ -16,12 +17,14 @@ import { FormsModule } from '@angular/forms';
     OrdenDetalleInternoComponent,
     OrdenProduccionTablaComponent,
     OrdenProduccionDetalleComponent,
+    LoadingComponent
   ],
   exports: [
     AnimacionComponent,
     OrdenDetalleInternoComponent,
     OrdenProduccionTablaComponent,
     OrdenProduccionDetalleComponent,
+    LoadingComponent
   ],
   imports: [
     CommonModule,

@@ -11,7 +11,7 @@ export class Arrow {
     const { posX, posY, width, height } = dimension
     const triangle = new Triangle(this.ctx)
     triangle.color = this._color;
-    const { size: width_triangle, pos: posX_triangle } = Util.calculateSizePos(width, posX, 50)
+    const { size: width_triangle, pos: posX_triangle } = Util.calculateSizePos(width, posX, 70)
     triangle.draw(posX_triangle, posY + (height / 2), width_triangle)
     const base = new Rectangle(this.ctx)
     base.color = this._color;

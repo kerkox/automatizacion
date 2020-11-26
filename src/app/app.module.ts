@@ -11,7 +11,6 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { LoadingComponent } from './components/shared/loading/loading.component';
 import { NoPageFoundComponent } from './no-page-found/no-page-found.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -22,7 +21,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   declarations: [
     AppComponent,    
     NavbarComponent,
-    LoadingComponent,
     NoPageFoundComponent,    
   ],
   imports: [

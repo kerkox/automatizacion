@@ -13,6 +13,13 @@ export class AnimacionComponent implements OnInit {
   canvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D;
 
+  width = 800;
+  height = 800;
+
+  posX = 10;
+  posY = 10;
+  size = 50;
+  
   estado = 0;
 
   //paleta de colores
@@ -61,33 +68,34 @@ export class AnimacionComponent implements OnInit {
   }
 
   dibujar() {
-    this.ctx.clearRect(0, 0, 360, 360); //limpiar ventana
+    this.ctx.clearRect(0, 0, this.width, this.height); //limpiar ventana
     const tanque =  new Tanque(this.ctx);
     const tanque2 =  new Tanque(this.ctx);
-    tanque.setPosition(10,10, 0.8)
+    const size_percent = this.size / 100
+    tanque.setPosition(this.posX,this.posY, size_percent)
     tanque.draw();
+    tanque.llenar();
 
     tanque2.setPosition(250,10, 0.8)
-    tanque2.showLeft = false;
-    tanque2.showRight = false;
+    // tanque2.showLeft = false;
+    // tanque2.showRight = false;
     tanque2.draw();
 
     switch(this.estado){
       case 1:
-        tanque.llenar();
         tanque2.llenar();
         break;
       case 2: 
-        tanque.mezclar()
+        tanque2.mezclar()
         break;
       case 3:
-        tanque.vaciar();
+        tanque2.vaciar();
         break;
       case 4:
-        tanque.disponible();
+        tanque2.disponible();
         break;
       case 5:
-        tanque.noDisponible();
+        tanque2.noDisponible();
         break;
 
     }

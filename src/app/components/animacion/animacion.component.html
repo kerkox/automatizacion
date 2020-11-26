@@ -1,6 +1,30 @@
 <div class="animacion">
   <button mat-raised-button type="button" (click)="animate()">Animar</button>
   <h3>Animacion Canvas</h3>
+  <div class="ubication">
+      <mat-form-field appearance="fill" class="pos">
+        <mat-label>PosX</mat-label>
+        <input matInput (change)="dibujar()" [(ngModel)]="posX" type="number">
+        <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+        <!-- <mat-hint>Descripcion de la materia prima</mat-hint> -->
+
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="pos">
+        <mat-label>PosY</mat-label>
+        <input matInput (change)="dibujar()" [(ngModel)]="posY" type="number">
+        <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+        <!-- <mat-hint>Descripcion de la materia prima</mat-hint> -->
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="pos">
+        <mat-label>Size %</mat-label>
+        <input matInput (change)="dibujar()" [(ngModel)]="size" type="number">
+        <mat-icon matSuffix>%</mat-icon>
+        <!-- <mat-hint>Descripcion de la materia prima</mat-hint> -->
+      </mat-form-field>
+  </div>
+
   <div class="gray">
     <canvas #canvas width="800" height="800" (click)="estados()"></canvas>
   </div>

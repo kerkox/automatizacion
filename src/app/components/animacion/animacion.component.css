@@ -10,3 +10,8 @@
 #canvas {
  display: flex;
 }
+
+.pos {
+  width: 10%;
+  margin: 5px 10px;
+}
