@@ -16,9 +16,7 @@ export class AccessControlGuard implements CanActivate, CanLoad {
   }
   canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     
-    console.log("segments: ", segments)
     const url: string = this.getPath(segments);
-    console.log("path laod: ", url)
     if (this.validateContinue(url)) {
       return true;
     } else {

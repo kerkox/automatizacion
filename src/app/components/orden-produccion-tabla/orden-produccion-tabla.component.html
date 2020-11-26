@@ -67,7 +67,7 @@
     <ng-container matColumnDef="cantidad">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="columna-cantidad"> Cantidad (Ton) </th>
       <!-- <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td> -->
-      <td mat-cell *matCellDef="let element" class="columna-cantidad"> {{element.cantidad_toneladas | number }} </td>
+      <td mat-cell *matCellDef="let element" class="columna-cantidad"> {{element.cantidad_toneladas | numberFormat }} </td>
     </ng-container>
 
     <!--  -->
@@ -94,32 +94,32 @@
 
     <!--  -->
     <ng-container matColumnDef="lotes_ejecutados">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Lotes ejecutados </th>
-      <td mat-cell *matCellDef="let element"> {{element.lotes_ejecutados}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="columna-lotes_ejecutados"> Lotes ejecutados </th>
+      <td mat-cell *matCellDef="let element" class="columna-lotes_ejecutados"> {{element.lotes_ejecutados}} </td>
     </ng-container>
 
     <!--  -->
     <ng-container matColumnDef="lotes_totales">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Lotes totales </th>
-      <td mat-cell *matCellDef="let element"> {{element.lotes_totales}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="columna-lotes_totales"> Lotes totales </th>
+      <td mat-cell *matCellDef="let element" class="columna-lotes_totales"> {{element.lotes_totales}} </td>
     </ng-container>
 
     <!--  -->
     <ng-container matColumnDef="fecha_inicio">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha inicio </th>
-      <td mat-cell *matCellDef="let element"> {{element.fecha_inicio || 'N/A' }} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="columna-fecha_inicio"> Fecha inicio </th>
+      <td mat-cell *matCellDef="let element" class="columna-fecha_inicio"> {{element.fecha_inicio || 'N/A' }} </td>
     </ng-container>
 
     <!--  -->
     <ng-container matColumnDef="fecha_terminado">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Terminado </th>
-      <td mat-cell *matCellDef="let element"> {{element.fecha_terminado || 'N/A' }} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="columna-fecha_terminado"> Fecha Terminado </th>
+      <td mat-cell *matCellDef="let element" class="columna-fecha_terminado"> {{element.fecha_terminado || 'N/A' }} </td>
     </ng-container>
 
     <!--  -->
     <ng-container matColumnDef="estado">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
-      <td mat-cell *matCellDef="let element">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="columna-estado"> Estado </th>
+      <td mat-cell *matCellDef="let element" class="columna-estado">
         <!-- <span [class]="colorBadgeEstadoOrden(element.orden_pedido.estado)">
           {{ element.orden_pedido.estado }}
         </span> -->
@@ -131,8 +131,8 @@
 
     <!--  -->
     <ng-container matColumnDef="tiene_observaciones">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Tiene Observaciones </th>
-      <td mat-cell *matCellDef="let element">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="columna-tiene_observaciones"> Tiene Observaciones </th>
+      <td mat-cell *matCellDef="let element" class="columna-tiene_observaciones">
         <!-- <span [class]="colorBadgeEstadoOrden(element.orden_pedido.estado)">
           {{ element.orden_pedido.estado }}
         </span> -->
@@ -144,8 +144,8 @@
 
     <!-- Detalles  -->
     <ng-container matColumnDef="detalle">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
-      <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary"
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="columna-detalle"> Acciones </th>
+      <td mat-cell *matCellDef="let element" class="columna-detalle"> <button mat-raised-button color="primary"
           (click)="detalle_orden_produccion(element)">Detalle</button></td>
     </ng-container>
 

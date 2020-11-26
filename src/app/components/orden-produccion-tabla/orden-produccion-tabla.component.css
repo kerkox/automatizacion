@@ -48,6 +48,7 @@ th.mat-sort-header-sorted {
 
 .columna-materias-primas {
   min-width: 280px;
+  text-align: center;
 }
 .columna-prioridad{
   min-width: 90px;
@@ -55,7 +56,7 @@ th.mat-sort-header-sorted {
 }
 
 .columna-referencia_producto{
-  min-width: 90px;
+  min-width: 110px;
   text-align: left;
 }
 .columna-tipo_producto{
@@ -71,7 +72,26 @@ th.mat-sort-header-sorted {
   min-width: 80px;
 }
 
-/* td.columna-cantidad {
+td.columna-cantidad {
   text-align: right;
-} */
+}
 
+.columna-lotes_ejecutados {
+  min-width: 80px;
+  text-align: center;
+}
+
+.columna-lotes_totales {
+  min-width: 80px;
+  text-align: center;
+}
+
+.columna-estado {
+  min-width: 80px;
+  text-align: center;
+}
+
+.columna-tiene_observaciones {
+  min-width: 100px;
+  text-align: center;
+}

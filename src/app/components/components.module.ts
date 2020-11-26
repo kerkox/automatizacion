@@ -1,3 +1,4 @@
+import { PipesModule } from './../pipes/pipes.module';
 import { MaterialModule } from './../material/material.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -25,7 +26,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
+    PipesModule
   ]
 })
 export class ComponentsModule { }
