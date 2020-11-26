@@ -364,35 +364,35 @@ export class Tanque {
   vaciar() {
     //liquidos y compuertas
     this.showMezcla()
-    this.ctx.fillStyle = this._colorMezcla; //la mescla
-    this.ctx.fillRect(95, 128, 171, 133);
-    this.ctx.fillRect(155, 261, 52, 83);
+    // this.ctx.fillStyle = this._colorMezcla; //la mescla
+    // this.ctx.fillRect(95, 128, 171, 133);
+    // this.ctx.fillRect(155, 261, 52, 83);
 
     
     this.rightCover(this._colorEntradas)
     this.leftCover(this._colorEntradas)
-    this.ctx.fillStyle = this._colorEntradas; //tapas
-    this.ctx.fillRect(271, 87, 18, 38); //derecha
-    this.ctx.fillRect(72, 87, 18, 38); //izquierda
+    // this.ctx.fillStyle = this._colorEntradas; //tapas
+    // this.ctx.fillRect(271, 87, 18, 38); //derecha
+    // this.ctx.fillRect(72, 87, 18, 38); //izquierda
 
     
     this.simbolArrow(EnumDirection.DOWN, this._colorSimboloA, this._colorSimboloB, this._colorSimboloF)
 
 
     //simbolo
-    this.ctx.fillStyle = this._colorSimboloA;    //Caja simbolo
-    this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
-    this.ctx.fillStyle = this._colorSimboloB;    //lo que carga
-    this.ctx.fillRect(this._posXsimbolo + 5, this._posYsimbolo + 5, this._anchoSimbolo - 10, this._altoSimbolo - 10);
+    // this.ctx.fillStyle = this._colorSimboloA;    //Caja simbolo
+    // this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
+    // this.ctx.fillStyle = this._colorSimboloB;    //lo que carga
+    // this.ctx.fillRect(this._posXsimbolo + 5, this._posYsimbolo + 5, this._anchoSimbolo - 10, this._altoSimbolo - 10);
 
-    this.ctx.fillStyle = this._colorSimboloF; //Laflecha
-    this.ctx.fillRect(this._posXsimbolo + 33, this._posYsimbolo + 10, this._anchoSimbolo - 66, this._altoSimbolo - 55);
-    this.ctx.beginPath(); //El trinagulo de arriba
-    this.ctx.moveTo(this._posXsimbolo + 15, this._posYsimbolo + 45);
-    this.ctx.lineTo(this._posXsimbolo + 75, this._posYsimbolo + 45);
-    this.ctx.lineTo(this._posXsimbolo + 45, this._posYsimbolo + 80);
-    //c.fillStyle=colorSimboloC;
-    this.ctx.fill();
+    // this.ctx.fillStyle = this._colorSimboloF; //Laflecha
+    // this.ctx.fillRect(this._posXsimbolo + 33, this._posYsimbolo + 10, this._anchoSimbolo - 66, this._altoSimbolo - 55);
+    // this.ctx.beginPath(); //El trinagulo de arriba
+    // this.ctx.moveTo(this._posXsimbolo + 15, this._posYsimbolo + 45);
+    // this.ctx.lineTo(this._posXsimbolo + 75, this._posYsimbolo + 45);
+    // this.ctx.lineTo(this._posXsimbolo + 45, this._posYsimbolo + 80);
+    // //c.fillStyle=colorSimboloC;
+    // this.ctx.fill();
   }
 
   disponible() {
