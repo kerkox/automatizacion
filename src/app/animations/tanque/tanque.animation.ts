@@ -63,6 +63,14 @@ export class Tanque {
     return this._sideLeft;
   }
 
+  set sideRight(side: Side){
+    this._sideRight  = side;
+  }
+
+  set sideLeft(side: Side){
+    this._sideLeft = side;
+  }
+
   get mezcla(): Rectangle {
     if(this._mezcla == null){
       this._mezcla = new Rectangle(this.ctx)
@@ -125,26 +133,30 @@ export class Tanque {
     
     const { left, center, right, bottom } = this.tanqueDimension
     //Taque y bloques de fondo
-    this.drawBaseLeft(left, color)
-    this.drawBaseRight(right, color);
+    this.drawBaseLeft(color)
+    this.drawBaseRight(color);
+    
+    
     this.drawBaseCenter(center, color);
     this.drawBaseBottom(bottom, color);
     
   }
 
-  private drawBaseLeft(left: Dimension, color:string) {
+  private drawBaseLeft(color:string = '') {
     if (this._showLeft) {
-      const r_left = new Rectangle(this.ctx)
-      r_left.color = color;
-      r_left.draw(left);
-    }
+      if(this.sideLeft == null){
+        const { left } = this.tanqueDimension
+        this.sideLeft = new Side(this.ctx, left, color)  
+      }      
+    } 
   }
 
-  private drawBaseRight(right: Dimension, color: string) {
+  private drawBaseRight(color: string = '') {
     if (this._showRight) {
-      const r_right = new Rectangle(this.ctx)
-      r_right.color = color;
-      r_right.draw(right);
+      if (this.sideRight == null) {
+        const { right } = this.tanqueDimension
+        this.sideRight = new Side(this.ctx, right, color)
+      }  
     }
   }
 

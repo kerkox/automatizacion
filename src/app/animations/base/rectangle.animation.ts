@@ -8,11 +8,15 @@ export class Rectangle {
   get dimension() :Dimension{
     return this._dimension
   }
+
+  set dimension(dimension: Dimension) {
+    this._dimension = dimension
+  }
   constructor(private ctx: CanvasRenderingContext2D) {}
 
   draw(dimension:Dimension): void{
     this.clear();
-    this._dimension = dimension;
+    this.dimension = dimension;
     this.ctx.fillRect(this._dimension.posX, this._dimension.posY, this._dimension.width, this._dimension.height);
   }
 

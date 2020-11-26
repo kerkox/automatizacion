@@ -5,8 +5,12 @@ export class Side extends Rectangle{
 
   private _colorFluid: string;
 
-  constructor(ctx: CanvasRenderingContext2D){
+  constructor(ctx: CanvasRenderingContext2D, dimension: Dimension,color: string = ''){
     super(ctx);
+    if(color != '') {
+      super.color = color;
+    }
+    super.draw(dimension)
   }
 
   set colorFluid(color: string){
