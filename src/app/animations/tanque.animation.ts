@@ -270,10 +270,9 @@ export class Tanque {
   private getDimensionByPercentMezcla(centerFluid: Dimension, percent: number): Dimension {
     const { posX, posY, width, height } = centerFluid
     const { size: width_mezcla, pos: posX_mezcla } = Util.calculateSizePos(width, posX, 94)
-
-    const height_mezcla = (height * 0.95)
+    const {size: height_mezcla, pos: posY_mezcla } = Util.calculateSizePos(height, posY, 94)
     const height_percent = height_mezcla * (percent / 100)
-    const posY_percent = (posY * 1.05) + (height_mezcla - height_percent)
+    const posY_percent = posY_mezcla + (height_mezcla - height_percent)
     const dimension: Dimension = { posX: posX_mezcla, posY: posY_percent, width: width_mezcla, height: height_percent }
 
     return dimension;
