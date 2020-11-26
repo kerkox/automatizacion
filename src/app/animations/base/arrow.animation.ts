@@ -1,7 +1,7 @@
 import { Rectangle } from './rectangle.animation';
 import { Triangle } from './triangle.animation';
-import { Dimension } from './interfaces/tanqueDimension.interface';
-import { Util } from './util.animation';
+import { Dimension } from '../interfaces/tanqueDimension.interface';
+import { Util } from '../util.animation';
 
 export class Arrow {
   private _color: string = '#ffffff';

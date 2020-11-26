@@ -1,38 +1,44 @@
-import { Arrow } from './arrow.animation';
-import { Util } from './util.animation';
-import { SizePos } from './interfaces/sizePos.interface';
-import { Dimension, TanqueDimension } from './interfaces/tanqueDimension.interface';
-import { Rectangle } from './rectangle.animation';
+import { Side } from './side.animation';
+import { Arrow } from '../base/arrow.animation';
+import { Util } from '../util.animation';
+import { SizePos } from '../interfaces/sizePos.interface';
+import { Dimension, TanqueDimension } from '../interfaces/tanqueDimension.interface';
+import { Rectangle } from '../base/rectangle.animation';
 export class Tanque {
 
-  _colorTanque = '#A0A0A0';
-  _colorEntradas = '#505050';
-  _colorLiquidoA = '#FACB52';
-  _colorLiquidoB = '#2D61FA';
-  _colorMezcla = '#9CFA20';
-  _colorSimboloA = '#8C538B';
-  _colorSimboloB = '#BF11BB';
-  _colorSimboloC = '#BF9B11';
-  _colorSimboloD = '#33FF33'; //verde
-  _colorSimboloE = '#FF3333'; //rojo
-  _colorSimboloF = '#FFFFFF';
+  private _colorTanque = '#A0A0A0';
+  private _colorEntradas = '#505050';
+  private _colorLiquidoA = '#FACB52';
+  private _colorLiquidoB = '#2D61FA';
+  private _colorMezcla = '#9CFA20';
+  private _colorSimboloA = '#8C538B';
+  private _colorSimboloB = '#BF11BB';
+  private _colorSimboloC = '#BF9B11';
+  private _colorSimboloD = '#33FF33'; //verde
+  private _colorSimboloE = '#FF3333'; //rojo
+  private _colorSimboloF = '#FFFFFF';
 
   //varables para el simbolo
-  _posXsimbolo = 135;
-  _posYsimbolo = 135;
-  _anchoSimbolo = 90;
-  _altoSimbolo = 90;
+  private _posXsimbolo = 135;
+  private _posYsimbolo = 135;
+  private _anchoSimbolo = 90;
+  private _altoSimbolo = 90;
 
-  _posX: number = 0;
-  _posY: number = 0;
-  _size: number = 1;
+  private _posX: number = 0;
+  private _posY: number = 0;
+  private _size: number = 1;
 
-  _showLeft: boolean = true;
-  _showRight: boolean = true;
+  private _showLeft: boolean = true;
+  private _showRight: boolean = true;
 
-  _tanqueDimension: TanqueDimension;
+  private _tanqueDimension: TanqueDimension;
 
-  _percentMezcla: number = 100;
+  private _percentMezcla: number = 100;
+  private _mezcla: Rectangle;
+
+  private _sideRight: Side;
+  private _sideLeft: Side;
+
 
   constructor(private ctx: CanvasRenderingContext2D) {
     this.ctx.fillStyle = this._colorTanque; //tanqueprincipal
@@ -47,6 +53,28 @@ export class Tanque {
     this._posX = x;
     this._posY = y;
     this._size = size;
+  }
+
+  get sideRight() : Side{
+    return this._sideRight;
+  }
+
+  get sideLeft(): Side {
+    return this._sideLeft;
+  }
+
+  get mezcla(): Rectangle {
+    if(this._mezcla == null){
+      this._mezcla = new Rectangle(this.ctx)
+    }
+    return this._mezcla
+  }
+
+  get tanqueDimension() : TanqueDimension{
+    if(this._tanqueDimension == null) {
+      this._tanqueDimension = this.calculatePosAndSizeTanque(this._posX, this._posY, this._size)
+    }
+    return this._tanqueDimension;
   }
 
   set showLeft(show: boolean) {
@@ -65,7 +93,7 @@ export class Tanque {
   }
 
   draw() {
-    this.drawTanqueBase(this._colorTanque)
+    this.showTanqueBase();
 
     // this.ctx.fillRect(34, 87, 100, 38); // left 
     // this.ctx.fillRect(90, 87, 181, 181); // central
@@ -73,9 +101,29 @@ export class Tanque {
     // this.ctx.fillRect(227, 87, 100, 38); // right
   }
 
+  vaciarMezcla(percentUntil:number = 5){
+    if(this.percentMezclaValue <= percentUntil) return;
+
+    const i = setInterval(() => {
+      // this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+      this.percentMezclaValue -= 1;
+      console.log("this.percentMezclaValue: ", this.percentMezclaValue)
+      this.showMezcla()
+      if (this.percentMezclaValue == percentUntil) {
+        clearInterval(i);
+      }
+    }, 200);
+
+    
+  }
+
+  private showTanqueBase() {
+    this.drawTanqueBase(this._colorTanque)
+  }
+
   private drawTanqueBase(color: string) {
-    this._tanqueDimension = this.calculatePosAndSizeTanque(this._posX, this._posY, this._size)
-    const { left, center, right, bottom } = this._tanqueDimension
+    
+    const { left, center, right, bottom } = this.tanqueDimension
     //Taque y bloques de fondo
     this.drawBaseLeft(left, color)
     this.drawBaseRight(right, color);
@@ -146,7 +194,7 @@ export class Tanque {
     //Mezcla
     // this.ctx.fillStyle = this._colorMezcla;
     // this.ctx.fillRect(95, 223, 171, 40);
-    this.mezcla(this.percentMezclaValue, this._colorMezcla)
+    this.showMezcla()
 
 
     // tapa abajo
@@ -178,7 +226,7 @@ export class Tanque {
   }
 
   private simbolBox(color: string, colorContent: string, colorArrow: string) {
-    const { center } = this._tanqueDimension;
+    const { center } = this.tanqueDimension;
     const simbolDimension = this.drawSimbolBox(this.ctx, color, center)
     this.drawSimbolContent(this.ctx, colorContent, simbolDimension)
     this.drawSimbolArrow(this.ctx, colorArrow, simbolDimension)
@@ -214,7 +262,7 @@ export class Tanque {
 
   private bottomCover(color: string) {
     // tapa de abajo
-    const { bottom } = this._tanqueDimension;
+    const { bottom } = this.tanqueDimension;
     this.drawBottomCover(this.ctx, color, bottom)
   }
 
@@ -231,13 +279,14 @@ export class Tanque {
   private leftFluid(color: string) {
     //liquido a la izquierda
     if (!this._showLeft) return;
-    const { left } = this._tanqueDimension;
+    const { left } = this.tanqueDimension;
     this.drawFluid(this.ctx, left, color)
   }
   private rightFluid(color: string) {
     //liquido a la derecha
     if (!this._showRight) return;
-    const { right } = this._tanqueDimension;
+    const { right } = this.tanqueDimension;
+    
     this.drawFluid(this.ctx, right, color)
 
   }
@@ -254,17 +303,15 @@ export class Tanque {
   }
 
 
-  private mezcla(percent: number, color: string) {
-    const { center } = this._tanqueDimension;
-    this.drawMezcla(this.ctx, center, percent, color)
-
+  private showMezcla() {
+    const { center } = this.tanqueDimension;
+    this.drawMezcla(this.ctx, center, this.percentMezclaValue, this._colorMezcla)
   }
 
   private drawMezcla(ctx: CanvasRenderingContext2D, centerFluid: Dimension, percent: number, color: string) {
-    const r_fluidCenter = new Rectangle(ctx)
     const dimension = this.getDimensionByPercentMezcla(centerFluid, percent);
-    r_fluidCenter.color = color;
-    r_fluidCenter.draw(dimension)
+    this.mezcla.color = color;
+    this.mezcla.draw(dimension)
   }
 
   private getDimensionByPercentMezcla(centerFluid: Dimension, percent: number): Dimension {
@@ -280,12 +327,12 @@ export class Tanque {
 
 
   private leftCover(color: string) {
-    const { left } = this._tanqueDimension
+    const { left } = this.tanqueDimension
     this.drawSideCover(this.ctx, color, left, 'LEFT')
   }
 
   private rightCover(color: string) {
-    const { right } = this._tanqueDimension
+    const { right } = this.tanqueDimension
     this.drawSideCover(this.ctx, color, right, 'RIGHT')
   }
 
@@ -318,7 +365,7 @@ export class Tanque {
     // this.ctx.fillRect(72, 87, 18, 38); 
     this.leftCover(this._colorEntradas)
     this.bottomCover(this._colorEntradas)
-    this.mezcla(this.percentMezclaValue,this._colorMezcla)
+    this.showMezcla()
 
     //simbolo
     //simbolo

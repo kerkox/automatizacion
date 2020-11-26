@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Tanque } from './../../animations/tanque.animation';
-import { Square } from '../../animations/square.animation';
+import { Tanque } from '../../animations/tanque/tanque.animation';
+import { Square } from '../../animations/base/square.animation';
 
 @Component({
   selector: 'app-animacion',
@@ -42,6 +42,9 @@ export class AnimacionComponent implements OnInit {
   altoSimbolo = 90;
   arregloFlujos = [];
 
+  tanque:Tanque;
+  tanque2:Tanque;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -67,35 +70,44 @@ export class AnimacionComponent implements OnInit {
     this.dibujar();
   }
 
+  vaciarMezcla(){
+    this.vaciarMezclaTanque(this.tanque);
+    this.vaciarMezclaTanque(this.tanque2, 50);
+  }
+
+  vaciarMezclaTanque(tanque:Tanque, percentUntil:number = 5){
+    tanque.vaciarMezcla(percentUntil);
+  }
+
   dibujar() {
     this.ctx.clearRect(0, 0, this.width, this.height); //limpiar ventana
-    const tanque =  new Tanque(this.ctx);
-    const tanque2 =  new Tanque(this.ctx);
+    this.tanque =  new Tanque(this.ctx);
+    this.tanque2 =  new Tanque(this.ctx);
     const size_percent = this.size / 100
-    tanque.setPosition(this.posX,this.posY, size_percent)
-    tanque.draw();
-    tanque.llenar();
+    this.tanque.setPosition(this.posX,this.posY, size_percent)
+    this.tanque.draw();
+    this.tanque.llenar();
 
-    tanque2.setPosition(250,10, 0.8)
+    this.tanque2.setPosition(250,10, 0.8)
     // tanque2.showLeft = false;
     // tanque2.showRight = false;
-    tanque2.draw();
+    this.tanque2.draw();
 
     switch(this.estado){
       case 1:
-        tanque2.llenar();
+        this.tanque2.llenar();
         break;
       case 2: 
-        tanque2.mezclar()
+        this.tanque2.mezclar()
         break;
       case 3:
-        tanque2.vaciar();
+        this.tanque2.vaciar();
         break;
       case 4:
-        tanque2.disponible();
+        this.tanque2.disponible();
         break;
       case 5:
-        tanque2.noDisponible();
+        this.tanque2.noDisponible();
         break;
 
     }
