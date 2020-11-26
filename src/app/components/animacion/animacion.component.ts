@@ -86,7 +86,7 @@ export class AnimacionComponent implements OnInit {
     const size_percent = this.size / 100
     this.tanque.setPosition(this.posX,this.posY, size_percent)
     this.tanque.draw();
-    this.tanque.llenar();
+    
 
     this.tanque2.setPosition(250,10, 0.8)
     // tanque2.showLeft = false;
@@ -96,9 +96,11 @@ export class AnimacionComponent implements OnInit {
     switch(this.estado){
       case 1:
         this.tanque2.llenar();
+        this.tanque.llenar();
         break;
       case 2: 
         this.tanque2.mezclar()
+        this.tanque.mezclar()
         break;
       case 3:
         this.tanque2.vaciar();
