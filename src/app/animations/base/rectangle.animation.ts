@@ -21,15 +21,17 @@ export class Rectangle {
     
   }
 
-  draw(dimension:Dimension): void{
+  draw(dimension:Dimension = null): void{
     this.clear();
-    this.dimension = dimension;
-    this.ctx.fillRect(this._dimension.posX, this._dimension.posY, this._dimension.width, this._dimension.height);
+    if(dimension != null){
+      this.dimension = dimension;
+    }
+    this.ctx.fillRect(this.dimension.posX, this.dimension.posY, this.dimension.width, this.dimension.height);
   }
 
   clear(): void{
-    if(this._dimension == null) return;
-    this.ctx.clearRect(this._dimension.posX, this._dimension.posY, this._dimension.width, this._dimension.height);
+    if(this.dimension == null) return;
+    this.ctx.clearRect(this.dimension.posX, this.dimension.posY, this.dimension.width, this.dimension.height);
   }
 
   set color(color: string) {

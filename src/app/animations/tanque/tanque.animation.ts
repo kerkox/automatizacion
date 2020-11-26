@@ -1,3 +1,4 @@
+import { Simbol } from './simbol.animation';
 import { EnumSide } from './../enums/enum-side.enum';
 import { Side } from './side.animation';
 import { Arrow } from '../base/arrow.animation';
@@ -54,6 +55,11 @@ export class Tanque {
     this._posX = x;
     this._posY = y;
     this._size = size;
+  }
+
+  set colorTanque(color: string) {
+    this._colorTanque = color;
+    this.ctx.fillStyle = this._colorTanque
   }
 
   get sideRight() : Side{
@@ -191,10 +197,7 @@ export class Tanque {
     return tanqueDimensions;
   }
 
-  set colorTanque(color: string) {
-    this._colorTanque = color;
-    this.ctx.fillStyle = this._colorTanque
-  }
+  
 
   llenar() {
     //liquidos y compuerta
@@ -246,37 +249,8 @@ export class Tanque {
 
   private simbolBox(color: string, colorContent: string, colorArrow: string) {
     const { center } = this.tanqueDimension;
-    const simbolDimension = this.drawSimbolBox(this.ctx, color, center)
-    this.drawSimbolContent(this.ctx, colorContent, simbolDimension)
-    this.drawSimbolArrow(this.ctx, colorArrow, simbolDimension)
-  }
-
-  private drawSimbolContent(ctx: CanvasRenderingContext2D, color: string, simbolDimension: Dimension) {
-    const r_simbol = new Rectangle(ctx);
-    const { posX, posY, width, height } = simbolDimension
-    const { size: width_simbol_content, pos: posX_simbol_content } = Util.calculateSizePos(width, posX, 95)
-    const { size: height_simbol_content, pos: posY_simbol_content } = Util.calculateSizePos(height, posY, 95)
-    const dimension: Dimension = { posX: posX_simbol_content, posY: posY_simbol_content, width: width_simbol_content, height: height_simbol_content }
-    r_simbol.color = color;
-    r_simbol.draw(dimension);
-  }
-
-  private drawSimbolArrow(ctx: CanvasRenderingContext2D, color: string, simbolDimension: Dimension) {
-    const arrow = new Arrow(ctx)
-    arrow.draw(simbolDimension)
-  }
-
-  private drawSimbolBox(ctx: CanvasRenderingContext2D, color: string, centerDimension: Dimension): Dimension {
-    const r_simbol = new Rectangle(ctx);
-    const { posX, posY, width, height } = centerDimension
-    const width_simbol = Math.ceil(width / 2);
-    const height_simbol = Math.ceil(height / 2);
-    const posX_simbol = posX + Math.floor((height - height_simbol) / 2);
-    const posY_simbol = posY + Math.floor((width - width_simbol) / 2);
-    const dimension: Dimension = { posX: posX_simbol, posY: posY_simbol, width: width_simbol, height: height_simbol }
-    r_simbol.color = color;
-    r_simbol.draw(dimension);
-    return dimension;
+    const simbol = new Simbol(this.ctx,center,color);
+    simbol.drawSimbolArrow(colorContent);  
   }
 
   private bottomCover(color: string) {

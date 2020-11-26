@@ -10,11 +10,11 @@ export class Arrow {
   draw(dimension: Dimension) {
     const { posX, posY, width, height } = dimension
     const triangle = new Triangle(this.ctx)
-    triangle.color = this._color;
+    triangle.color = this.color;
     const { size: width_triangle, pos: posX_triangle } = Util.calculateSizePos(width, posX, 70)
     triangle.draw(posX_triangle, posY + (height / 2), width_triangle)
     const base = new Rectangle(this.ctx)
-    base.color = this._color;
+    base.color = this.color;
     const height_base = ((height / 2) * 0.90)
     const { size: width_base, pos: posX_base } = Util.calculateSizePos(width, posX, 30)
     const dimension_base: Dimension = { posX: posX_base, posY: posY + height_base, width: width_base, height: height_base }
@@ -22,7 +22,12 @@ export class Arrow {
   }
 
   set color(color: string) {
-    this._color = color;
-    this.ctx.fillStyle = this._color;
+    if(color != ''){
+      this._color = color;
+    }    
+  }
+
+  get color(): string {
+    return this._color;
   }
 }
