@@ -406,21 +406,21 @@ export class Tanque {
     this.simbolCheck(this._colorSimboloA, this._colorSimboloD, this._colorSimboloF);
 
 
-    this.ctx.fillStyle = this._colorSimboloA;    //Caja simbolo
-    this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
-    this.ctx.fillStyle = this._colorSimboloD;    //lo que carga
-    this.ctx.fillRect(this._posXsimbolo + 5, this._posYsimbolo + 5, this._anchoSimbolo - 10, this._altoSimbolo - 10);
+    // this.ctx.fillStyle = this._colorSimboloA;    //Caja simbolo
+    // this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
+    // this.ctx.fillStyle = this._colorSimboloD;    //lo que carga
+    // this.ctx.fillRect(this._posXsimbolo + 5, this._posYsimbolo + 5, this._anchoSimbolo - 10, this._altoSimbolo - 10);
 
-    //El visto
-    this.ctx.beginPath(); //El visto, cuenta con 7 vertices
-    this.ctx.moveTo(this._posXsimbolo + 13, this._posYsimbolo + 45);
-    this.ctx.lineTo(this._posXsimbolo + 26, this._posYsimbolo + 32);
-    this.ctx.lineTo(this._posXsimbolo + 39, this._posYsimbolo + 45);
-    this.ctx.lineTo(this._posXsimbolo + 65, this._posYsimbolo + 19);
-    this.ctx.lineTo(this._posXsimbolo + 78, this._posYsimbolo + 32);
-    this.ctx.lineTo(this._posXsimbolo + 39, this._posYsimbolo + 71);
-    this.ctx.fillStyle = this._colorSimboloF;
-    this.ctx.fill();
+    // //El visto
+    // this.ctx.beginPath(); //El visto, cuenta con 7 vertices
+    // this.ctx.moveTo(this._posXsimbolo + 13, this._posYsimbolo + 45);
+    // this.ctx.lineTo(this._posXsimbolo + 26, this._posYsimbolo + 32);
+    // this.ctx.lineTo(this._posXsimbolo + 39, this._posYsimbolo + 45);
+    // this.ctx.lineTo(this._posXsimbolo + 65, this._posYsimbolo + 19);
+    // this.ctx.lineTo(this._posXsimbolo + 78, this._posYsimbolo + 32);
+    // this.ctx.lineTo(this._posXsimbolo + 39, this._posYsimbolo + 71);
+    // this.ctx.fillStyle = this._colorSimboloF;
+    // this.ctx.fill();
   }
 
   noDisponible() {
