@@ -17,8 +17,8 @@ export class Rectangle {
     return this._ctx;
   }
   
-  constructor(private _ctx: CanvasRenderingContext2D) {
-    
+  constructor(private _ctx: CanvasRenderingContext2D, color: string = '') {
+    this.color = color;
   }
 
   draw(dimension:Dimension = null): void{
@@ -26,6 +26,7 @@ export class Rectangle {
     if(dimension != null){
       this.dimension = dimension;
     }
+    this.ctx.fillStyle = this._color;
     this.ctx.fillRect(this.dimension.posX, this.dimension.posY, this.dimension.width, this.dimension.height);
   }
 
@@ -35,7 +36,8 @@ export class Rectangle {
   }
 
   set color(color: string) {
-    this._color = color;
-    this.ctx.fillStyle = this._color;
+    if(color!= '') {
+      this._color = color;      
+    }
   }
 }

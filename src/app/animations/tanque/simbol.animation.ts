@@ -1,33 +1,15 @@
-import { ErrorSimbol } from './../base/error-simbol.animation';
-import { Check } from './../base/check.animation';
-import { EnumSide } from './../enums/enum-side.enum';
-import { Arrow } from '../base/arrow.animation';
 import { Dimension } from '../interfaces/tanqueDimension.interface';
 import { Util } from '../util.animation';
 import { Rectangle } from './../base/rectangle.animation';
-import { EnumDirection } from '../enums/enum-direction.enum';
 
 export class Simbol extends Rectangle {
   
-  private _colorSimbolBox: string;
   private _colorSimbolContent: string = '#8C538B';
 
-  constructor(ctx: CanvasRenderingContext2D, dimension: Dimension, color: string = '') {
-    super(ctx);
-    if (color != '') {
-      super.color = color;
-    }
+  constructor(ctx: CanvasRenderingContext2D, dimension: Dimension, color: string = '',colorSimbolContent: string = '') {
+    super(ctx, color);
     super.dimension = this.getDimensionFromCenter(dimension)
-  }
-  
-  public get colorSimbolBox() : string {
-    return this._colorSimbolBox;
-  }
-  
-  public set colorSimbolBox(color : string) {
-    if(color != '') {
-      this._colorSimbolBox = color;
-    }
+    this.colorSimbolContent = colorSimbolContent
   }
   
   public get colorSimbolContent() : string {
@@ -40,9 +22,9 @@ export class Simbol extends Rectangle {
     }
   }
   
-
-  drawSimbol() {
-    super.draw()    
+  drawContent() {
+    super.draw()
+    this.colorSimbolContent != null && this.drawSimbolContent();
   }
 
   getDimensionFromCenter(dimension:Dimension):Dimension {
@@ -55,84 +37,16 @@ export class Simbol extends Rectangle {
     return dimensionCalculate;
   }
 
-  private drawSimbolContent(color: string = '') {
-    this.colorSimbolContent = color;
-    const r_simbol = new Rectangle(super.ctx);
+  private drawSimbolContent() {
+    // this.colorSimbolContent = color;
+    const r_simbol = new Rectangle(super.ctx, this.colorSimbolContent);
     const { posX, posY, width, height } = super.dimension
     const { size: width_simbol_content, pos: posX_simbol_content } = Util.calculateSizePos(width, posX, 90)
     const { size: height_simbol_content, pos: posY_simbol_content } = Util.calculateSizePos(height, posY, 90)
     const dimension: Dimension = { posX: posX_simbol_content, posY: posY_simbol_content, width: width_simbol_content, height: height_simbol_content }
-    r_simbol.color = this.colorSimbolContent;
     r_simbol.draw(dimension);
   }
 
-  drawSimbolCheck(colorSimbolContent: string = '', colorCheck: string = '#FFF'){
-    super.draw()
-    this.drawSimbolContent(colorSimbolContent);
-    this.drawCheck(colorCheck);
-  }
-
-  private drawCheck(color: string = '') {
-    const check = new Check(super.ctx, super.dimension, color)
-  }
-
-  drawSimbolError(colorSimbolContent: string = '', colorError: string = '#FFF'){
-    super.draw()
-    this.drawSimbolContent(colorSimbolContent);
-    this.drawError(colorError);
-  }
-
-  private drawError(color: string = '') {
-    const error = new ErrorSimbol(this.ctx,super.dimension, color);
-  }
-
   
-
-  drawSimbolArrow(direction:EnumDirection,colorSimbolContent: string = '', colorArrow: string = '') {
-    super.draw()
-    this.drawSimbolContent(colorSimbolContent);
-    const arrow = new Arrow(super.ctx, direction)
-    arrow.color = colorArrow;
-    arrow.draw(super.dimension)
-  }
-
-  drawSimbolMezclar(colorSimbolContent: string = '', colorAspaLeft: string = '#FACB52', colorAspaRight: string = '#2D61FA', colorEje: string = '#FFF') {
-    super.draw();
-    colorSimbolContent != null && this.drawSimbolContent(colorSimbolContent);
-    this.drawAspa(colorAspaLeft, EnumSide.LEFT)
-    this.drawAspa(colorAspaRight, EnumSide.RIGHT)
-    this.drawEje(colorEje);
-  }
-
-  private drawEje(color: string = ''){
-    const eje = new Rectangle(super.ctx);
-    const { posX, posY, width, height } = super.dimension
-    const { size: width_eje, pos: posX_eje } = Util.calculateSizePos(width, posX, 20)
-    const { size: height_eje, pos: posY_eje } = Util.calculateSizePos(height, posY, 90)
-    
-    const dimension: Dimension = { posX: posX_eje, posY: posY_eje, width: width_eje, height: height_eje }
-    eje.color = color;
-    eje.draw(dimension);
-  }
-
-  private drawAspa(color: string, enumSide: EnumSide) {
-    const aspa = new Rectangle(super.ctx);
-    const { posX, posY, width, height } = super.dimension
-    const { size: width_aspa } = Util.calculateSizePos(width, posX, 25)
-    let posX_aspa: number;
-    if (enumSide == EnumSide.LEFT){
-      posX_aspa = posX + (width * 0.15)
-    }else if(enumSide == EnumSide.RIGHT){
-      posX_aspa = posX + (width  - width_aspa - (width * 0.15))
-    } 
-    const { size: height_simbol_content, pos: posY_simbol_content } = Util.calculateSizePos(height, posY, 40)
-    const dimension: Dimension = { posX: posX_aspa, posY: posY_simbol_content, width: width_aspa, height: height_simbol_content }
-    aspa.color = color;
-    aspa.draw(dimension);
-
-  }
-
-  
-
 
 }

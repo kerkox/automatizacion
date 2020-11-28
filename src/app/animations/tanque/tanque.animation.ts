@@ -1,10 +1,14 @@
+import { ErrorSimbol } from './error-simbol.animation';
+import { ErrorDraw } from '../base/error-draw.animation';
+import { CheckSimbol } from './check-simbo..animation';
+import { MezclaSimbol } from './mezcla-simbol.animation';
+import { ArrowSimbol } from './arrow-simbol.animation';
+import { SimbolDrawable } from '../interfaces/simbol-drawable.interface';
 import { EnumDirection } from './../enums/enum-direction.enum';
 import { Simbol } from './simbol.animation';
 import { EnumSide } from './../enums/enum-side.enum';
 import { Side } from './side.animation';
-import { Arrow } from '../base/arrow.animation';
 import { Util } from '../util.animation';
-import { SizePos } from '../interfaces/sizePos.interface';
 import { Dimension, TanqueDimension } from '../interfaces/tanqueDimension.interface';
 import { Rectangle } from '../base/rectangle.animation';
 export class Tanque {
@@ -21,11 +25,14 @@ export class Tanque {
   private _colorSimboloE = '#FF3333'; //rojo
   private _colorSimboloF = '#FFFFFF';
 
-  //varables para el simbolo
-  private _posXsimbolo = 135;
-  private _posYsimbolo = 135;
-  private _anchoSimbolo = 90;
-  private _altoSimbolo = 90;
+  private _showLeftFluid: boolean = false;
+  private _showRightFluid: boolean = false;
+  private _showMezcla: boolean = false;
+  private _showBottomCover: boolean = false;
+  private _simbol: SimbolDrawable = null;
+  private _showSimbol: boolean = false;
+  private _showRightCover: boolean = false;
+  private _showLeftCover: boolean = false;
 
   private _posX: number = 0;
   private _posY: number = 0;
@@ -116,27 +123,92 @@ export class Tanque {
 
   draw() {
     this.showTanqueBase();
+    this.leftFluid(this._colorLiquidoA)
+    this.rightFluid(this._colorLiquidoB)
+    this.showMezcla()
+    this.rightCover(this._colorEntradas)
+    this.leftCover(this._colorEntradas)
+    this.bottomCover(this._colorEntradas)
+    this.drawSimbol();
+    
+  }
 
-    // this.ctx.fillRect(34, 87, 100, 38); // left 
-    // this.ctx.fillRect(90, 87, 181, 181); // central
-    // this.ctx.fillRect(150, 268, 62, 76); // botom
-    // this.ctx.fillRect(227, 87, 100, 38); // right
+  private drawSimbol(){
+    if(!this._showSimbol) return;
+    this._simbol.draw();
   }
 
   vaciarMezcla(percentUntil:number = 5){
-    if(this.percentMezclaValue <= percentUntil) return;
+    if(this.percentMezclaValue <= percentUntil || !this._showMezcla) return;
 
     const i = setInterval(() => {
       // this.ctx.clearRect(0, 0, canvas.width, canvas.height);
       this.percentMezclaValue -= 1;
       console.log("this.percentMezclaValue: ", this.percentMezclaValue)
-      this.showMezcla()
+      this.draw()
       if (this.percentMezclaValue == percentUntil) {
         clearInterval(i);
       }
     }, 200);
 
     
+  }
+
+  private resetTanque() {
+    this._showLeftFluid = false;
+    this._showRightFluid = false;
+    this._showMezcla = false;
+    this._showBottomCover = false;
+    this._showSimbol = false;
+    this._showRightCover = false;
+    this._showLeftCover = false;
+    this._simbol = null;
+  }
+
+  llenar() {
+    this.resetTanque();
+    this._showLeftFluid = true;
+    this._showRightFluid = true;
+    this._showMezcla = true;
+    this._showBottomCover = true;
+    this.simbolArrow(EnumDirection.UP, this._colorSimboloA, this._colorSimboloB, this._colorSimboloF)
+    this.draw();
+  }
+
+  mezclar() {
+    this.resetTanque();
+    this._showRightCover = true;
+    this._showLeftCover = true;
+    this._showBottomCover = true;
+    this._showMezcla = true;
+    this.simbolMezclar(this._colorSimboloA, null)
+    this.draw();
+  }
+
+  vaciar() {
+    this.resetTanque();
+    this._showMezcla = true;
+    this._showRightCover = true;
+    this._showLeftCover = true;
+    this.simbolArrow(EnumDirection.DOWN, this._colorSimboloA, this._colorSimboloB, this._colorSimboloF)
+    this.draw();
+  }
+
+  disponible() {
+    //simbolo
+    this.resetTanque();
+    this.simbolCheck(this._colorSimboloA, this._colorSimboloD, this._colorSimboloF);
+    this.draw();
+  }
+
+  noDisponible() {
+    //Tapas del tanque
+    this.resetTanque();
+    this._showRightCover = true;
+    this._showLeftCover = true;
+    this._showBottomCover = true;
+    this.simbolError(this._colorSimboloA, this._colorSimboloE, this._colorSimboloF);
+    this.draw();
   }
 
   private showTanqueBase() {
@@ -198,73 +270,30 @@ export class Tanque {
     return tanqueDimensions;
   }
 
-  
-
-  llenar() {
-    //liquidos y compuerta
-    //liquido a la izquierda
-
-    this.leftFluid(this._colorLiquidoA)
-    // this.ctx.fillStyle = this._colorLiquidoA;  
-    // this.ctx.fillRect(34, 90, 57, 32);
-
-
-    //liquido a la derecha
-    // this.ctx.fillStyle = this._colorLiquidoB;  
-    // this.ctx.fillRect(271, 90, 57, 32);
-    this.rightFluid(this._colorLiquidoB)
-
-    //Mezcla
-    // this.ctx.fillStyle = this._colorMezcla;
-    // this.ctx.fillRect(95, 223, 171, 40);
-    this.showMezcla()
-
-
-    // tapa abajo
-    // this.ctx.fillStyle = this._colorEtradas; 
-    // this.ctx.fillRect(150, 268, 62, 18);
-    this.bottomCover(this._colorEntradas)
-
-
-    //simbolo
-    //Caja simbolo
-    // this.ctx.fillStyle = this._colorSimboloA;    
-    // this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
-    this.simbolArrow(EnumDirection.UP,this._colorSimboloA, this._colorSimboloB, this._colorSimboloF)
-
-
-
-    // this.ctx.fillStyle = this._colorSimboloB;    //lo que carga
-    // this.ctx.fillRect(this._posXsimbolo + 5, this._posYsimbolo + 5, this._anchoSimbolo - 10, this._altoSimbolo - 10);
-
-    // this.ctx.fillStyle = this._colorSimboloF; //Laflecha
-    // this.ctx.fillRect(this._posXsimbolo + 33, this._posYsimbolo + 45, this._anchoSimbolo - 66, this._altoSimbolo - 55);
-    // this.ctx.beginPath(); //El trinagulo de arriba
-    // let posY = this._posYsimbolo + 45
-    // this.ctx.moveTo(this._posXsimbolo + 15, posY);
-    // this.ctx.lineTo(this._posXsimbolo + 75, posY);
-    // this.ctx.lineTo(this._posXsimbolo + 45, this._posYsimbolo + 10);
-    // //c.fillStyle=colorSimboloC;
-    // this.ctx.fill();
-  }
-
   private simbolArrow(enumDirection:EnumDirection, color: string, colorContent: string, colorArrow: string) {
+    this._showSimbol = true;
     const { center } = this.tanqueDimension;
-    const simbol = new Simbol(this.ctx,center,color);
-    simbol.drawSimbolArrow(enumDirection,colorContent);
+    this._simbol = new ArrowSimbol(this.ctx,center,color,colorContent,enumDirection,colorArrow)    
   }
 
   private simbolCheck(color: string, colorContent: string, colorCheck: string) {
+    this._showSimbol = true;
     const { center } = this.tanqueDimension;
-    const simbol = new Simbol(this.ctx,center,color);
-    simbol.drawSimbolCheck(colorContent, colorCheck);
+    this._simbol = new CheckSimbol(this.ctx,center,color,colorContent,colorCheck)    
   }
 
   private simbolError(color: string, colorContent: string, colorError: string) {
+    this._showSimbol = true;
     const { center } = this.tanqueDimension;
-    const simbol = new Simbol(this.ctx,center,color);
-    simbol.drawSimbolError(colorContent, colorError);
+    this._simbol = new ErrorSimbol(this.ctx,center,color,colorContent, colorError);
   }
+
+  private simbolMezclar(color: string, colorContent: string = '',) {
+    this._showSimbol = true;
+    const { center } = this.tanqueDimension;
+    this._simbol = new MezclaSimbol(this.ctx, center, color, colorContent)
+  }
+
 
   private bottomCover(color: string) {
     // tapa de abajo
@@ -285,17 +314,20 @@ export class Tanque {
   private leftFluid(color: string) {
     //liquido a la izquierda
     if (!this._showLeft) return;
+    if(!this._showLeftFluid) return;
     this.sideLeft.drawFluid(color)    
   }
   private rightFluid(color: string) {
     //liquido a la derecha
     if (!this._showRight) return;
+    if (!this._showRightFluid) return;
     this.sideRight.drawFluid(color)
   }
 
 
 
   private showMezcla() {
+    if(!this._showMezcla) return;
     const { center } = this.tanqueDimension;
     this.drawMezcla(this.ctx, center, this.percentMezclaValue, this._colorMezcla)
   }
@@ -319,158 +351,21 @@ export class Tanque {
 
 
   private leftCover(color: string) {
-    if(this.showLeft) {
-      this.sideLeft.drawCover(color);
-    }    
+    if(!this.showLeft)  return;
+    if(!this._showLeftCover) return;
+    this.sideLeft.drawCover(color);
+    
   }
 
   private rightCover(color: string) {
-    if (this.showRight) {
-      this.sideRight.drawCover(color);
-    }
-  }
-
-  private simbolMezclar(color: string, colorContent: string = '', ){
-    const { center } = this.tanqueDimension;
-    const simbol = new Simbol(this.ctx, center, color);
-    simbol.drawSimbolMezclar(colorContent);  
-  }
-
-  mezclar() {
-    //////////////////////////
-    //Segundo this._estado mezclandoce
-    //liquidos y compuertas
+    if (!this.showRight)  return;
+    if(!this._showRightCover) return;
+    this.sideRight.drawCover(color);
     
-    //tapas
-    // this.ctx.fillStyle = this._colorEntradas; 
-    //derecha
-    // this.ctx.fillRect(271, 87, 18, 38); 
-    this.rightCover(this._colorEntradas)
-    
-    //izquierda
-    // this.ctx.fillRect(72, 87, 18, 38); 
-    this.leftCover(this._colorEntradas)
-
-    //abajo
-    // this.ctx.fillRect(150, 268, 62, 18); 
-    this.bottomCover(this._colorEntradas)
-
-    //la mescla
-    // this.ctx.fillStyle = this._colorMezcla; 
-    // this.ctx.fillRect(95, 128, 171, 133);
-    this.showMezcla()
-
-    //simbolo
-    this.simbolMezclar(this._colorSimboloA, null)
-    //simbolo
-    // this.ctx.fillStyle = this._colorSimboloA;    //Caja simbolo
-    // this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
-    // this.ctx.fillStyle = this._colorLiquidoA;  //una de las azpas
-    // this.ctx.fillRect(this._posXsimbolo + 15, this._posYsimbolo + 30, this._anchoSimbolo - 68, this._altoSimbolo - 60);
-    // this.ctx.fillStyle = this._colorLiquidoB;  //una de las azpas
-    // this.ctx.fillRect(this._posXsimbolo + 53, this._posYsimbolo + 30, this._anchoSimbolo - 68, this._altoSimbolo - 60);
-    // this.ctx.fillStyle = this._colorSimboloF;    //eje
-    // this.ctx.fillRect(this._posXsimbolo + 37, this._posYsimbolo + 5, this._anchoSimbolo - 74, this._altoSimbolo - 10);
   }
 
-  vaciar() {
-    //liquidos y compuertas
-    this.showMezcla()
-    // this.ctx.fillStyle = this._colorMezcla; //la mescla
-    // this.ctx.fillRect(95, 128, 171, 133);
-    // this.ctx.fillRect(155, 261, 52, 83);
-
-    
-    this.rightCover(this._colorEntradas)
-    this.leftCover(this._colorEntradas)
-    // this.ctx.fillStyle = this._colorEntradas; //tapas
-    // this.ctx.fillRect(271, 87, 18, 38); //derecha
-    // this.ctx.fillRect(72, 87, 18, 38); //izquierda
-
-    
-    this.simbolArrow(EnumDirection.DOWN, this._colorSimboloA, this._colorSimboloB, this._colorSimboloF)
-
-
-    //simbolo
-    // this.ctx.fillStyle = this._colorSimboloA;    //Caja simbolo
-    // this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
-    // this.ctx.fillStyle = this._colorSimboloB;    //lo que carga
-    // this.ctx.fillRect(this._posXsimbolo + 5, this._posYsimbolo + 5, this._anchoSimbolo - 10, this._altoSimbolo - 10);
-
-    // this.ctx.fillStyle = this._colorSimboloF; //Laflecha
-    // this.ctx.fillRect(this._posXsimbolo + 33, this._posYsimbolo + 10, this._anchoSimbolo - 66, this._altoSimbolo - 55);
-    // this.ctx.beginPath(); //El trinagulo de arriba
-    // this.ctx.moveTo(this._posXsimbolo + 15, this._posYsimbolo + 45);
-    // this.ctx.lineTo(this._posXsimbolo + 75, this._posYsimbolo + 45);
-    // this.ctx.lineTo(this._posXsimbolo + 45, this._posYsimbolo + 80);
-    // //c.fillStyle=colorSimboloC;
-    // this.ctx.fill();
-  }
-
-  disponible() {
-    //simbolo
-    this.simbolCheck(this._colorSimboloA, this._colorSimboloD, this._colorSimboloF);
-
-
-    // this.ctx.fillStyle = this._colorSimboloA;    //Caja simbolo
-    // this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
-    // this.ctx.fillStyle = this._colorSimboloD;    //lo que carga
-    // this.ctx.fillRect(this._posXsimbolo + 5, this._posYsimbolo + 5, this._anchoSimbolo - 10, this._altoSimbolo - 10);
-
-    // //El visto
-    // this.ctx.beginPath(); //El visto, cuenta con 7 vertices
-    // this.ctx.moveTo(this._posXsimbolo + 13, this._posYsimbolo + 45);
-    // this.ctx.lineTo(this._posXsimbolo + 26, this._posYsimbolo + 32);
-    // this.ctx.lineTo(this._posXsimbolo + 39, this._posYsimbolo + 45);
-    // this.ctx.lineTo(this._posXsimbolo + 65, this._posYsimbolo + 19);
-    // this.ctx.lineTo(this._posXsimbolo + 78, this._posYsimbolo + 32);
-    // this.ctx.lineTo(this._posXsimbolo + 39, this._posYsimbolo + 71);
-    // this.ctx.fillStyle = this._colorSimboloF;
-    // this.ctx.fill();
-  }
-
-  noDisponible() {
-    //Tapas del tanque
-    this.rightCover(this._colorEntradas)
-    this.leftCover(this._colorEntradas)
-    this.bottomCover(this._colorEntradas)
-
-
-    // this.ctx.fillStyle = this._colorEntradas; //tapas
-    // this.ctx.fillRect(150, 268, 62, 18); //abajo
-    // this.ctx.fillRect(271, 87, 18, 38); //derecha
-    // this.ctx.fillRect(72, 87, 18, 38); //izquierda
-
-
-    // //simbolo
-    // this.ctx.fillStyle = this._colorSimboloA;    //Caja simbolo
-    // this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
-    // this.ctx.fillStyle = this._colorSimboloE;    //lo que carga
-    // this.ctx.fillRect(this._posXsimbolo + 5, this._posYsimbolo + 5, this._anchoSimbolo - 10, this._altoSimbolo - 10);
-
-    //la equis
-    this.simbolError(this._colorSimboloA, this._colorSimboloE, this._colorSimboloF);
-
-    // this.ctx.beginPath(); //la equis cuenta con muchos vertices
-    // this.ctx.moveTo(this._posXsimbolo + 45, this._posYsimbolo + 32);
-    // this.ctx.lineTo(this._posXsimbolo + 56, this._posYsimbolo + 19);
-    // this.ctx.lineTo(this._posXsimbolo + 69, this._posYsimbolo + 32);
-
-    // this.ctx.lineTo(this._posXsimbolo + 56, this._posYsimbolo + 45);
-    // this.ctx.lineTo(this._posXsimbolo + 69, this._posYsimbolo + 56);
-    // this.ctx.lineTo(this._posXsimbolo + 56, this._posYsimbolo + 69);
-
-    // this.ctx.lineTo(this._posXsimbolo + 45, this._posYsimbolo + 56);
-    // this.ctx.lineTo(this._posXsimbolo + 32, this._posYsimbolo + 69);
-    // this.ctx.lineTo(this._posXsimbolo + 19, this._posYsimbolo + 56);
-
-    // this.ctx.lineTo(this._posXsimbolo + 32, this._posYsimbolo + 45);
-    // this.ctx.lineTo(this._posXsimbolo + 19, this._posYsimbolo + 32);
-    // this.ctx.lineTo(this._posXsimbolo + 32, this._posYsimbolo + 19);
-
-    // this.ctx.fillStyle = this._colorSimboloF;
-    // this.ctx.fill();
-  }
+  
+ 
 
 
 

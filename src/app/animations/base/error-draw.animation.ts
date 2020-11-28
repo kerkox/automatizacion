@@ -1,6 +1,6 @@
 import { Dimension } from '../interfaces/tanqueDimension.interface';
 
-export class ErrorSimbol {
+export class ErrorDraw {
   constructor(private ctx: CanvasRenderingContext2D, private dimension: Dimension, private color: string) {
     this.draw();
   }
@@ -38,8 +38,8 @@ export class ErrorSimbol {
 
     this.ctx.beginPath();
     // Posicion inicial
-    this.ctx.moveTo(posX_check, posY_check);
-    console.log(`inicial posX: ${posX_check} posY: ${posY_check}`)
+    // this.ctx.moveTo(posX_check, posY_check);
+    // console.log(`inicial posX: ${posX_check} posY: ${posY_check}`)
     // Posiciones
     for(let pos of points){
       posX_check = posX + (pos.x * size_base)
