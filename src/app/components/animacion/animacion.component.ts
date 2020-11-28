@@ -92,15 +92,6 @@ export class AnimacionComponent implements OnInit {
     console.log(`posx: ${this.posX} posY: ${this.posY} size: ${this.size}`)
   }
 
-  animate(): void {
-    const canvas = this.ctx.canvas;
-    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-    this.ctx.fillStyle = 'red';
-    const square = new Square(this.ctx);
-    square.draw(1, 1, 20);
-    square.move(2, 30);
-  }
-
   estados() {
     this.estado += 1;
     if (this.estado > 5) {
