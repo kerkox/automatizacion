@@ -5,11 +5,11 @@ export class Rectangle {
   private _color: string = '#A0A0A0';
   private _dimension:Dimension
   
-  get dimension() :Dimension{
+  public get dimension() :Dimension{
     return this._dimension
   }
 
-  set dimension(dimension: Dimension) {
+  public set dimension(dimension: Dimension) {
     this._dimension = dimension
   }
 

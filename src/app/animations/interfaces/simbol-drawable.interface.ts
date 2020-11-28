@@ -1,3 +1,4 @@
+import { Dimension } from './tanqueDimension.interface';
 export interface SimbolDrawable {
-  draw():void;
+  draw(dimension:Dimension):void;
 }

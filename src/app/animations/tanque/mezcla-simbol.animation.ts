@@ -10,7 +10,8 @@ export class MezclaSimbol extends Simbol implements SimbolDrawable {
     super(ctx, dimension, color, colorSimbolContent)
   }
   
-  draw() {
+  draw(dimension:Dimension) {
+    super.dimension = dimension;
     super.drawContent()
     
     this.drawAspa(this.colorAspaLeft, EnumSide.LEFT)

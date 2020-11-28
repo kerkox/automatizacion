@@ -5,11 +5,19 @@ import { Rectangle } from './../base/rectangle.animation';
 export class Simbol extends Rectangle {
   
   private _colorSimbolContent: string = '#8C538B';
-
+ 
   constructor(ctx: CanvasRenderingContext2D, dimension: Dimension, color: string = '',colorSimbolContent: string = '') {
     super(ctx, color);
-    super.dimension = this.getDimensionFromCenter(dimension)
+    super.dimension = dimension;
     this.colorSimbolContent = colorSimbolContent
+  }
+
+  public set dimension(dimension:Dimension) {
+    super.dimension = this.getDimensionFromCenter(dimension)
+  }
+
+  public get dimension(){
+    return super.dimension
   }
   
   public get colorSimbolContent() : string {

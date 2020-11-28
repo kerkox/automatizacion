@@ -8,7 +8,8 @@ export class ArrowSimbol extends Simbol implements SimbolDrawable {
     super(ctx,dimension,color,colorSimbolContent)
   }
 
-  draw(){
+  draw(dimension:Dimension = null){
+    super.dimension = dimension;
     super.drawContent()    
     const arrow = new Arrow(super.ctx, this.direction)
     arrow.color = this.colorArrow;

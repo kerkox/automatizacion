@@ -1,5 +1,5 @@
+import { Dimension } from './../interfaces/tanqueDimension.interface';
 import { SimbolDrawable } from '../interfaces/simbol-drawable.interface';
-import { Dimension } from '../interfaces/tanqueDimension.interface';
 import { Simbol } from './simbol.animation';
 import { Check } from '../base/check.animation';
 export class CheckSimbol extends Simbol implements SimbolDrawable {
@@ -7,7 +7,8 @@ export class CheckSimbol extends Simbol implements SimbolDrawable {
     super(ctx, dimension, color, colorSimbolContent)
   }
 
-  draw() {
+  draw(dimension:Dimension) {
+    super.dimension = dimension;
     super.drawContent()
     new Check(super.ctx, super.dimension, this.colorCheck)
   }

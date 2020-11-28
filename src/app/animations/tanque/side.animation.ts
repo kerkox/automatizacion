@@ -40,27 +40,28 @@ export class Side extends Rectangle{
   
   
 
-  drawFluid(color: string = '') {
+  drawFluid(dimension: Dimension,color: string = '') {
+    this.drawCover(dimension);
     this.colorFluid = color;
     const r_fluid = new Rectangle(super.ctx)
-    const { posX, posY, width, height } = this.dimension
+    const { posX, posY, width, height } = dimension
     const { size: height_fluid, pos: posY_fluid } = Util.calculateSizePos(height, posY, 80)
 
-    const dimension: Dimension = { posX, posY: posY_fluid, width, height: height_fluid }
+    const dimension_calculada: Dimension = { posX, posY: posY_fluid, width, height: height_fluid }
 
     r_fluid.color = this._colorFluid;
-    r_fluid.draw(dimension);
+    r_fluid.draw(dimension_calculada);
   }
 
-  drawCover(color: string = '') {
+  drawCover(dimension: Dimension,color: string = '') {
     this.colorCover = color;
     const r_leftCover = new Rectangle(super.ctx);
     r_leftCover.color = this.colorCover;
-    const { posX, posY, width, height } = super.dimension
+    const { posX, posY, width, height } = dimension
     const width_cover = width * 0.3;
     const posX_cover = posX + (this.enumSide == EnumSide.LEFT && width - width_cover)
-    const dimension: Dimension = { posX: posX_cover, posY, width: width_cover, height }
-    r_leftCover.draw(dimension)
+    const dimension_calculada: Dimension = { posX: posX_cover, posY, width: width_cover, height }
+    r_leftCover.draw(dimension_calculada)
 
   }
 

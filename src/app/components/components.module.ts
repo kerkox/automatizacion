@@ -7,7 +7,7 @@ import { AnimacionComponent } from './animacion/animacion.component';
 import { OrdenDetalleInternoComponent } from './orden-detalle-interno/orden-detalle-interno.component';
 import { OrdenProduccionDetalleComponent } from './orden-produccion-detalle/orden-produccion-detalle.component';
 import { OrdenProduccionTablaComponent } from './orden-produccion-tabla/orden-produccion-tabla.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -29,6 +29,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     MaterialModule,
+    ReactiveFormsModule,
     FormsModule,
     PipesModule
   ]

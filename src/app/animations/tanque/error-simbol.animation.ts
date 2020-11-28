@@ -1,6 +1,6 @@
+import { Dimension } from './../interfaces/tanqueDimension.interface';
 import { ErrorDraw } from './../base/error-draw.animation';
 import { SimbolDrawable } from '../interfaces/simbol-drawable.interface';
-import { Dimension } from '../interfaces/tanqueDimension.interface';
 import { Simbol } from './simbol.animation';
 
 export class ErrorSimbol extends Simbol implements SimbolDrawable {
@@ -8,7 +8,8 @@ export class ErrorSimbol extends Simbol implements SimbolDrawable {
     super(ctx, dimension, color, colorSimbolContent)
   }
 
-  draw() {
+  draw(dimension:Dimension) {
+    super.dimension = dimension;
     super.drawContent()
     new ErrorDraw(this.ctx, super.dimension, this.colorError);
   }
