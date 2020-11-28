@@ -260,6 +260,12 @@ export class Tanque {
     simbol.drawSimbolCheck(colorContent, colorCheck);
   }
 
+  private simbolError(color: string, colorContent: string, colorError: string) {
+    const { center } = this.tanqueDimension;
+    const simbol = new Simbol(this.ctx,center,color);
+    simbol.drawSimbolError(colorContent, colorError);
+  }
+
   private bottomCover(color: string) {
     // tapa de abajo
     const { bottom } = this.tanqueDimension;
@@ -425,38 +431,45 @@ export class Tanque {
 
   noDisponible() {
     //Tapas del tanque
-    this.ctx.fillStyle = this._colorEntradas; //tapas
-    this.ctx.fillRect(150, 268, 62, 18); //abajo
-    this.ctx.fillRect(271, 87, 18, 38); //derecha
-    this.ctx.fillRect(72, 87, 18, 38); //izquierda
+    this.rightCover(this._colorEntradas)
+    this.leftCover(this._colorEntradas)
+    this.bottomCover(this._colorEntradas)
 
 
-    //simbolo
-    this.ctx.fillStyle = this._colorSimboloA;    //Caja simbolo
-    this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
-    this.ctx.fillStyle = this._colorSimboloE;    //lo que carga
-    this.ctx.fillRect(this._posXsimbolo + 5, this._posYsimbolo + 5, this._anchoSimbolo - 10, this._altoSimbolo - 10);
+    // this.ctx.fillStyle = this._colorEntradas; //tapas
+    // this.ctx.fillRect(150, 268, 62, 18); //abajo
+    // this.ctx.fillRect(271, 87, 18, 38); //derecha
+    // this.ctx.fillRect(72, 87, 18, 38); //izquierda
+
+
+    // //simbolo
+    // this.ctx.fillStyle = this._colorSimboloA;    //Caja simbolo
+    // this.ctx.fillRect(this._posXsimbolo, this._posYsimbolo, this._anchoSimbolo, this._altoSimbolo);
+    // this.ctx.fillStyle = this._colorSimboloE;    //lo que carga
+    // this.ctx.fillRect(this._posXsimbolo + 5, this._posYsimbolo + 5, this._anchoSimbolo - 10, this._altoSimbolo - 10);
 
     //la equis
-    this.ctx.beginPath(); //la equis cuenta con muchos vertices
-    this.ctx.moveTo(this._posXsimbolo + 45, this._posYsimbolo + 32);
-    this.ctx.lineTo(this._posXsimbolo + 56, this._posYsimbolo + 19);
-    this.ctx.lineTo(this._posXsimbolo + 69, this._posYsimbolo + 32);
+    this.simbolError(this._colorSimboloA, this._colorSimboloE, this._colorSimboloF);
 
-    this.ctx.lineTo(this._posXsimbolo + 56, this._posYsimbolo + 45);
-    this.ctx.lineTo(this._posXsimbolo + 69, this._posYsimbolo + 56);
-    this.ctx.lineTo(this._posXsimbolo + 56, this._posYsimbolo + 69);
+    // this.ctx.beginPath(); //la equis cuenta con muchos vertices
+    // this.ctx.moveTo(this._posXsimbolo + 45, this._posYsimbolo + 32);
+    // this.ctx.lineTo(this._posXsimbolo + 56, this._posYsimbolo + 19);
+    // this.ctx.lineTo(this._posXsimbolo + 69, this._posYsimbolo + 32);
 
-    this.ctx.lineTo(this._posXsimbolo + 45, this._posYsimbolo + 56);
-    this.ctx.lineTo(this._posXsimbolo + 32, this._posYsimbolo + 69);
-    this.ctx.lineTo(this._posXsimbolo + 19, this._posYsimbolo + 56);
+    // this.ctx.lineTo(this._posXsimbolo + 56, this._posYsimbolo + 45);
+    // this.ctx.lineTo(this._posXsimbolo + 69, this._posYsimbolo + 56);
+    // this.ctx.lineTo(this._posXsimbolo + 56, this._posYsimbolo + 69);
 
-    this.ctx.lineTo(this._posXsimbolo + 32, this._posYsimbolo + 45);
-    this.ctx.lineTo(this._posXsimbolo + 19, this._posYsimbolo + 32);
-    this.ctx.lineTo(this._posXsimbolo + 32, this._posYsimbolo + 19);
+    // this.ctx.lineTo(this._posXsimbolo + 45, this._posYsimbolo + 56);
+    // this.ctx.lineTo(this._posXsimbolo + 32, this._posYsimbolo + 69);
+    // this.ctx.lineTo(this._posXsimbolo + 19, this._posYsimbolo + 56);
 
-    this.ctx.fillStyle = this._colorSimboloF;
-    this.ctx.fill();
+    // this.ctx.lineTo(this._posXsimbolo + 32, this._posYsimbolo + 45);
+    // this.ctx.lineTo(this._posXsimbolo + 19, this._posYsimbolo + 32);
+    // this.ctx.lineTo(this._posXsimbolo + 32, this._posYsimbolo + 19);
+
+    // this.ctx.fillStyle = this._colorSimboloF;
+    // this.ctx.fill();
   }
 
 

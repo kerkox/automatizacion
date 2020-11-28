@@ -1,3 +1,4 @@
+import { ErrorSimbol } from './../base/error-simbol.animation';
 import { Check } from './../base/check.animation';
 import { EnumSide } from './../enums/enum-side.enum';
 import { Arrow } from '../base/arrow.animation';
@@ -72,8 +73,20 @@ export class Simbol extends Rectangle {
   }
 
   private drawCheck(color: string = '') {
-    const check = new Check(super.ctx,super.dimension, color)  
+    const check = new Check(super.ctx, super.dimension, color)
   }
+
+  drawSimbolError(colorSimbolContent: string = '', colorError: string = '#FFF'){
+    super.draw()
+    this.drawSimbolContent(colorSimbolContent);
+    this.drawError(colorError);
+  }
+
+  private drawError(color: string = '') {
+    const error = new ErrorSimbol(this.ctx,super.dimension, color);
+  }
+
+  
 
   drawSimbolArrow(direction:EnumDirection,colorSimbolContent: string = '', colorArrow: string = '') {
     super.draw()

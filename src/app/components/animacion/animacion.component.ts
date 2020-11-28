@@ -104,12 +104,15 @@ export class AnimacionComponent implements OnInit {
         break;
       case 3:
         this.tanque2.vaciar();
+        this.tanque.vaciar();
         break;
       case 4:
         this.tanque2.disponible();
+        this.tanque.disponible();
         break;
       case 5:
         this.tanque2.noDisponible();
+        this.tanque.noDisponible();
         break;
 
     }
