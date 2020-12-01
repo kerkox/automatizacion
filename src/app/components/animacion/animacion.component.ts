@@ -78,6 +78,7 @@ export class AnimacionComponent implements OnInit {
     this.addTanque(this.tanquesDisponibles(218, 10, 100, '#2D61FA'))
     this.addTanque(this.tanquesDisponibles(420,10,100, 'red'))
     this.addTanque(this.premixer(80,228,100))
+    this.addTanque(this.premixer(240,446,100))
     this.formControlTanque.setValue(this.tanques.length-1)
   }
 
