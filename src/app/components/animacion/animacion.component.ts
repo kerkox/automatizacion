@@ -74,9 +74,9 @@ export class AnimacionComponent implements OnInit {
   }
 
   loadTanques() {
-    this.addTanque(this.tanquesDisponibles(-55,10,100, 'blue'))
-    this.addTanque(this.tanquesDisponibles(218,10,100, 'green'))
-    this.addTanque(this.tanquesDisponibles(420,10,100, 'yellow'))
+    this.addTanque(this.tanquesDisponibles(-55, 10, 100, '#FACB52'))
+    this.addTanque(this.tanquesDisponibles(218, 10, 100, '#2D61FA'))
+    this.addTanque(this.tanquesDisponibles(420,10,100, 'red'))
     this.addTanque(this.premixer(80,228,100))
     this.formControlTanque.setValue(this.tanques.length-1)
   }
@@ -105,19 +105,20 @@ export class AnimacionComponent implements OnInit {
     this.llenarMezclaTanque(this.tanque);
   }
 
-  vaciarMezclaTanque(tanque:Tanque, percentUntil:number = 0){
+  vaciarMezclaTanque(tanque: Tanque, percentUntil: number = 0, speed: number = 1){
     tanque.vaciar();
     tanque.vaciarMezcla(percentUntil);
   }
 
-  llenarMezclaTanque(tanque:Tanque, percentUntil:number = 100){
+  llenarMezclaTanque(tanque:Tanque, percentUntil:number = 100, speed:number = 1){
     tanque.llenar();
-    tanque.llenarMezcla(percentUntil);
+    tanque.llenarMezcla(percentUntil, speed);
   }
 
   loadMateriaPrima2(){
-    this.vaciarMezclaTanque(this.tanques[1]);
-    this.llenarMezclaTanque(this.tanques[3]);
+    this.vaciarMezclaTanque(this.tanques[0],50,1);
+    this.vaciarMezclaTanque(this.tanques[1],50,1);
+    this.llenarMezclaTanque(this.tanques[3],100,2);
   }
 
   dibujar() {

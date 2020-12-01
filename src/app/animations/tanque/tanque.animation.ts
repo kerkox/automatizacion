@@ -203,35 +203,28 @@ export class Tanque {
     this._simbol.draw(center);
   }
 
-  vaciarMezcla(percentUntil:number = 5){
+  vaciarMezcla(percentUntil: number = 5, speed: number = 1){
     if(this.percentMezclaValue <= percentUntil || !this._showMezcla) return;
-
-    const i = setInterval(() => {
-      // this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-      this.percentMezclaValue -= 1;
-      // console.log("this.percentMezclaValue: ", this.percentMezclaValue)
-      this.draw()
-      if (this.percentMezclaValue == percentUntil) {
-        clearInterval(i);
-      }
-    }, 200);
-
-    
+    this.moverMezcla(-1,percentUntil,speed)
   }
 
-  llenarMezcla(percentUntil: number = 100){
-    if (this.percentMezclaValue >= percentUntil || !this._showMezcla) return;
-
+  moverMezcla(valueIterator: number,percentUntil: number = 100, speed: number = 1) {
+    
+    const time = Math.round(200 / speed)
     const i = setInterval(() => {
       // this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-      this.percentMezclaValue += 1;
+      this.percentMezclaValue += valueIterator;
       // console.log("this.percentMezclaValue: ", this.percentMezclaValue)
       this.draw()
       if (this.percentMezclaValue == percentUntil) {
         clearInterval(i);
       }
-    }, 200);
+    }, time);
+  }
 
+  llenarMezcla(percentUntil: number = 100, speed:number = 1){
+    if (this.percentMezclaValue >= percentUntil || !this._showMezcla) return;
+    this.moverMezcla(1,percentUntil,speed)
   }
 
   private resetTanque() {
