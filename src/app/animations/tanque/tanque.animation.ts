@@ -205,11 +205,11 @@ export class Tanque {
 
   vaciarMezcla(percentUntil: number = 5, speed: number = 1){
     if(this.percentMezclaValue <= percentUntil || !this._showMezcla) return;
-    this.moverMezcla(-1,percentUntil,speed)
+    return this.moverMezcla(-1,percentUntil,speed)
   }
 
-  moverMezcla(valueIterator: number,percentUntil: number = 100, speed: number = 1) {
-    
+  private moverMezcla(valueIterator: number,percentUntil: number = 100, speed: number = 1): Promise<boolean>{
+    return new Promise((resolve,rejcet) => {
     const time = Math.round(200 / speed)
     const i = setInterval(() => {
       // this.ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -218,13 +218,16 @@ export class Tanque {
       this.draw()
       if (this.percentMezclaValue == percentUntil) {
         clearInterval(i);
+        resolve(true)
       }
     }, time);
+
+  })
   }
 
   llenarMezcla(percentUntil: number = 100, speed:number = 1){
     if (this.percentMezclaValue >= percentUntil || !this._showMezcla) return;
-    this.moverMezcla(1,percentUntil,speed)
+    return this.moverMezcla(1,percentUntil,speed)
   }
 
   private resetTanque() {

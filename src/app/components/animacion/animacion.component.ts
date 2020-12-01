@@ -107,12 +107,16 @@ export class AnimacionComponent implements OnInit {
 
   vaciarMezclaTanque(tanque: Tanque, percentUntil: number = 0, speed: number = 1){
     tanque.vaciar();
-    tanque.vaciarMezcla(percentUntil);
+    tanque.vaciarMezcla(percentUntil, speed);
   }
 
   llenarMezclaTanque(tanque:Tanque, percentUntil:number = 100, speed:number = 1){
     tanque.llenar();
-    tanque.llenarMezcla(percentUntil, speed);
+    tanque.llenarMezcla(percentUntil, speed).then(() => {
+      // console.log("Ha terminado de cargar la materia prima")
+      tanque.mezclar()
+      // console.log("ha cambiado el icono a mezclar")
+    });
   }
 
   loadMateriaPrima2(){
