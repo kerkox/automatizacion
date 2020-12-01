@@ -49,6 +49,8 @@ export class Tanque {
   private _sideRight: Side;
   private _sideLeft: Side;
 
+  private _name: string;
+
   id: number
 
   constructor(private _ctx: CanvasRenderingContext2D) {
@@ -90,6 +92,14 @@ export class Tanque {
   set colorTanque(color: string) {
     this._colorTanque = color;
     this.ctx.fillStyle = this._colorTanque
+  }
+
+  set name(name: string){
+    this._name = name;
+  }
+
+  get name(): string {
+    return this._name;
   }
 
   get sideRight() : Side{
@@ -155,7 +165,35 @@ export class Tanque {
     this.leftCover(this._colorEntradas)
     this.bottomCover(this._colorEntradas)
     this.drawSimbol();
-    
+    this.nameTanque();
+  }
+
+  nameTanque(name: string = '') {
+    if(name != '') {
+      this.name = name;
+    } 
+    if(!this.name) return;
+    // Aqui vamos a dibujar el nombre del tanque
+    // Calcular el punto intermedio del center
+    const { center } =  this.tanqueDimension;
+    const { width, posX, posY, height } =  center;
+    // const posX_text = posX;
+    const { pos:posX_text } = Util.calculateSizePos(width,posX,10);
+    const posY_text = posY + (height * 0.2);
+    this.ctx.textAlign = "center"
+    const font_size = Math.round((this.size / 100) * 24)
+    // console.log(`posY: ${posY} posY_text: ${posY_text} font_size ${font_size}`)
+    this.ctx.font = `${font_size}px Roboto`
+    this.ctx.fillStyle = "#fff";
+    this.ctx.strokeStyle = "rgba(0,0,0,0.7)";
+    this.ctx.lineWidth = 4;
+    // this.ctx.shadowColor = "rgba(0,0,0,8)";
+    // this.ctx.strokeText()
+    this.ctx.strokeText(this.name,posX_text,posY_text, width)
+    this.ctx.fillText(this.name,posX_text,posY_text, width)
+    this.ctx.lineWidth = 1
+    this.ctx.strokeStyle = null;
+    // console.log(`Se dibujo el texto: ${this.name}`)
   }
 
   private drawSimbol(){

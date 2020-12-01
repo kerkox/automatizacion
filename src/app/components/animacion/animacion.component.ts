@@ -40,56 +40,53 @@ export class AnimacionComponent implements OnInit {
     this.loadTanques();
   }
 
-  addTanque() {
-    let tmp_tanque = new Tanque(this.ctx)
-    tmp_tanque.id = this.tanques.length;
-    tmp_tanque.setPosition(this.posX, this.posY, this.size)
-    this.tanques.push(tmp_tanque)
+  addTanque(tanque:Tanque = null) {
+    if (tanque == null) {
+      tanque = new Tanque(this.ctx)
+      tanque.setPosition(this.posX, this.posY, this.size)
+    }
+    tanque.id = this.tanques.length;
+    tanque.nameTanque("Tanque: "+tanque.id.toString())
+    this.tanques.push(tanque)
     // tmp_tanque.draw()
-    this.formControlTanque.setValue(tmp_tanque.id);
-    console.log("this.tanques", this.tanques)
+    this.formControlTanque.setValue(tanque.id);
+    // console.log("this.tanques", this.tanques)
   }
 
 
   tanquesDisponibles(posX:number,posY:number,size:number, color: string = ''){
     let tmp_tanque = new Tanque(this.ctx)
-    tmp_tanque.id = this.tanques.length;
+    // tmp_tanque.id = this.tanques.length;
     tmp_tanque.showSides = false;    
     tmp_tanque.setPosition(posX, posY, size)
     tmp_tanque.lleno(color);
-    this.tanques.push(tmp_tanque)
+    return tmp_tanque
   }
 
   premixer(posX: number, posY: number, size: number, color: string = '') {
     let tmp_tanque = new Tanque(this.ctx)
-    tmp_tanque.id = this.tanques.length;
+    // tmp_tanque.id = this.tanques.length;
     tmp_tanque.percentMezclaValue = 0;
     tmp_tanque.setPosition(posX, posY, size)
     tmp_tanque.disponible();
-    this.tanques.push(tmp_tanque)
+    return tmp_tanque;
+    // this.tanques.push(tmp_tanque)
   }
 
   loadTanques() {
-    this.tanquesDisponibles(10,10,50, 'blue')
-    this.tanquesDisponibles(150,10,50, 'green')
-    this.tanquesDisponibles(290,10,50, 'yellow')
-    this.premixer(80,119,50);
+    this.addTanque(this.tanquesDisponibles(-55,10,100, 'blue'))
+    this.addTanque(this.tanquesDisponibles(218,10,100, 'green'))
+    this.addTanque(this.tanquesDisponibles(420,10,100, 'yellow'))
+    this.addTanque(this.premixer(80,228,100))
     this.formControlTanque.setValue(this.tanques.length-1)
   }
 
  
   loadDataTanque(index:number) {
-    console.log("index: ",index)
     const { posX, posY, size } = this.tanques[index]
-    console.log(`posx: ${posX} posY: ${posY} size: ${size}`)
-    
-    // let posX = this.tanques[index].posX
-    // let posY = this.tanques[index].posY
-    // let size = this.tanques[index].size
     this.posX = posX
     this.posY = posY
-    this.size = size
-    console.log(`posx: ${this.posX} posY: ${this.posY} size: ${this.size}`)
+    this.size = size    
   }
 
   estados() {
@@ -102,7 +99,6 @@ export class AnimacionComponent implements OnInit {
 
   vaciarMezcla(){
     this.vaciarMezclaTanque(this.tanque);
-    // this.vaciarMezclaTanque(this.tanque2, 50);
   }
 
   llenarMezcla(){
@@ -127,22 +123,9 @@ export class AnimacionComponent implements OnInit {
   dibujar() {
     this.ctx.clearRect(0, 0, this.width, this.height); //limpiar ventana
     if(this.tanques.length == 0) return;
-    // console.log("Hay")
-    // console.log(this.tanque)
-    // this.tanque =  new Tanque(this.ctx);
-    // this.tanque2 =  new Tanque(this.ctx);
-    this.tanques.forEach(tanque => tanque.draw())
-
+    
     this.tanques[this.formControlTanque.value].setPosition(this.posX,this.posY, this.size)
-    
-      // this.tanques[this.tanque_select].draw();
-    
-
-    // this.tanque2.setPosition(250,10, 0.8)
-    // tanque2.showLeft = false;
-    // tanque2.showRight = false;
-    // this.tanque2.draw();
-    
+    this.tanques.forEach(tanque => tanque.draw())
     switch(this.estado){
       case 1:
         this.tanques[this.formControlTanque.value].llenar()
@@ -159,8 +142,7 @@ export class AnimacionComponent implements OnInit {
       case 5:
         this.tanques[this.formControlTanque.value].noDisponible()
         break;
-
-    }
+    }    
   }
 
 }
