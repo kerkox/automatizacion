@@ -1,3 +1,4 @@
+import { Calentador } from './calentador.animation';
 import { ErrorSimbol } from './error-simbol.animation';
 import { ErrorDraw } from '../base/error-draw.animation';
 import { CheckSimbol } from './check-simbo..animation';
@@ -48,8 +49,14 @@ export class Tanque {
 
   private _sideRight: Side;
   private _sideLeft: Side;
+  private _calentador: Calentador = null;
+
+  private _showCalentador: boolean = false;
+  private _drawCalentar: boolean = false;
 
   private _name: string;
+
+  private _customBottom: Dimension
 
   id: number
 
@@ -118,12 +125,55 @@ export class Tanque {
     this._sideLeft = side;
   }
 
+  get calentador(): Calentador {
+    return this._calentador;
+  }
+
+  set calentador(calentador: Calentador) {
+    this._calentador = calentador;
+  }
+
+  
+  private get customBottom() : Dimension {
+    if(!this._customBottom) {
+      const { bottom } = this.tanqueDimension
+      this._customBottom = bottom;
+    }
+    return this._customBottom;
+  }
+
+  
+  private set customBottom(bottom :Dimension) {
+    this._customBottom = bottom;
+  }
+
+  public set customBottomHeight(bottom: number | Dimension) {
+    if(typeof bottom == "number"){
+      this.customBottom.height = bottom;
+    } else {
+      const {height, posY} = bottom
+      console.log(`height: ${height} posY: ${posY}`)
+      this.customBottom.height = height + posY - this.customBottom.posY
+    }
+  }
+  
+
   private get mezcla(): Rectangle {
     if(this._mezcla == null){
       this._mezcla = new Rectangle(this.ctx)
     }
     return this._mezcla
   }
+
+  
+  public get showCalentador() :boolean {
+    return this._showCalentador
+  }
+
+  public set showCalentador(show: boolean)  {
+    this._showCalentador = show;
+  }
+  
 
   get tanqueDimension() : TanqueDimension{
     this._tanqueDimension = this.calculatePosAndSizeTanque(this._posX, this._posY, this._size)
@@ -142,6 +192,10 @@ export class Tanque {
   }
   get showRight() {
     return this._showRight;
+  }
+  
+  set showRightFluid(show: boolean) {
+    this._showRightFluid = show;
   }
 
   set showSides(show:boolean) {
@@ -166,7 +220,34 @@ export class Tanque {
     this.bottomCover(this._colorEntradas)
     this.drawSimbol();
     this.nameTanque();
+    this.drawCalentador();
   }
+
+  drawCalentador() {
+    if(!this.showCalentador) return;
+    const { center } = this.tanqueDimension;
+    if(!this.calentador){
+      this.calentador = new Calentador(this.ctx,center)
+    }
+    this.calentador.draw(center);
+    
+  }
+
+  calentar(){
+    this._drawCalentar = true;
+    if (this.calentador) {
+      this.calentador.calentar();
+    }
+  }
+
+  detenerCalentar(){
+    this._drawCalentar = false;
+    if (this.calentador) {
+      this.calentador.detenerCalentar();
+    }
+    this.draw()
+  }
+
 
   nameTanque(name: string = '') {
     if(name != '') {
@@ -311,9 +392,16 @@ export class Tanque {
     
     
     this.drawBaseCenter(center, color);
-    this.drawBaseBottom(bottom, color);
+    if(this.customBottom) {
+      bottom.height = this.customBottom.height
+      this.drawBaseBottom(bottom, color);
+    } else {
+      this.drawBaseBottom(bottom, color);      
+    }
     
   }
+
+ 
 
   private drawBaseLeft(color:string = '') {
     if (!this._showLeft) return;
@@ -436,6 +524,8 @@ export class Tanque {
 
     return dimension;
   }
+
+
 
 
   private leftCover(color: string) {

@@ -3,7 +3,9 @@
     <button mat-raised-button type="button" color="primary" (click)="vaciarMezcla()">Vaciar Tanque</button>
     <button mat-raised-button type="button" color="primary" (click)="llenarMezcla()">Llenar Tanque</button>
     <button mat-raised-button type="button" color="accent" (click)="loadMateriaPrima2()">Cargar Materias Primas </button>
-    <br>
+    <button mat-raised-button type="button" color="accent" (click)="calentar()">Calentar</button>
+    <button mat-raised-button type="button" color="accent" (click)="detenerCalentar()">Detener Calentar</button>
+    
     <button mat-raised-button type="button" color="primary" (click)="addTanque()">Add Tanque</button>
   </div>
 
@@ -14,7 +16,7 @@
       <mat-label>Tanque</mat-label>
       <mat-select [formControl]="formControlTanque" >
         <mat-option *ngFor="let tanque of tanques; index as i" [value]="tanque['id']">
-          Tanque: #{{tanque.id}}
+          {{tanque.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -45,8 +47,10 @@
     </mat-form-field>
   </div>
 
-  <div class="gray">
-    <canvas #canvas width="800" height="800" (click)="estados()"></canvas>
+  <div class="container-animacion">
+    <div class="gray">
+      <canvas #canvas [width]="width" [height]="height" (click)="estados()"></canvas>
+    </div>
   </div>
 
   <h4>Fin animacion</h4>

@@ -1,10 +1,11 @@
 .gray {
-  width: 850px;
-  height: 850px;
+  width: 100%;
+  /* height: 100%; */
   padding: 10px;
   background-color: rgb(230, 230, 230);
   display: flex;
   justify-content: center;
+  /* overflow: scroll; */
 }
 
 #canvas {
@@ -21,3 +22,12 @@
   justify-content: space-around;
   max-width: 800px;
 }
+.animacion {
+  /* height: 1000px; */
+}
+
+.container-animacion {
+  overflow: scroll;
+  height: 50vh;
+}
+
