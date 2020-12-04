@@ -8,6 +8,7 @@ import { OrdenDetalleInternoComponent } from './orden-detalle-interno/orden-deta
 import { OrdenProduccionDetalleComponent } from './orden-produccion-detalle/orden-produccion-detalle.component';
 import { OrdenProduccionTablaComponent } from './orden-produccion-tabla/orden-produccion-tabla.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PruebaCalidadDialogComponent } from './prueba-calidad-dialog/prueba-calidad-dialog.component';
 
 
 
@@ -17,14 +18,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     OrdenDetalleInternoComponent,
     OrdenProduccionTablaComponent,
     OrdenProduccionDetalleComponent,
-    LoadingComponent
+    LoadingComponent,
+    PruebaCalidadDialogComponent
   ],
   exports: [
     AnimacionComponent,
     OrdenDetalleInternoComponent,
     OrdenProduccionTablaComponent,
     OrdenProduccionDetalleComponent,
-    LoadingComponent
+    LoadingComponent,
+    PruebaCalidadDialogComponent
   ],
   imports: [
     CommonModule,

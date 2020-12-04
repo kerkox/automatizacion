@@ -104,9 +104,8 @@ export class Tanque {
   public set colorSimbolo(color: string) {
     if(color != ''){
       this._colorSimbolo = color;
-      console.log("El color cambio: ", this._colorSimbolo)
       this.draw();
-    }
+    } 
   }
 
   public get colorSimbolo(): string {
@@ -164,7 +163,7 @@ export class Tanque {
       this.customBottom.height = bottom;
     } else {
       const {height, posY} = bottom
-      console.log(`height: ${height} posY: ${posY}`)
+      // console.log(`height: ${height} posY: ${posY}`)
       this.customBottom.height = height + posY - this.customBottom.posY
     }
   }
@@ -293,7 +292,7 @@ export class Tanque {
     if(!this._showSimbol) return;
     const { center } = this.tanqueDimension;
     // console.log("center Dimension: ", center)
-    this._simbol.draw(center);
+    this._simbol.draw(center,this.colorSimbolo);
   }
 
   vaciarMezcla(percentUntil: number = 5, speed: number = 1){
@@ -458,7 +457,7 @@ export class Tanque {
   }
 
   private simbolCheckBase(){
-    console.log("this._colorSimbolo: ", this._colorSimbolo)
+    // console.log("this._colorSimbolo: ", this._colorSimbolo)
     this.simbolCheck(this._colorSimboloA, this._colorSimboloD, this._colorSimbolo);
   }
 

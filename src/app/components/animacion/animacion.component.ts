@@ -1,7 +1,9 @@
+import { PruebaCalidadDialogComponent } from './../prueba-calidad-dialog/prueba-calidad-dialog.component';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Tanque } from '../../animations/tanque/tanque.animation';
 import { Square } from '../../animations/base/square.animation';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-animacion',
@@ -30,7 +32,7 @@ export class AnimacionComponent implements OnInit {
   get tanque(): Tanque {
     return this.tanques[this.formControlTanque.value];
   }
-  constructor() {
+  constructor(public dialog: MatDialog) {
     this.formControlTanque.valueChanges.subscribe(index => this.loadDataTanque(index))
    }
 
@@ -43,12 +45,10 @@ export class AnimacionComponent implements OnInit {
   }
 
   addTanque(tanque:Tanque = null, name:string = null) {
-    console.log("addTanque", tanque)
     if (tanque == null) {
       tanque = new Tanque(this.ctx)
       tanque.setPosition(this.posX, this.posY, this.size)
     }
-    console.log("colorSimbolo", tanque.colorSimbolo)
     tanque.id = this.tanques.length;
     tanque.nameTanque(name ||  "Tanque: "+tanque.id.toString())
     this.tanques.push(tanque)
@@ -99,10 +99,8 @@ export class AnimacionComponent implements OnInit {
 
     let materiaB = this.tanquesDisponibles(273, 10, 100, '#2D61FA')
     this.addTanque(this.tanquesDisponibles(0, 10, 100, 'rgba(97,188,216,1)'), "MATERIA A")
-    console.log("materiaB colorSimbolo:", materiaB.colorSimbolo)
-    materiaB.colorSimbolo = "pink"
+    materiaB.colorSimbolo = "gray"
     this.addTanque(materiaB,"MATERIA B")
-    console.log("materiaB colorSimbolo:", materiaB.colorSimbolo)
     this.addTanque(materiaPrima3,"MATERIA C")
     this.addTanque(this.premixer(135,228,100), "PREMIXER")
     this.addTanque(mixer, "MIXER")
@@ -186,17 +184,37 @@ export class AnimacionComponent implements OnInit {
   }
 
   loadMateriaPrima2(){
-    this.vaciarMezclaTanque(this.tanques[0],80,1);
-    this.vaciarMezclaTanque(this.tanques[1],80,1);
-    this.llenarMezclaTanque(this.tanques[3],40,2).then(() =>{
-      this.vaciarMezclaTanque(this.tanques[2],80,1)
-      this.vaciarMezclaTanque(this.tanques[3],0,1.5)
-      this.llenarMezclaTanque(this.tanques[4], 60, 2).then(() => {
-        this.vaciarMezclaTanque(this.tanques[4], 0, 1)
-        this.tanques[5].percentMezclaValue = 0;
-        this.llenarMezclaTanque(this.tanques[5],60,1, false)
-      })
+    this.paso1();
+  }
+
+
+  paso1(){
+    this.vaciarMezclaTanque(this.tanques[0], 80, 1);
+    this.vaciarMezclaTanque(this.tanques[1], 80, 1);
+    this.llenarMezclaTanque(this.tanques[3], 40, 2).then(() => {
+      console.log("Se va a abrir el dialog")
+      this.openDialog(this.paso2);
     })
+  }
+
+  paso2() {
+    console.log("This: ", this)
+    this.vaciarMezclaTanque(this.tanques[2], 80, 1)
+    this.vaciarMezclaTanque(this.tanques[3], 0, 1.5)
+    this.llenarMezclaTanque(this.tanques[4], 60, 2).then(() => {
+      this.openDialog(this.paso3);
+      
+    })
+  }
+
+  paso3() {
+    this.vaciarMezclaTanque(this.tanques[4], 0, 1)
+    this.tanques[5].percentMezclaValue = 0;
+    this.llenarMezclaTanque(this.tanques[5], 60, 1, false)
+  }
+
+  paso4(){
+
   }
 
   dibujar() {
@@ -223,6 +241,21 @@ export class AnimacionComponent implements OnInit {
         this.tanques[this.formControlTanque.value].noDisponible()
         break;
     }    
+  }
+
+  openDialog(nextStep: Function ): void {
+    const dialogRef = this.dialog.open(PruebaCalidadDialogComponent, {
+      // width: '1200px',
+      data: {}
+    });
+    const local_this = this;
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("local_this: ", local_this)
+      const nextStepFun = nextStep.bind(local_this);
+      nextStepFun()
+      console.log('The dialog was closed result:', result);
+      // this.animal = result;
+    });
   }
 
 }
