@@ -22,9 +22,9 @@
   justify-content: space-around;
   max-width: 800px;
 }
-.animacion {
-  /* height: 1000px; */
-}
+/* .animacion {
+  height: 1000px;
+} */
 
 .container-animacion {
   overflow: scroll;

@@ -24,7 +24,7 @@ export class Tanque {
   private _colorSimboloC = '#BF9B11';
   private _colorSimboloD = '#33FF33'; //verde
   private _colorSimboloE = '#FF3333'; //rojo
-  private _colorSimboloF = '#FFFFFF';
+  private _colorSimbolo = '#000';
 
   private _showLeftFluid: boolean = false;
   private _showRightFluid: boolean = false;
@@ -61,7 +61,7 @@ export class Tanque {
   id: number
 
   constructor(private _ctx: CanvasRenderingContext2D) {
-    this.ctx.fillStyle = this._colorTanque; //tanqueprincipal
+    // this.ctx.fillStyle = this._colorTanque; //tanqueprincipal
   }
   /**
    * 
@@ -99,6 +99,18 @@ export class Tanque {
   set colorTanque(color: string) {
     this._colorTanque = color;
     this.ctx.fillStyle = this._colorTanque
+  }
+
+  public set colorSimbolo(color: string) {
+    if(color != ''){
+      this._colorSimbolo = color;
+      console.log("El color cambio: ", this._colorSimbolo)
+      this.draw();
+    }
+  }
+
+  public get colorSimbolo(): string {
+    return this._colorSimbolo;
   }
 
   set name(name: string){
@@ -328,7 +340,7 @@ export class Tanque {
     this._showRightFluid = true;
     this._showMezcla = true;
     this._showBottomCover = true;
-    this.simbolArrow(EnumDirection.UP, this._colorSimboloA, this._colorSimboloB, this._colorSimboloF)
+    this.simbolArrow(EnumDirection.UP, this._colorSimboloA, this._colorSimboloB, this._colorSimbolo)
     this.draw();
   }
 
@@ -358,14 +370,14 @@ export class Tanque {
     this._showMezcla = true;
     this._showRightCover = true;
     this._showLeftCover = true;
-    this.simbolArrow(EnumDirection.DOWN, this._colorSimboloA, this._colorSimboloB, this._colorSimboloF)
+    this.simbolArrow(EnumDirection.DOWN, this._colorSimboloA, this._colorSimboloB, this._colorSimbolo)
     this.draw();
   }
 
   disponible() {
     //simbolo
     this.resetTanque();
-    this.simbolCheck(this._colorSimboloA, this._colorSimboloD, this._colorSimboloF);
+    this.simbolCheck(this._colorSimboloA, this._colorSimboloD, this._colorSimbolo);
     this.draw();
   }
 
@@ -375,7 +387,7 @@ export class Tanque {
     this._showRightCover = true;
     this._showLeftCover = true;
     this._showBottomCover = true;
-    this.simbolError(this._colorSimboloA, this._colorSimboloE, this._colorSimboloF);
+    this.simbolError(this._colorSimboloA, this._colorSimboloE, this._colorSimbolo);
     this.draw();
   }
 
@@ -446,7 +458,8 @@ export class Tanque {
   }
 
   private simbolCheckBase(){
-    this.simbolCheck(this._colorSimboloA, this._colorSimboloD, this._colorSimboloF);
+    console.log("this._colorSimbolo: ", this._colorSimbolo)
+    this.simbolCheck(this._colorSimboloA, this._colorSimboloD, this._colorSimbolo);
   }
 
   private simbolCheck(color: string, colorContent: string, colorCheck: string) {

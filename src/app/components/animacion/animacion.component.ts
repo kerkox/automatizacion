@@ -36,15 +36,19 @@ export class AnimacionComponent implements OnInit {
 
   ngOnInit(): void {
     this.ctx = this.canvas.nativeElement.getContext('2d');
-    this.estados()
-    this.loadTanques();
+    // this.estados()
+    setTimeout(() => {
+      this.loadTanques();
+    },500)
   }
 
   addTanque(tanque:Tanque = null, name:string = null) {
+    console.log("addTanque", tanque)
     if (tanque == null) {
       tanque = new Tanque(this.ctx)
       tanque.setPosition(this.posX, this.posY, this.size)
     }
+    console.log("colorSimbolo", tanque.colorSimbolo)
     tanque.id = this.tanques.length;
     tanque.nameTanque(name ||  "Tanque: "+tanque.id.toString())
     this.tanques.push(tanque)
@@ -54,16 +58,17 @@ export class AnimacionComponent implements OnInit {
   }
 
 
-  tanquesDisponibles(posX:number,posY:number,size:number, color: string = ''){
+  tanquesDisponibles(posX:number,posY:number,size:number, color: string = '', colorSimbolo:string = ''): Tanque{
     let tmp_tanque = new Tanque(this.ctx)
     // tmp_tanque.id = this.tanques.length;
     tmp_tanque.showSides = false;    
+    tmp_tanque.colorSimbolo = colorSimbolo;
     tmp_tanque.setPosition(posX, posY, size)
     tmp_tanque.lleno(color);
     return tmp_tanque
   }
 
-  tanqueAlmacen(posX: number, posY: number, size: number, showLeft: boolean = true, showRight: boolean = true, color: string = '') {
+  tanqueAlmacen(posX: number, posY: number, size: number, showLeft: boolean = true, showRight: boolean = true, color: string = ''): Tanque {
     let tmp_tanque = new Tanque(this.ctx)
     // tmp_tanque.id = this.tanques.length;
     tmp_tanque.showLeft = showLeft;
@@ -78,6 +83,7 @@ export class AnimacionComponent implements OnInit {
     let tmp_tanque = new Tanque(this.ctx)
     // tmp_tanque.id = this.tanques.length;
     tmp_tanque.percentMezclaValue = 0;
+    tmp_tanque.colorSimbolo = color;
     tmp_tanque.setPosition(posX, posY, size)
     tmp_tanque.disponible();
     tmp_tanque.showCalentador = true;
@@ -86,13 +92,17 @@ export class AnimacionComponent implements OnInit {
   }
 
   loadTanques() {
-    const mixer = this.premixer(295, 446, 100);
-    const materiaPrima3 = this.tanquesDisponibles(470, 10, 100, 'red')
+    const mixer = this.premixer(295, 446, 100,"#fff");
+    const materiaPrima3 = this.tanquesDisponibles(470, 10, 100, 'rgba(207,200,59,1)', "red")
     const { right } = mixer.tanqueDimension
     materiaPrima3.customBottomHeight = right;
 
-    this.addTanque(this.tanquesDisponibles(0, 10, 100, '#FACB52'), "MATERIA A")
-    this.addTanque(this.tanquesDisponibles(273, 10, 100, '#2D61FA'),"MATERIA B")
+    let materiaB = this.tanquesDisponibles(273, 10, 100, '#2D61FA')
+    this.addTanque(this.tanquesDisponibles(0, 10, 100, 'rgba(97,188,216,1)'), "MATERIA A")
+    console.log("materiaB colorSimbolo:", materiaB.colorSimbolo)
+    materiaB.colorSimbolo = "pink"
+    this.addTanque(materiaB,"MATERIA B")
+    console.log("materiaB colorSimbolo:", materiaB.colorSimbolo)
     this.addTanque(materiaPrima3,"MATERIA C")
     this.addTanque(this.premixer(135,228,100), "PREMIXER")
     this.addTanque(mixer, "MIXER")
@@ -101,7 +111,8 @@ export class AnimacionComponent implements OnInit {
     this.addTanque(this.tanqueAlmacen(294, 698, 100, true,true,'#2D61FA'), "ALMACEN 2")
     this.addTanque(this.tanqueAlmacen(558, 698, 100, true,false,'#2D61FA'), "ALMACEN 3")
 
-    this.formControlTanque.setValue(this.tanques.length-1)
+    // this.formControlTanque.setValue(this.tanques.length-1)
+    this.dibujar();
   }
 
   calentar(){
@@ -152,15 +163,17 @@ export class AnimacionComponent implements OnInit {
     tanque.vaciarMezcla(percentUntil, speed);
   }
 
-  async llenarMezclaTanque(tanque:Tanque, percentUntil:number = 100, speed:number = 1): Promise<any> {
+  async llenarMezclaTanque(tanque:Tanque, percentUntil:number = 100, speed:number = 1, calentar:boolean = true): Promise<any> {
     
     tanque.llenar();
     await tanque.llenarMezcla(percentUntil, speed)
     // console.log("Ha terminado de cargar la materia prima")
-    tanque.mezclar()
-    tanque.calentar();
-    await this.esperaPasoMixer(5)
-    tanque.detenerCalentar();
+    if(calentar){
+      tanque.mezclar()
+      tanque.calentar();
+      await this.esperaPasoMixer(5)
+      tanque.detenerCalentar();
+    }
     return true;
   }
 
@@ -178,7 +191,11 @@ export class AnimacionComponent implements OnInit {
     this.llenarMezclaTanque(this.tanques[3],40,2).then(() =>{
       this.vaciarMezclaTanque(this.tanques[2],80,1)
       this.vaciarMezclaTanque(this.tanques[3],0,1.5)
-      this.llenarMezclaTanque(this.tanques[4], 60, 2)
+      this.llenarMezclaTanque(this.tanques[4], 60, 2).then(() => {
+        this.vaciarMezclaTanque(this.tanques[4], 0, 1)
+        this.tanques[5].percentMezclaValue = 0;
+        this.llenarMezclaTanque(this.tanques[5],60,1, false)
+      })
     })
   }
 
