@@ -4,7 +4,7 @@
   padding: 10px;
   background-color: rgb(230, 230, 230);
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   /* overflow: scroll; */
 }
 
@@ -21,6 +21,11 @@
   display: flex;
   justify-content: space-around;
   max-width: 800px;
+  
+  flex-wrap: wrap;
+}
+.controles > button {
+  margin: 10px 2px;
 }
 /* .animacion {
   height: 1000px;

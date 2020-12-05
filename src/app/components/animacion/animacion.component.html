@@ -48,7 +48,7 @@
   </div>
 
   <div class="container-animacion">
-    <div class="gray">
+    <div class="gray" [style.width.px]="width" >
       <canvas #canvas [width]="width" [height]="height" (click)="estados()"></canvas>
     </div>
   </div>
