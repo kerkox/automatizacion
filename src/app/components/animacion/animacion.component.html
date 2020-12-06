@@ -1,5 +1,13 @@
 <div class="animacion">
   <div class="controles">
+    <button mat-fab color="primary" aria-label="pausar continuar" (click)="pausarContinuar()">
+      <mat-icon *ngIf="!pausado">pause</mat-icon>
+      <mat-icon *ngIf="pausado">play_arrow</mat-icon>
+    </button>
+    
+    <button mat-fab color="primary" aria-label="Example icon button with a delete icon">
+      <mat-icon>stop</mat-icon>
+    </button>
     <button mat-raised-button type="button" color="primary" (click)="vaciarMezcla()">Vaciar Tanque</button>
     <button mat-raised-button type="button" color="primary" (click)="llenarMezcla()">Llenar Tanque</button>
     <button mat-raised-button type="button" color="accent" (click)="loadMateriaPrima2()">Cargar Materias Primas </button>

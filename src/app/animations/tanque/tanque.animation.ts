@@ -12,6 +12,7 @@ import { Side } from './side.animation';
 import { Util } from '../util.animation';
 import { Dimension, TanqueDimension } from '../interfaces/tanqueDimension.interface';
 import { Rectangle } from '../base/rectangle.animation';
+import { EventEmitter } from '@angular/core';
 export class Tanque {
 
   private _colorTanque = '#A0A0A0';
@@ -58,10 +59,24 @@ export class Tanque {
 
   private _customBottom: Dimension
 
+  private _pausado:boolean = false;
+  private _percentUntilMemory:number = -1;
+  private _valueIteratorMemory: number = 1;
+
   id: number
 
-  constructor(private _ctx: CanvasRenderingContext2D) {
+  constructor(private _ctx: CanvasRenderingContext2D,private eventoPausa: EventEmitter<boolean> = null) {
     // this.ctx.fillStyle = this._colorTanque; //tanqueprincipal
+    if(this.eventoPausa){
+      this.eventoPausa.subscribe((pausar:boolean) => {
+        console.log(`llego evento de pausa a: ${this.name} con valor de ${pausar}`)
+        if(pausar) {
+          this.pausar()
+        } else {
+          this.continuar();
+        }
+      })
+    }
   }
   /**
    * 
@@ -221,6 +236,40 @@ export class Tanque {
     return this._percentMezcla;
   }
 
+  
+  public get percentUntilMemory() : number {
+    return this._percentUntilMemory;
+  }
+
+  public set percentUntilMemory(percent: number) {
+    this._percentUntilMemory = percent;
+  }
+
+  
+  public get pausado() : boolean {
+    return this._pausado;
+  }
+
+  
+  public set pausado(pausar : boolean) {
+    this._pausado = pausar;
+  }
+
+  
+  public set valueIteratorMemory(valueItearator : number) {
+    this._valueIteratorMemory = valueItearator;
+  }
+
+  
+  public get valueIteratorMemory() :number {
+    return this._valueIteratorMemory;
+  }
+  
+  
+  
+  
+  
+
   draw() {
     this.showTanqueBase();
     this.leftFluid(this._colorLiquidoA)
@@ -300,21 +349,36 @@ export class Tanque {
     return this.moverMezcla(-1,percentUntil,speed)
   }
 
-  private moverMezcla(valueIterator: number,percentUntil: number = 100, speed: number = 1): Promise<boolean>{
+  private moverMezcla(valueIterator: number = 0,percentUntil: number = 100, speed: number = 1): Promise<boolean>{
     return new Promise((resolve,rejcet) => {
+      if(percentUntil != 100) {
+        this.percentUntilMemory = percentUntil;
+      }
+      if(valueIterator != 0) {
+        this.valueIteratorMemory = valueIterator;
+      }
     const time = Math.round(200 / speed)
     const i = setInterval(() => {
       // this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-      this.percentMezclaValue += valueIterator;
+      this.percentMezclaValue += this.valueIteratorMemory;
       // console.log("this.percentMezclaValue: ", this.percentMezclaValue)
       this.draw()
-      if (this.percentMezclaValue == percentUntil) {
+      if (this.percentMezclaValue == this.percentUntilMemory || this.pausado) {
         clearInterval(i);
         resolve(true)
       }
     }, time);
 
   })
+  }
+
+  pausar() {
+    this.pausado = true;
+  }
+
+  continuar() {
+    this.pausado = false;
+    this.moverMezcla();
   }
 
   llenarMezcla(percentUntil: number = 100, speed:number = 1){

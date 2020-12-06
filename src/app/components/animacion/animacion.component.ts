@@ -1,5 +1,5 @@
 import { PruebaCalidadDialogComponent } from './../prueba-calidad-dialog/prueba-calidad-dialog.component';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { Tanque } from '../../animations/tanque/tanque.animation';
 import { Square } from '../../animations/base/square.animation';
 import { FormControl } from '@angular/forms';
@@ -16,6 +16,8 @@ export class AnimacionComponent implements OnInit {
   canvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D;
 
+  private eventoPausa: EventEmitter<boolean>
+
   width = 1600;
   height = 1600;
 
@@ -24,6 +26,7 @@ export class AnimacionComponent implements OnInit {
   size = 50;
   
   estado = 0;
+  pausado:boolean = true;
 
  
   tanques:Tanque[] = [];
@@ -34,9 +37,12 @@ export class AnimacionComponent implements OnInit {
   }
   constructor(public dialog: MatDialog) {
     this.formControlTanque.valueChanges.subscribe(index => this.loadDataTanque(index))
+    this.eventoPausa = new EventEmitter();
    }
 
   ngOnInit(): void {
+
+
     this.ctx = this.canvas.nativeElement.getContext('2d');
     // this.estados()
     setTimeout(() => {
@@ -46,7 +52,7 @@ export class AnimacionComponent implements OnInit {
 
   addTanque(tanque:Tanque = null, name:string = null) {
     if (tanque == null) {
-      tanque = new Tanque(this.ctx)
+      tanque = new Tanque(this.ctx, this.eventoPausa)
       tanque.setPosition(this.posX, this.posY, this.size)
     }
     tanque.id = this.tanques.length;
@@ -185,6 +191,17 @@ export class AnimacionComponent implements OnInit {
 
   loadMateriaPrima2(){
     this.paso1();
+    this.pausado = false;
+  }
+
+  pausarContinuar(){
+    this.pausado = !this.pausado;
+    this.eventoPausa.emit(this.pausado)
+    console.log("Se lanza el evento de pausar")
+  }
+
+  iniciar(){
+
   }
 
 
