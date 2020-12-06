@@ -293,11 +293,12 @@ export class AnimacionComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log("local_this: ", local_this)
       const nextStepFun = nextStep.bind(local_this);
-      nextStepFun()
       console.log('The dialog was closed result:', result);
-      if(result == undefined) {
+      if(result) {
+        nextStepFun()
+      } else {
         local_this.openDialog(nextStep);
-      }
+      } 
       // this.animal = result;
     });
   }
