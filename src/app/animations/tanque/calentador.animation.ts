@@ -71,11 +71,12 @@ export class Calentador {
         green_incrementor *= -1;
       } 
     }, time);
-    // console.log("interval: ", this.interval)
+    console.log("Calentar interval: ", this.interval)
   }
 
   detenerCalentar() {
     if(this.interval != -1) {
+      console.log("Detener Calentar interval: ", this.interval)
       clearInterval(this.interval);
       this.colorCover = "rgba(80,80,80,.8)";
       this.interval = -1;

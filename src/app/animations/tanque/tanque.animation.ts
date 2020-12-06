@@ -12,6 +12,15 @@ import { Side } from './side.animation';
 import { Util } from '../util.animation';
 import { Dimension, TanqueDimension } from '../interfaces/tanqueDimension.interface';
 import { Rectangle } from '../base/rectangle.animation';
+import { Store } from '@ngrx/store';
+import { pausar } from 'src/app/components/animacion/animacion.actions';
+
+
+
+interface AppState {
+  pausado: boolean
+}
+
 
 export class Tanque {
 
@@ -60,16 +69,30 @@ export class Tanque {
   private _name: string;
 
   private _customBottom: Dimension
+  private _customRight: Dimension
+
 
   private _pausado:boolean = false;
   private _percentUntilMemory:number = -1;
   private _valueIteratorMemory: number = 1;
 
+  private _onWorking: boolean = false;
+  private _tanqueDebug: boolean = false;
+
   id: number
 
-  constructor(private _ctx: CanvasRenderingContext2D) {
+  constructor(private _ctx: CanvasRenderingContext2D
+    , private store: Store<AppState>
+    ) {
     // this.ctx.fillStyle = this._colorTanque; //tanqueprincipal
-    
+    this.store.select('pausado').subscribe(pausado => {
+      // this.tanqueDebug && console.log(`Pausar: ${pausado}`)
+      if(pausado) {
+        this.pausar();
+      } else {
+        this.continuar();
+      }
+    })
   }
   /**
    * 
@@ -108,6 +131,28 @@ export class Tanque {
     this._colorTanque = color;
     this.ctx.fillStyle = this._colorTanque
   }
+
+  
+  public get tanqueDebug() : boolean {
+    return this._tanqueDebug;
+  }
+  
+  
+  public set tanqueDebug(debug : boolean) {
+    this._tanqueDebug = debug;
+  }
+
+  public get onWorking() : boolean {
+    return this._onWorking;
+  }
+  
+  
+  public set onWorking(working : boolean) {
+    this._onWorking = working;
+    this.pausado = !working;
+    
+  }
+  
 
   public set colorSimbolo(color: string) {
     if(color != ''){
@@ -171,8 +216,33 @@ export class Tanque {
       this.customBottom.height = bottom;
     } else {
       const {height, posY} = bottom
-      // console.log(`height: ${height} posY: ${posY}`)
-      this.customBottom.height = height + posY - this.customBottom.posY
+      // this.tanqueDebug && console.log(`height: ${height} posY: ${posY}, this.customBottom.posY: ${this.customBottom.posY}`)
+      this.customBottom.height = posY - this.customBottom.posY + height
+      // this.tanqueDebug && console.log(`this.customBottom.height: ${this.customBottom.height}`)
+    }
+  }
+
+  private get customRight(): Dimension {
+    if (!this._customRight) {
+      const { right } = this.tanqueDimension
+      this._customRight = right;
+    }
+    return this._customRight;
+  }
+
+
+  private set customRight(bottom: Dimension) {
+    this._customRight = bottom;
+  }
+
+  public set customRightWidth(bottom: number | Dimension) {
+    if (typeof bottom == "number") {
+      this.customRight.width = bottom;
+    } else {
+      const { width, posX } = bottom
+      // this.tanqueDebug && console.log(`width: ${width} posX: ${posX}, this.customRight.posX: ${this.customRight.posX}`)
+      this.customRight.width = posX - this.customRight.posX 
+      // this.tanqueDebug && console.log(`this.customRight.width: ${this.customRight.width}`)
     }
   }
   
@@ -289,6 +359,7 @@ export class Tanque {
   calentar(){
     this._drawCalentar = true;
     if (this.calentador) {
+      // this.onWorking = true;
       this.calentador.calentar();
     }
   }
@@ -339,24 +410,33 @@ export class Tanque {
 
   vaciarMezcla(percentUntil: number = 5, speed: number = 1){
     if(this.percentMezclaValue <= percentUntil || !this._showMezcla) return;
+    this.onWorking = true;
     return this.moverMezcla(-1,percentUntil,speed)
   }
 
   private moverMezcla(valueIterator: number = 0,percentUntil: number = 100, speed: number = 1): Promise<boolean>{
+    if (!this.onWorking)  return;
     return new Promise((resolve,rejcet) => {
       if(percentUntil != 100) {
+        this.tanqueDebug && console.log(`before this.percentUntilMemory: ${this.percentUntilMemory}`)
         this.percentUntilMemory = percentUntil;
+        this.tanqueDebug && console.log(`after this.percentUntilMemory: ${this.percentUntilMemory}`)
       }
       if(valueIterator != 0) {
+        this.tanqueDebug && console.log(`valueIterator: ${valueIterator}`)
         this.valueIteratorMemory = valueIterator;
       }
     const time = Math.round(200 / speed)
     const i = setInterval(() => {
       // this.ctx.clearRect(0, 0, canvas.width, canvas.height);
       this.percentMezclaValue += this.valueIteratorMemory;
-      // console.log("this.percentMezclaValue: ", this.percentMezclaValue)
       this.draw()
+      console.log(`${this.name} this.percentMezclaValue: ${this.percentMezclaValue} this.percentUntilMemory: ${this.percentUntilMemory}`)
+      let result = (this.percentMezclaValue == this.percentUntilMemory || this.pausado)
+      console.log(`resultado eval: ${result}`)
       if (this.percentMezclaValue == this.percentUntilMemory || this.pausado) {
+        console.log(`%cDetener ${this.name} interval: ${i}`, `color:red; font-size: 16px;`)
+        this.onWorking = false;
         clearInterval(i);
         resolve(true)
       }
@@ -374,8 +454,9 @@ export class Tanque {
     this.moverMezcla();
   }
 
-  llenarMezcla(percentUntil: number = 100, speed:number = 1){
+  llenarMezcla(percentUntil: number = 100, speed:number = 1): Promise<boolean>{
     if (this.percentMezclaValue >= percentUntil || !this._showMezcla) return;
+    this.onWorking = true;
     return this.moverMezcla(1,percentUntil,speed)
   }
 
@@ -456,20 +537,36 @@ export class Tanque {
     const { left, center, right, bottom } = this.tanqueDimension
     //Taque y bloques de fondo
     this.drawBaseLeft(color)
-    this.drawBaseRight(color);
+    this.drawTanqueBaseRightCustom(color);
     
     
     this.drawBaseCenter(center, color);
-    if(this.customBottom) {
-      bottom.height = this.customBottom.height
-      this.drawBaseBottom(bottom, color);
-    } else {
-      this.drawBaseBottom(bottom, color);      
-    }
+    
+    this.drawTanqueBaseBottomCustom(color);
     
   }
 
- 
+ private drawTanqueBaseBottomCustom(color: string){
+   const { bottom } = this.tanqueDimension
+   if (this.customBottom) {
+     bottom.height = this.customBottom.height
+     this.drawBaseBottom(bottom, color);
+   } else {
+     this.drawBaseBottom(bottom, color);
+   }
+
+ }
+ private drawTanqueBaseRightCustom(color: string){
+   const { right } = this.tanqueDimension
+  //  this.tanqueDebug && console.log(`${this.name} right posX: ${right.posX}, width: ${right.width}`)
+   if (this.customRight) {
+     right.width = this.customRight.width
+     this.drawBaseRight(right, color);
+   } else {
+     this.drawBaseRight(right, color);
+   }
+
+ }
 
   private drawBaseLeft(color:string = '') {
     if (!this._showLeft) return;
@@ -477,9 +574,9 @@ export class Tanque {
     this.sideLeft = new Side(this.ctx, left, EnumSide.LEFT,color)  
   }
 
-  private drawBaseRight(color: string = '') {
+  private drawBaseRight(right: Dimension, color: string = '') {
     if (!this._showRight)  return;
-      const { right } = this.tanqueDimension
+      // const { right } = this.tanqueDimension
       this.sideRight = new Side(this.ctx, right, EnumSide.RIGHT,color)
   }
 

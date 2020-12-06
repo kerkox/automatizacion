@@ -65,7 +65,7 @@ export class AnimacionComponent implements OnInit {
 
   addTanque(tanque:Tanque = null, name:string = null) {
     if (tanque == null) {
-      tanque = new Tanque(this.ctx)
+      tanque = new Tanque(this.ctx, this.store)
       tanque.setPosition(this.posX, this.posY, this.size)
     }
     tanque.id = this.tanques.length;
@@ -78,7 +78,7 @@ export class AnimacionComponent implements OnInit {
 
 
   tanquesDisponibles(posX:number,posY:number,size:number, color: string = '', colorSimbolo:string = ''): Tanque{
-    let tmp_tanque = new Tanque(this.ctx)
+    let tmp_tanque = new Tanque(this.ctx, this.store)
     // tmp_tanque.id = this.tanques.length;
     tmp_tanque.showSides = false;    
     tmp_tanque.colorSimbolo = colorSimbolo;
@@ -88,7 +88,7 @@ export class AnimacionComponent implements OnInit {
   }
 
   tanqueAlmacen(posX: number, posY: number, size: number, showLeft: boolean = true, showRight: boolean = true, color: string = ''): Tanque {
-    let tmp_tanque = new Tanque(this.ctx)
+    let tmp_tanque = new Tanque(this.ctx, this.store)
     // tmp_tanque.id = this.tanques.length;
     tmp_tanque.showLeft = showLeft;
     tmp_tanque.showRight = showRight;
@@ -99,7 +99,7 @@ export class AnimacionComponent implements OnInit {
   }
 
   premixer(posX: number, posY: number, size: number, color: string = '') {
-    let tmp_tanque = new Tanque(this.ctx)
+    let tmp_tanque = new Tanque(this.ctx, this.store)
     // tmp_tanque.id = this.tanques.length;
     tmp_tanque.percentMezclaValue = 0;
     tmp_tanque.colorSimbolo = color;
@@ -112,16 +112,20 @@ export class AnimacionComponent implements OnInit {
 
   loadTanques() {
     const mixer = this.premixer(295, 446, 100,"#fff");
-    const materiaPrima3 = this.tanquesDisponibles(470, 10, 100, '#CBECFA', "#fff")
+    mixer.tanqueDebug = true;
     const { right } = mixer.tanqueDimension
-    materiaPrima3.customBottomHeight = right;
+    const materiaPrimaC = this.tanquesDisponibles(470, 10, 100, '#CBECFA', "#fff")
+    materiaPrimaC.tanqueDebug = true;
+    const { bottom } = materiaPrimaC.tanqueDimension;
 
+    materiaPrimaC.customBottomHeight = right;
+    mixer.customRightWidth = bottom
     let materiaB = this.tanquesDisponibles(273, 10, 100, '#CBECFA')
     // this.addTanque(this.tanquesDisponibles(0, 10, 100, 'rgba(97,188,216,1)'), "MATERIA A")
     this.addTanque(this.tanquesDisponibles(0, 10, 100, '#CBECFA'), "MATERIA A")
     materiaB.colorSimbolo = "gray"
     this.addTanque(materiaB,"MATERIA B")
-    this.addTanque(materiaPrima3,"MATERIA C")
+    this.addTanque(materiaPrimaC,"MATERIA C")
     this.addTanque(this.premixer(135,228,100), "PREMIXER")
     this.addTanque(mixer, "MIXER")
 
@@ -177,6 +181,7 @@ export class AnimacionComponent implements OnInit {
   }
 
   vaciarMezclaTanque(tanque: Tanque, percentUntil: number = 0, speed: number = 1){
+    tanque.tanqueDebug = true;
     tanque.vaciar();
     tanque.vaciarMezcla(percentUntil, speed);
   }
@@ -190,6 +195,7 @@ export class AnimacionComponent implements OnInit {
       tanque.mezclar()
       tanque.calentar();
       await this.esperaPasoMixer(5)
+      console.log("Se va detener el calentamiento")
       tanque.detenerCalentar();
     }
     return true;
@@ -289,6 +295,9 @@ export class AnimacionComponent implements OnInit {
       const nextStepFun = nextStep.bind(local_this);
       nextStepFun()
       console.log('The dialog was closed result:', result);
+      if(result == undefined) {
+        local_this.openDialog(nextStep);
+      }
       // this.animal = result;
     });
   }
