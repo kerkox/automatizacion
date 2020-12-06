@@ -6,13 +6,13 @@ import { Util } from '../util.animation';
 import { Rectangle } from '../base/rectangle.animation';
 export class MezclaSimbol extends Simbol implements SimbolDrawable {
   constructor(ctx: CanvasRenderingContext2D, dimension: Dimension, color: string = '', colorSimbolContent: string = '',
-    private colorAspaLeft: string = '#FACB52', private colorAspaRight: string = '#2D61FA', private colorEje: string = '#FFF' ) {
+    private colorAspaLeft: string = '#999', private colorAspaRight: string = '#999', private colorEje: string = '#000' ) {
     super(ctx, dimension, color, colorSimbolContent)
   }
   
   draw(dimension:Dimension) {
     super.dimension = dimension;
-    super.drawContent()
+    // super.drawContent()
     
     this.drawAspa(this.colorAspaLeft, EnumSide.LEFT)
     this.drawAspa(this.colorAspaRight, EnumSide.RIGHT)
@@ -39,8 +39,10 @@ export class MezclaSimbol extends Simbol implements SimbolDrawable {
   private drawEje(color: string = '') {
     const eje = new Rectangle(super.ctx);
     const { posX, posY, width, height } = super.dimension
+    const { posY: posY_original, height: height_original } = super.dimensionOriginal;
     const { size: width_eje, pos: posX_eje } = Util.calculateSizePos(width, posX, 20)
-    const { size: height_eje, pos: posY_eje } = Util.calculateSizePos(height, posY, 90)
+    const { size: height_eje } = Util.calculateSizePos(height_original, posY_original, 70)
+    const posY_eje = posY_original;
 
     const dimension: Dimension = { posX: posX_eje, posY: posY_eje, width: width_eje, height: height_eje }
     eje.color = color;

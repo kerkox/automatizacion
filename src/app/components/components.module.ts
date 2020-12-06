@@ -9,6 +9,8 @@ import { OrdenProduccionDetalleComponent } from './orden-produccion-detalle/orde
 import { OrdenProduccionTablaComponent } from './orden-produccion-tabla/orden-produccion-tabla.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PruebaCalidadDialogComponent } from './prueba-calidad-dialog/prueba-calidad-dialog.component';
+import { StoreModule } from '@ngrx/store';
+import { animacionReducer } from './animacion/animacion.reducer';
 
 
 
@@ -34,7 +36,8 @@ import { PruebaCalidadDialogComponent } from './prueba-calidad-dialog/prueba-cal
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    PipesModule
+    PipesModule,
+    StoreModule.forRoot({ pausado: animacionReducer})
   ]
 })
 export class ComponentsModule { }

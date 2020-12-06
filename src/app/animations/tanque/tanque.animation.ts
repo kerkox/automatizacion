@@ -12,14 +12,16 @@ import { Side } from './side.animation';
 import { Util } from '../util.animation';
 import { Dimension, TanqueDimension } from '../interfaces/tanqueDimension.interface';
 import { Rectangle } from '../base/rectangle.animation';
-import { EventEmitter } from '@angular/core';
+
 export class Tanque {
 
-  private _colorTanque = '#A0A0A0';
+  private _colorTanque = '#666';
   private _colorEntradas = '#505050';
-  private _colorLiquidoA = '#FACB52';
-  private _colorLiquidoB = '#2D61FA';
-  private _colorMezcla = '#9CFA20';
+  // private _colorLiquidoA = '#FACB52';
+  private _colorLiquidoA = '#CBECFA';
+  // private _colorLiquidoB = '#2D61FA';
+  private _colorLiquidoB = '#CBECFA';
+  private _colorMezcla = '#CBECFA';
   private _colorSimboloA = '#8C538B';
   private _colorSimboloB = '#BF11BB';
   private _colorSimboloC = '#BF9B11';
@@ -65,18 +67,9 @@ export class Tanque {
 
   id: number
 
-  constructor(private _ctx: CanvasRenderingContext2D,private eventoPausa: EventEmitter<boolean> = null) {
+  constructor(private _ctx: CanvasRenderingContext2D) {
     // this.ctx.fillStyle = this._colorTanque; //tanqueprincipal
-    if(this.eventoPausa){
-      this.eventoPausa.subscribe((pausar:boolean) => {
-        console.log(`llego evento de pausa a: ${this.name} con valor de ${pausar}`)
-        if(pausar) {
-          this.pausar()
-        } else {
-          this.continuar();
-        }
-      })
-    }
+    
   }
   /**
    * 
@@ -403,7 +396,7 @@ export class Tanque {
     this._showRightFluid = true;
     this._showMezcla = true;
     this._showBottomCover = true;
-    this.simbolArrow(EnumDirection.UP, this._colorSimboloA, this._colorSimboloB, this._colorSimbolo)
+    // this.simbolArrow(EnumDirection.UP, this._colorSimboloA, this._colorSimboloB, this._colorSimbolo)
     this.draw();
   }
 
@@ -414,7 +407,7 @@ export class Tanque {
     this._showMezcla = true;
     colorContenido != '' && (this._colorMezcla = colorContenido);
     this._showBottomCover = true;
-    this.simbolCheckBase()
+    // this.simbolCheckBase()
     this.draw();
   }
 
@@ -433,14 +426,14 @@ export class Tanque {
     this._showMezcla = true;
     this._showRightCover = true;
     this._showLeftCover = true;
-    this.simbolArrow(EnumDirection.DOWN, this._colorSimboloA, this._colorSimboloB, this._colorSimbolo)
+    // this.simbolArrow(EnumDirection.DOWN, this._colorSimboloA, this._colorSimboloB, this._colorSimbolo)
     this.draw();
   }
 
   disponible() {
     //simbolo
     this.resetTanque();
-    this.simbolCheck(this._colorSimboloA, this._colorSimboloD, this._colorSimbolo);
+    // this.simbolCheck(this._colorSimboloA, this._colorSimboloD, this._colorSimbolo);
     this.draw();
   }
 
@@ -508,7 +501,7 @@ export class Tanque {
     const left: Dimension = { posX: x, posY: y, width: 56 * size, height: 38 * size }
     const center: Dimension = { posX: left.posX + left.width, posY: y, width: 180 * size, height: 180 * size }
     const right: Dimension = { posX: center.posX + center.width, posY: y, width: 56 * size, height: 38 * size }
-    const bottom: Dimension = { posX: center.posX + (60 * size), posY: center.posY + center.height, width: 60 * size, height: 76 * size }
+    const bottom: Dimension = { posX: center.posX + (75 * size), posY: center.posY + center.height, width: 30 * size, height: 76 * size }
 
     tanqueDimensions = { left, center, right, bottom }
     return tanqueDimensions;
@@ -522,7 +515,7 @@ export class Tanque {
 
   private simbolCheckBase(){
     // console.log("this._colorSimbolo: ", this._colorSimbolo)
-    this.simbolCheck(this._colorSimboloA, this._colorSimboloD, this._colorSimbolo);
+    // this.simbolCheck(this._colorSimboloA, this._colorSimboloD, this._colorSimbolo);
   }
 
   private simbolCheck(color: string, colorContent: string, colorCheck: string) {

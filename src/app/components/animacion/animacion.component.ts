@@ -1,9 +1,15 @@
+import { pausar, continuar } from './animacion.actions';
 import { PruebaCalidadDialogComponent } from './../prueba-calidad-dialog/prueba-calidad-dialog.component';
-import { Component, ElementRef, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Tanque } from '../../animations/tanque/tanque.animation';
-import { Square } from '../../animations/base/square.animation';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+
+
+interface AppState {
+  pausado: boolean
+}
 
 @Component({
   selector: 'app-animacion',
@@ -15,8 +21,6 @@ export class AnimacionComponent implements OnInit {
 
   canvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D;
-
-  private eventoPausa: EventEmitter<boolean>
 
   width = 1600;
   height = 1600;
@@ -32,13 +36,22 @@ export class AnimacionComponent implements OnInit {
   tanques:Tanque[] = [];
   formControlTanque:FormControl = new FormControl('')
 
+
+
+  constructor(public dialog: MatDialog, private store: Store<AppState>) {
+    this.formControlTanque.valueChanges.subscribe(index => this.loadDataTanque(index))
+    this.store.subscribe(state => {
+      console.log(state);
+      this.pausado = state.pausado
+    }) 
+  }
+
+
+
   get tanque(): Tanque {
     return this.tanques[this.formControlTanque.value];
   }
-  constructor(public dialog: MatDialog) {
-    this.formControlTanque.valueChanges.subscribe(index => this.loadDataTanque(index))
-    this.eventoPausa = new EventEmitter();
-   }
+  
 
   ngOnInit(): void {
 
@@ -52,7 +65,7 @@ export class AnimacionComponent implements OnInit {
 
   addTanque(tanque:Tanque = null, name:string = null) {
     if (tanque == null) {
-      tanque = new Tanque(this.ctx, this.eventoPausa)
+      tanque = new Tanque(this.ctx)
       tanque.setPosition(this.posX, this.posY, this.size)
     }
     tanque.id = this.tanques.length;
@@ -99,12 +112,13 @@ export class AnimacionComponent implements OnInit {
 
   loadTanques() {
     const mixer = this.premixer(295, 446, 100,"#fff");
-    const materiaPrima3 = this.tanquesDisponibles(470, 10, 100, 'rgba(207,200,59,1)', "red")
+    const materiaPrima3 = this.tanquesDisponibles(470, 10, 100, '#CBECFA', "#fff")
     const { right } = mixer.tanqueDimension
     materiaPrima3.customBottomHeight = right;
 
-    let materiaB = this.tanquesDisponibles(273, 10, 100, '#2D61FA')
-    this.addTanque(this.tanquesDisponibles(0, 10, 100, 'rgba(97,188,216,1)'), "MATERIA A")
+    let materiaB = this.tanquesDisponibles(273, 10, 100, '#CBECFA')
+    // this.addTanque(this.tanquesDisponibles(0, 10, 100, 'rgba(97,188,216,1)'), "MATERIA A")
+    this.addTanque(this.tanquesDisponibles(0, 10, 100, '#CBECFA'), "MATERIA A")
     materiaB.colorSimbolo = "gray"
     this.addTanque(materiaB,"MATERIA B")
     this.addTanque(materiaPrima3,"MATERIA C")
@@ -196,7 +210,11 @@ export class AnimacionComponent implements OnInit {
 
   pausarContinuar(){
     this.pausado = !this.pausado;
-    this.eventoPausa.emit(this.pausado)
+    if(this.pausado) {
+      this.store.dispatch(continuar())
+    } else {
+      this.store.dispatch(pausar())
+    }
     console.log("Se lanza el evento de pausar")
   }
 
