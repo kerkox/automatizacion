@@ -415,6 +415,17 @@ export class Tanque {
     return this.moverMezcla(-1,percentUntil,speed)
   }
 
+  private cerrarEntradas(){
+    this._showRightCover = true;
+    this._showLeftCover = true;
+    this.draw();
+  }
+
+  private abrirEntradas(){
+    this._showRightCover = false;
+    this._showLeftCover = false;
+  }
+
   private moverMezcla(valueIterator: number = 0,percentUntil: number = 100, speed: number = 1): Promise<boolean>{
     console.log(`%conWorking: ${this.onWorking}`, `color:green; font-size:16px`)
     if (!this.onWorking)  return;
@@ -428,6 +439,7 @@ export class Tanque {
         this.tanqueDebug && console.log(`valueIterator: ${valueIterator}`)
         this.valueIteratorMemory = valueIterator;
       }
+      
     const time = Math.round(200 / speed)
     const i = setInterval(() => {
       // this.ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -438,6 +450,7 @@ export class Tanque {
       console.log(`resultado eval: ${result}`)
       if (this.percentMezclaValue == this.percentUntilMemory || this.pausado) {
         console.log(`%cDetener ${this.name} interval: ${i}`, `color:red; font-size: 16px;`)
+        this.cerrarEntradas();
         clearInterval(i);
         if(!this.pausado){
           this.onWorking = false;
@@ -462,6 +475,7 @@ export class Tanque {
   llenarMezcla(percentUntil: number = 100, speed:number = 1): Promise<boolean>{
     if (this.percentMezclaValue >= percentUntil || !this._showMezcla) return;
     this.onWorking = true;
+    this.abrirEntradas();
     return this.moverMezcla(1,percentUntil,speed)
   }
 
