@@ -260,6 +260,10 @@ export class Tanque {
     }
   }
 
+  public get customBottomHeight(): number | Dimension{
+    return this.customBottom.height;
+  }
+
   private get customRight(): Dimension {
     if (!this._customRight) {
       const { right } = this.tanqueDimension
@@ -282,6 +286,10 @@ export class Tanque {
       this.customRight.width = posX - this.customRight.posX
       // this.tanqueDebug && console.log(`this.customRight.width: ${this.customRight.width}`)
     }
+  }
+
+  public get customRightWidth(): number | Dimension {
+    return this.customRight.width;
   }
 
 

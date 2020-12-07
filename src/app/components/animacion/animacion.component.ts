@@ -136,8 +136,10 @@ export class AnimacionComponent implements OnInit {
     materiaPrimaC.tanqueDebug = true;
     const { bottom } = materiaPrimaC.tanqueDimension;
 
-    materiaPrimaC.customBottomHeight = right;
-    mixer.customRightWidth = bottom
+    materiaPrimaC.customBottomHeight = 290;
+    console.warn("materiaPrimaC.customBottomHeight",materiaPrimaC.customBottomHeight)
+    mixer.customRightWidth = 100
+    console.warn("mixer.customRightWidth", mixer.customRightWidth)
     let materiaB = this.tanquesDisponibles(273, 10, 100, '#CBECFA')
     // this.addTanque(this.tanquesDisponibles(0, 10, 100, 'rgba(97,188,216,1)'), "MATERIA A")
     this.addTanque(this.tanquesDisponibles(0, 10, 100, '#CBECFA'), "MATERIA A")
