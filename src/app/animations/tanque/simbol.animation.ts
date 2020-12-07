@@ -1,13 +1,15 @@
-import { Dimension } from '../interfaces/tanqueDimension.interface';
+import { Dimension } from './../interfaces/tanqueDimension.interface';
 import { Util } from '../util.animation';
 import { Rectangle } from './../base/rectangle.animation';
 
 export class Simbol extends Rectangle {
   
   private _colorSimbolContent: string = '#8C538B';
+  private _dimensionOriginal: Dimension;
  
   constructor(ctx: CanvasRenderingContext2D, dimension: Dimension, color: string = '',colorSimbolContent: string = '') {
     super(ctx, color);
+    this._dimensionOriginal = dimension;
     super.dimension = dimension;
     this.colorSimbolContent = colorSimbolContent
   }
@@ -19,6 +21,12 @@ export class Simbol extends Rectangle {
   public get dimension(){
     return super.dimension
   }
+
+  
+  public get dimensionOriginal() : Dimension {
+    return this._dimensionOriginal;
+  }
+  
   
   public get colorSimbolContent() : string {
     return this._colorSimbolContent;

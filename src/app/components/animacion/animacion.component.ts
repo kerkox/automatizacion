@@ -1,9 +1,14 @@
+import { tanque_reset } from './../../animations/actions/tanque.actions';
+import { continuar, pausar } from './../../animations/actions/pausado.actions';
+import { AppState } from '../../animations/reducers/animation.reducers';
 import { PruebaCalidadDialogComponent } from './../prueba-calidad-dialog/prueba-calidad-dialog.component';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Tanque } from '../../animations/tanque/tanque.animation';
-import { Square } from '../../animations/base/square.animation';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { calentarTypes } from 'src/app/animations/actions/calentar.actions';
+
 
 @Component({
   selector: 'app-animacion',
@@ -16,6 +21,8 @@ export class AnimacionComponent implements OnInit {
   canvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D;
 
+  private _nextFunction: Function;
+
   width = 1600;
   height = 1600;
 
@@ -24,17 +31,25 @@ export class AnimacionComponent implements OnInit {
   size = 50;
   
   estado = 0;
+  pausado:boolean = true;
 
  
   tanques:Tanque[] = [];
   formControlTanque:FormControl = new FormControl('')
 
+
+
+  constructor(public dialog: MatDialog, private store: Store<AppState>) {
+    this.formControlTanque.valueChanges.subscribe(index => this.loadDataTanque(index))
+   
+  }
+
+
+
   get tanque(): Tanque {
     return this.tanques[this.formControlTanque.value];
   }
-  constructor(public dialog: MatDialog) {
-    this.formControlTanque.valueChanges.subscribe(index => this.loadDataTanque(index))
-   }
+  
 
   ngOnInit(): void {
     this.ctx = this.canvas.nativeElement.getContext('2d');
@@ -42,11 +57,33 @@ export class AnimacionComponent implements OnInit {
     setTimeout(() => {
       this.loadTanques();
     },500)
+    this.store.select('pausado').subscribe(pausado => {
+      console.log(`%c Pausado: ${pausado}`, "color:yellow;font-size:20px", );
+      this.pausado = pausado
+    })
+    this.store.select('tanque_lleno').subscribe(tanque_lleno => {
+      console.log(`%c tanque lleno: ${tanque_lleno}`,`color:yellow;font-size:20px`)
+      if(tanque_lleno) {
+        this.paso_next()
+        this.store.dispatch(tanque_reset())
+      }
+    })
+    this.store.select('calentar').subscribe(calentar => {
+      switch (calentar) {
+        case calentarTypes.calentar_fin:
+          this.paso_next();
+          break;
+      
+        default:
+          break;
+      }
+    })
+
   }
 
   addTanque(tanque:Tanque = null, name:string = null) {
     if (tanque == null) {
-      tanque = new Tanque(this.ctx)
+      tanque = new Tanque(this.ctx, this.store)
       tanque.setPosition(this.posX, this.posY, this.size)
     }
     tanque.id = this.tanques.length;
@@ -59,7 +96,7 @@ export class AnimacionComponent implements OnInit {
 
 
   tanquesDisponibles(posX:number,posY:number,size:number, color: string = '', colorSimbolo:string = ''): Tanque{
-    let tmp_tanque = new Tanque(this.ctx)
+    let tmp_tanque = new Tanque(this.ctx, this.store)
     // tmp_tanque.id = this.tanques.length;
     tmp_tanque.showSides = false;    
     tmp_tanque.colorSimbolo = colorSimbolo;
@@ -69,7 +106,7 @@ export class AnimacionComponent implements OnInit {
   }
 
   tanqueAlmacen(posX: number, posY: number, size: number, showLeft: boolean = true, showRight: boolean = true, color: string = ''): Tanque {
-    let tmp_tanque = new Tanque(this.ctx)
+    let tmp_tanque = new Tanque(this.ctx, this.store)
     // tmp_tanque.id = this.tanques.length;
     tmp_tanque.showLeft = showLeft;
     tmp_tanque.showRight = showRight;
@@ -80,7 +117,7 @@ export class AnimacionComponent implements OnInit {
   }
 
   premixer(posX: number, posY: number, size: number, color: string = '') {
-    let tmp_tanque = new Tanque(this.ctx)
+    let tmp_tanque = new Tanque(this.ctx, this.store)
     // tmp_tanque.id = this.tanques.length;
     tmp_tanque.percentMezclaValue = 0;
     tmp_tanque.colorSimbolo = color;
@@ -93,15 +130,22 @@ export class AnimacionComponent implements OnInit {
 
   loadTanques() {
     const mixer = this.premixer(295, 446, 100,"#fff");
-    const materiaPrima3 = this.tanquesDisponibles(470, 10, 100, 'rgba(207,200,59,1)', "red")
+    mixer.tanqueDebug = true;
     const { right } = mixer.tanqueDimension
-    materiaPrima3.customBottomHeight = right;
+    const materiaPrimaC = this.tanquesDisponibles(470, 10, 100, '#CBECFA', "#fff")
+    materiaPrimaC.tanqueDebug = true;
+    const { bottom } = materiaPrimaC.tanqueDimension;
 
-    let materiaB = this.tanquesDisponibles(273, 10, 100, '#2D61FA')
-    this.addTanque(this.tanquesDisponibles(0, 10, 100, 'rgba(97,188,216,1)'), "MATERIA A")
+    materiaPrimaC.customBottomHeight = 290;
+    console.warn("materiaPrimaC.customBottomHeight",materiaPrimaC.customBottomHeight)
+    mixer.customRightWidth = 100
+    console.warn("mixer.customRightWidth", mixer.customRightWidth)
+    let materiaB = this.tanquesDisponibles(273, 10, 100, '#CBECFA')
+    // this.addTanque(this.tanquesDisponibles(0, 10, 100, 'rgba(97,188,216,1)'), "MATERIA A")
+    this.addTanque(this.tanquesDisponibles(0, 10, 100, '#CBECFA'), "MATERIA A")
     materiaB.colorSimbolo = "gray"
     this.addTanque(materiaB,"MATERIA B")
-    this.addTanque(materiaPrima3,"MATERIA C")
+    this.addTanque(materiaPrimaC,"MATERIA C")
     this.addTanque(this.premixer(135,228,100), "PREMIXER")
     this.addTanque(mixer, "MIXER")
 
@@ -118,19 +162,12 @@ export class AnimacionComponent implements OnInit {
       this.calentarTanque(this.tanque)
     }
   }
-  detenerCalentar(){
-    if (this.tanque.name.includes("MIXER")) {
-      this.detenerCalentarTanque(this.tanque)
-    }
-  }
-
+  
   private calentarTanque(tanque: Tanque) {
-    tanque.calentar();
+    tanque.calentar(5);
   }
 
-  private detenerCalentarTanque(tanque: Tanque){
-    tanque.detenerCalentar();
-  }
+  
 
  
   loadDataTanque(index:number) {
@@ -153,68 +190,95 @@ export class AnimacionComponent implements OnInit {
   }
 
   llenarMezcla(){
-    this.llenarMezclaTanque(this.tanque);
+    this.llenarMezclaTanque(this.tanque, () => {});
   }
 
   vaciarMezclaTanque(tanque: Tanque, percentUntil: number = 0, speed: number = 1){
+    tanque.tanqueDebug = true;
     tanque.vaciar();
     tanque.vaciarMezcla(percentUntil, speed);
   }
 
-  async llenarMezclaTanque(tanque:Tanque, percentUntil:number = 100, speed:number = 1, calentar:boolean = true): Promise<any> {
-    
+  async llenarMezclaTanque(tanque:Tanque,nextFunction:Function, percentUntil:number = 100, speed:number = 1, calentar:boolean = true): Promise<any> {
+    this._nextFunction = nextFunction
+    tanque.secondsCalentar = 5;
     tanque.llenar();
     await tanque.llenarMezcla(percentUntil, speed)
     // console.log("Ha terminado de cargar la materia prima")
     if(calentar){
-      tanque.mezclar()
-      tanque.calentar();
-      await this.esperaPasoMixer(5)
-      tanque.detenerCalentar();
+      await this.calentarMezclaTanque(tanque)
+      console.log("Termino de calentar")
+    } else {
+
     }
     return true;
   }
 
-  private esperaPasoMixer(seconds: number = 5): Promise<any>{
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(true)
-      }, seconds * 1000)
-    })
+  private async calentarMezclaTanque(tanque: Tanque): Promise<any>{
+    tanque.mezclar()    
+    return await tanque.calentar(5);    
   }
+
+ 
 
   loadMateriaPrima2(){
     this.paso1();
+    this.pausado = false;
+  }
+
+  pausarContinuar(){
+    console.log(`%c after this.pausado: ${this.pausado}`,`color:green;font-size:16px;`)
+    if(this.pausado) {
+      this.store.dispatch(continuar())
+      console.log("%c Se lanza el evento de continuar","color:orange;font-size:14px")
+    } else {
+      this.store.dispatch(pausar())
+      console.log("%c Se lanza el evento de pausar","color:orange;font-size:14px")
+    }
+    console.log(`%c Before this.pausado: ${this.pausado}`, `color:green;font-size:16px;`)
+    // this.pausado = !this.pausado;
+  }
+
+  iniciar(){
+
   }
 
 
   paso1(){
     this.vaciarMezclaTanque(this.tanques[0], 80, 1);
     this.vaciarMezclaTanque(this.tanques[1], 80, 1);
-    this.llenarMezclaTanque(this.tanques[3], 40, 2).then(() => {
-      console.log("Se va a abrir el dialog")
-      this.openDialog(this.paso2);
+    this.llenarMezclaTanque(this.tanques[3], this.paso2,40, 2).then(() => {
+      console.log("Termino el Paso 1---------------------")
+      // this.paso_next();
     })
+  }
+
+  paso_next(){
+    console.log("Se va a abrir el dialog")
+    this.openDialog(this._nextFunction);
   }
 
   paso2() {
     console.log("This: ", this)
     this.vaciarMezclaTanque(this.tanques[2], 80, 1)
     this.vaciarMezclaTanque(this.tanques[3], 0, 1.5)
-    this.llenarMezclaTanque(this.tanques[4], 60, 2).then(() => {
-      this.openDialog(this.paso3);
-      
+    this.llenarMezclaTanque(this.tanques[4], this.paso3,60, 2).then(() => {
+      console.log("Termino el Paso 2---------------------")
+      // this.paso_next()      
+
     })
   }
 
   paso3() {
     this.vaciarMezclaTanque(this.tanques[4], 0, 1)
     this.tanques[5].percentMezclaValue = 0;
-    this.llenarMezclaTanque(this.tanques[5], 60, 1, false)
+    this.llenarMezclaTanque(this.tanques[5], this.paso4,60, 1, false).then(() => {
+      // this.paso_next();
+    })
   }
 
   paso4(){
-
+    console.log("Paso FINAL")
   }
 
   dibujar() {
@@ -252,8 +316,12 @@ export class AnimacionComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log("local_this: ", local_this)
       const nextStepFun = nextStep.bind(local_this);
-      nextStepFun()
       console.log('The dialog was closed result:', result);
+      if(result) {
+        nextStepFun()
+      } else {
+        local_this.openDialog(nextStep);
+      } 
       // this.animal = result;
     });
   }
