@@ -1,3 +1,4 @@
+import { AppState } from './../../animations/interfaces/animation.reducers';
 import { pausar, continuar } from './animacion.actions';
 import { PruebaCalidadDialogComponent } from './../prueba-calidad-dialog/prueba-calidad-dialog.component';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -6,10 +7,6 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 
-
-interface AppState {
-  pausado: boolean
-}
 
 @Component({
   selector: 'app-animacion',
@@ -192,13 +189,17 @@ export class AnimacionComponent implements OnInit {
     await tanque.llenarMezcla(percentUntil, speed)
     // console.log("Ha terminado de cargar la materia prima")
     if(calentar){
-      tanque.mezclar()
-      tanque.calentar();
-      await this.esperaPasoMixer(5)
-      console.log("Se va detener el calentamiento")
-      tanque.detenerCalentar();
-    }
+      await this.calentarMezclaTanque(tanque)
+    } 
     return true;
+  }
+
+  private async calentarMezclaTanque(tanque: Tanque): Promise<any>{
+    tanque.mezclar()
+    tanque.calentar();
+    await this.esperaPasoMixer(5)
+    console.log("Se va detener el calentamiento")
+    tanque.detenerCalentar();
   }
 
   private esperaPasoMixer(seconds: number = 5): Promise<any>{
@@ -215,13 +216,16 @@ export class AnimacionComponent implements OnInit {
   }
 
   pausarContinuar(){
-    this.pausado = !this.pausado;
+    console.log(`%c after this.pausado: ${this.pausado}`,`color:green;font-size:16px;`)
     if(this.pausado) {
       this.store.dispatch(continuar())
+      console.log("%c Se lanza el evento de continuar","color:orange;font-size:14px")
     } else {
       this.store.dispatch(pausar())
+      console.log("%c Se lanza el evento de pausar","color:orange;font-size:14px")
     }
-    console.log("Se lanza el evento de pausar")
+    console.log(`%c Before this.pausado: ${this.pausado}`, `color:green;font-size:16px;`)
+    // this.pausado = !this.pausado;
   }
 
   iniciar(){
@@ -251,7 +255,9 @@ export class AnimacionComponent implements OnInit {
   paso3() {
     this.vaciarMezclaTanque(this.tanques[4], 0, 1)
     this.tanques[5].percentMezclaValue = 0;
-    this.llenarMezclaTanque(this.tanques[5], 60, 1, false)
+    this.llenarMezclaTanque(this.tanques[5], 60, 1, false).then(() => {
+      
+    })
   }
 
   paso4(){

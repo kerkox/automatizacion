@@ -17,8 +17,8 @@ import { Action, createReducer, on } from '@ngrx/store';
 export const initialState = true;
 
 const _animacionReducer = createReducer(initialState,
-  on(pausar, state => !state),
-  on(continuar, state => !state)
+  on(pausar, state => true),
+  on(continuar, state => false)
 );
 
 export function animacionReducer(state: boolean, action: Action) {

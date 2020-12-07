@@ -1,3 +1,4 @@
+import { AppState } from './../interfaces/animation.reducers';
 import { Calentador } from './calentador.animation';
 import { ErrorSimbol } from './error-simbol.animation';
 import { ErrorDraw } from '../base/error-draw.animation';
@@ -13,13 +14,6 @@ import { Util } from '../util.animation';
 import { Dimension, TanqueDimension } from '../interfaces/tanqueDimension.interface';
 import { Rectangle } from '../base/rectangle.animation';
 import { Store } from '@ngrx/store';
-import { pausar } from 'src/app/components/animacion/animacion.actions';
-
-
-
-interface AppState {
-  pausado: boolean
-}
 
 
 export class Tanque {
@@ -85,11 +79,13 @@ export class Tanque {
     , private store: Store<AppState>
     ) {
     // this.ctx.fillStyle = this._colorTanque; //tanqueprincipal
-    this.store.select('pausado').subscribe(pausado => {
+    this.store.subscribe(({pausado}) => {
       // this.tanqueDebug && console.log(`Pausar: ${pausado}`)
       if(pausado) {
+        console.log(`%c Llega el evento para pausar: ${pausado}`, `color:#5cdbff;font-size:14px;`)
         this.pausar();
       } else {
+        console.log(`%c Llega el evento para Continuar: ${pausado}`, `color:#5cdbff;font-size:14px;`)
         this.continuar();
       }
     })
@@ -366,6 +362,8 @@ export class Tanque {
 
   detenerCalentar(){
     this._drawCalentar = false;
+    this._showLeftCover = true;
+    this._showRightCover = true;
     if (this.calentador) {
       this.calentador.detenerCalentar();
     }
@@ -415,6 +413,7 @@ export class Tanque {
   }
 
   private moverMezcla(valueIterator: number = 0,percentUntil: number = 100, speed: number = 1): Promise<boolean>{
+    console.log(`%conWorking: ${this.onWorking}`, `color:green; font-size:16px`)
     if (!this.onWorking)  return;
     return new Promise((resolve,rejcet) => {
       if(percentUntil != 100) {
@@ -436,11 +435,14 @@ export class Tanque {
       console.log(`resultado eval: ${result}`)
       if (this.percentMezclaValue == this.percentUntilMemory || this.pausado) {
         console.log(`%cDetener ${this.name} interval: ${i}`, `color:red; font-size: 16px;`)
-        this.onWorking = false;
         clearInterval(i);
-        resolve(true)
+        if(!this.pausado){
+          this.onWorking = false;
+          resolve(true)
+        }
       }
     }, time);
+    console.log(`intervalo creado: ${i}`)
 
   })
   }
@@ -451,7 +453,7 @@ export class Tanque {
 
   continuar() {
     this.pausado = false;
-    this.moverMezcla();
+    this.onWorking && this.moverMezcla();
   }
 
   llenarMezcla(percentUntil: number = 100, speed:number = 1): Promise<boolean>{
