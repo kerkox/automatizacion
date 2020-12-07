@@ -5,18 +5,22 @@ import { Rectangle } from './../base/rectangle.animation';
 export class Calentador {
 
   private _colorCalentador: string;
+  private _colorCoverBase: string;
   private _colorCover: string;
   private _sideLeft: Rectangle;
   private _sideRight: Rectangle;
 
   private interval: any;
 
+  private _time_remainig:number;
 
 
-  constructor(private ctx: CanvasRenderingContext2D, private dimension: Dimension, color: string = "rgba(80,80,80,.8)") {
+  constructor(private ctx: CanvasRenderingContext2D, private dimension: Dimension, color: string = "rgba(100,80,60,1)") {
     this.colorCover = color;
+    this._colorCoverBase = color;
     this._sideLeft = new Rectangle(this.ctx)
     this._sideRight = new Rectangle(this.ctx)
+    this._time_remainig = -1;
     this.interval = -1;
   }
 
@@ -57,30 +61,42 @@ export class Calentador {
     this.sideRight.draw(this.getDimensionRight(this.dimension))
   }
 
-  calentar() {
+  calentar(seconds:number = -1): Promise<boolean>{
+    return new Promise((resolve,reject) => {
+    if(seconds != -1){
+      this._time_remainig = seconds * 1000;
+    }
     let {red, green, blue} = {red: 255,green: 0, blue:0 }
     const time = 100;
     const green_max = 210;
     let green_incrementor = 10;
     this.interval = setInterval(() => {
+            
       green += green_incrementor
       this.colorCover = `rgba(${red},${green},${blue},1)`
       console.log(`color: ${this.colorCover}`)
       this.draw(this.dimension)
       if(green >= green_max || green <= 0) {
         green_incrementor *= -1;
-      } 
+      }
+      this._time_remainig -= time; 
+      if (this._time_remainig <= 0) {
+        console.log("Se llama a detener Calentar")
+        this.detenerCalentar();
+        resolve(true);
+      }
     }, time);
     console.log("Calentar interval: ", this.interval)
+    });
   }
 
   detenerCalentar() {
     if(this.interval != -1) {
       console.log("Detener Calentar interval: ", this.interval)
       clearInterval(this.interval);
-      this.colorCover = "rgba(80,80,80,.8)";
+      this.colorCover = this._colorCoverBase;
       this.interval = -1;
-      this.draw();
+      this.draw(this.dimension);
     }
   }
 

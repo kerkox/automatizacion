@@ -19,7 +19,7 @@ import { Store } from '@ngrx/store';
 export class Tanque {
 
   private _colorTanque = '#666';
-  private _colorEntradas = '#505050';
+  private _colorEntradas = 'rgba(50,50,50,1)';
   // private _colorLiquidoA = '#FACB52';
   private _colorLiquidoA = '#CBECFA';
   // private _colorLiquidoB = '#2D61FA';
@@ -352,22 +352,25 @@ export class Tanque {
     
   }
 
-  calentar(){
+  calentar(seconds:number = -1): Promise<boolean>{
+    return new Promise((resolve, reject) => {
     this._drawCalentar = true;
     if (this.calentador) {
       // this.onWorking = true;
-      this.calentador.calentar();
+      this.calentador.calentar(seconds).then(() => {
+        this.detenerCalentar()
+        resolve(true);
+      });
     }
+    })
   }
 
-  detenerCalentar(){
+  private detenerCalentar(){
     this._drawCalentar = false;
     this._showLeftCover = true;
     this._showRightCover = true;
-    if (this.calentador) {
-      this.calentador.detenerCalentar();
-    }
     this.draw()
+    console.log("Detener Calentar desde Tanque")
   }
 
 

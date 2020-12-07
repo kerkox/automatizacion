@@ -139,19 +139,12 @@ export class AnimacionComponent implements OnInit {
       this.calentarTanque(this.tanque)
     }
   }
-  detenerCalentar(){
-    if (this.tanque.name.includes("MIXER")) {
-      this.detenerCalentarTanque(this.tanque)
-    }
-  }
-
+  
   private calentarTanque(tanque: Tanque) {
-    tanque.calentar();
+    tanque.calentar(5);
   }
 
-  private detenerCalentarTanque(tanque: Tanque){
-    tanque.detenerCalentar();
-  }
+  
 
  
   loadDataTanque(index:number) {
@@ -190,25 +183,17 @@ export class AnimacionComponent implements OnInit {
     // console.log("Ha terminado de cargar la materia prima")
     if(calentar){
       await this.calentarMezclaTanque(tanque)
+      console.log("Termino de calentar")
     } 
     return true;
   }
 
   private async calentarMezclaTanque(tanque: Tanque): Promise<any>{
     tanque.mezclar()
-    tanque.calentar();
-    await this.esperaPasoMixer(5)
-    console.log("Se va detener el calentamiento")
-    tanque.detenerCalentar();
+    return await tanque.calentar(5);    
   }
 
-  private esperaPasoMixer(seconds: number = 5): Promise<any>{
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(true)
-      }, seconds * 1000)
-    })
-  }
+ 
 
   loadMateriaPrima2(){
     this.paso1();
