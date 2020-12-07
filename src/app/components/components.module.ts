@@ -1,3 +1,4 @@
+import { animationReducers } from './../animations/reducers/animation.reducers';
 import { LoadingComponent } from './shared/loading/loading.component';
 import { PipesModule } from './../pipes/pipes.module';
 import { MaterialModule } from './../material/material.module';
@@ -10,8 +11,8 @@ import { OrdenProduccionTablaComponent } from './orden-produccion-tabla/orden-pr
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PruebaCalidadDialogComponent } from './prueba-calidad-dialog/prueba-calidad-dialog.component';
 import { StoreModule } from '@ngrx/store';
-import { animacionReducer } from './animacion/animacion.reducer';
-
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../../environments/environment'; 
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { animacionReducer } from './animacion/animacion.reducer';
     ReactiveFormsModule,
     FormsModule,
     PipesModule,
-    StoreModule.forRoot({ pausado: animacionReducer})
+    StoreModule.forRoot(animationReducers),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ]
 })
 export class ComponentsModule { }

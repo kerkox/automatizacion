@@ -1,11 +1,13 @@
-import { AppState } from './../../animations/interfaces/animation.reducers';
-import { pausar, continuar } from './animacion.actions';
+import { tanque_reset } from './../../animations/actions/tanque.actions';
+import { continuar, pausar } from './../../animations/actions/pausado.actions';
+import { AppState } from '../../animations/reducers/animation.reducers';
 import { PruebaCalidadDialogComponent } from './../prueba-calidad-dialog/prueba-calidad-dialog.component';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Tanque } from '../../animations/tanque/tanque.animation';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { calentarTypes } from 'src/app/animations/actions/calentar.actions';
 
 
 @Component({
@@ -18,6 +20,8 @@ export class AnimacionComponent implements OnInit {
 
   canvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D;
+
+  private _nextFunction: Function;
 
   width = 1600;
   height = 1600;
@@ -37,10 +41,7 @@ export class AnimacionComponent implements OnInit {
 
   constructor(public dialog: MatDialog, private store: Store<AppState>) {
     this.formControlTanque.valueChanges.subscribe(index => this.loadDataTanque(index))
-    this.store.subscribe(state => {
-      console.log(state);
-      this.pausado = state.pausado
-    }) 
+   
   }
 
 
@@ -51,13 +52,33 @@ export class AnimacionComponent implements OnInit {
   
 
   ngOnInit(): void {
-
-
     this.ctx = this.canvas.nativeElement.getContext('2d');
     // this.estados()
     setTimeout(() => {
       this.loadTanques();
     },500)
+    this.store.select('pausado').subscribe(pausado => {
+      console.log(`%c Pausado: ${pausado}`, "color:yellow;font-size:20px", );
+      this.pausado = pausado
+    })
+    this.store.select('tanque_lleno').subscribe(tanque_lleno => {
+      console.log(`%c tanque lleno: ${tanque_lleno}`,`color:yellow;font-size:20px`)
+      if(tanque_lleno) {
+        this.paso_next()
+        this.store.dispatch(tanque_reset())
+      }
+    })
+    this.store.select('calentar').subscribe(calentar => {
+      switch (calentar) {
+        case calentarTypes.calentar_fin:
+          this.paso_next();
+          break;
+      
+        default:
+          break;
+      }
+    })
+
   }
 
   addTanque(tanque:Tanque = null, name:string = null) {
@@ -167,7 +188,7 @@ export class AnimacionComponent implements OnInit {
   }
 
   llenarMezcla(){
-    this.llenarMezclaTanque(this.tanque);
+    this.llenarMezclaTanque(this.tanque, () => {});
   }
 
   vaciarMezclaTanque(tanque: Tanque, percentUntil: number = 0, speed: number = 1){
@@ -176,20 +197,23 @@ export class AnimacionComponent implements OnInit {
     tanque.vaciarMezcla(percentUntil, speed);
   }
 
-  async llenarMezclaTanque(tanque:Tanque, percentUntil:number = 100, speed:number = 1, calentar:boolean = true): Promise<any> {
-    
+  async llenarMezclaTanque(tanque:Tanque,nextFunction:Function, percentUntil:number = 100, speed:number = 1, calentar:boolean = true): Promise<any> {
+    this._nextFunction = nextFunction
+    tanque.secondsCalentar = 5;
     tanque.llenar();
     await tanque.llenarMezcla(percentUntil, speed)
     // console.log("Ha terminado de cargar la materia prima")
     if(calentar){
       await this.calentarMezclaTanque(tanque)
       console.log("Termino de calentar")
-    } 
+    } else {
+
+    }
     return true;
   }
 
   private async calentarMezclaTanque(tanque: Tanque): Promise<any>{
-    tanque.mezclar()
+    tanque.mezclar()    
     return await tanque.calentar(5);    
   }
 
@@ -221,32 +245,38 @@ export class AnimacionComponent implements OnInit {
   paso1(){
     this.vaciarMezclaTanque(this.tanques[0], 80, 1);
     this.vaciarMezclaTanque(this.tanques[1], 80, 1);
-    this.llenarMezclaTanque(this.tanques[3], 40, 2).then(() => {
-      console.log("Se va a abrir el dialog")
-      this.openDialog(this.paso2);
+    this.llenarMezclaTanque(this.tanques[3], this.paso2,40, 2).then(() => {
+      console.log("Termino el Paso 1---------------------")
+      // this.paso_next();
     })
+  }
+
+  paso_next(){
+    console.log("Se va a abrir el dialog")
+    this.openDialog(this._nextFunction);
   }
 
   paso2() {
     console.log("This: ", this)
     this.vaciarMezclaTanque(this.tanques[2], 80, 1)
     this.vaciarMezclaTanque(this.tanques[3], 0, 1.5)
-    this.llenarMezclaTanque(this.tanques[4], 60, 2).then(() => {
-      this.openDialog(this.paso3);
-      
+    this.llenarMezclaTanque(this.tanques[4], this.paso3,60, 2).then(() => {
+      console.log("Termino el Paso 2---------------------")
+      // this.paso_next()      
+
     })
   }
 
   paso3() {
     this.vaciarMezclaTanque(this.tanques[4], 0, 1)
     this.tanques[5].percentMezclaValue = 0;
-    this.llenarMezclaTanque(this.tanques[5], 60, 1, false).then(() => {
-      
+    this.llenarMezclaTanque(this.tanques[5], this.paso4,60, 1, false).then(() => {
+      // this.paso_next();
     })
   }
 
   paso4(){
-
+    console.log("Paso FINAL")
   }
 
   dibujar() {
