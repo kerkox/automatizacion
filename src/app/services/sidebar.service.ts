@@ -27,6 +27,7 @@ export class SidebarService {
       menus: [
         { path: '/app/mes/orden-produccion', name: 'Orden produccion', roles: [Role.ADMIN, Role.INGENIERO_QUIMICO]},
         { path: '/app/mes/orden-produccion-aprobada', name: 'Orden produccion Aprobadas', roles: [Role.ADMIN, Role.INGENIERO_QUIMICO] },
+        { path: '/app/mes/orden-produccion-terminada', name: 'Orden produccion Terminadas', roles: [Role.ADMIN, Role.INGENIERO_QUIMICO] },
       ]
     },
     {

@@ -23,8 +23,11 @@ import { ParametrosReferenciasComponent } from './erp/parametros-referencias/par
 
 // MES
 import { MesComponent } from './mes/mes.component';
-import { OrdenProduccionAprobadaComponent } from './mes/orden-produccion-aprobada/orden-produccion-aprobada.component';
 import { OrdenProduccionComponent } from './mes/orden-produccion/orden-produccion.component';
+import { OrdenProduccionAprobadaComponent } from './mes/orden-produccion-aprobada/orden-produccion-aprobada.component';
+import { OrdenProduccionTerminadaComponent } from './mes/orden-produccion-terminada/orden-produccion-terminada.component';
+
+// General
 import { PagesComponent } from './pages.component';
 import { PipesModule } from '../pipes/pipes.module';
 
@@ -43,6 +46,7 @@ import { PipesModule } from '../pipes/pipes.module';
     InventarioComponent,
     OrdenProduccionComponent,
     OrdenProduccionAprobadaComponent,
+    OrdenProduccionTerminadaComponent,
     SistemaControlComponent,
     DashboardComponent,
   ],
@@ -57,6 +61,7 @@ import { PipesModule } from '../pipes/pipes.module';
     InventarioComponent,
     OrdenProduccionComponent,
     OrdenProduccionAprobadaComponent,
+    OrdenProduccionTerminadaComponent,
     DashboardComponent,
     SistemaControlComponent,
   ],
