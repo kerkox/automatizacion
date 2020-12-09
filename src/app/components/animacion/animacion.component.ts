@@ -88,8 +88,8 @@ export class AnimacionComponent implements OnInit {
     //     this.store.dispatch(tanque_reset())
     //   }
     // })
-    this.store.select('calentar').subscribe(calentar => {
-      switch (calentar) {
+    this.store.select('calentar').subscribe(tanqueInfo => {
+      switch (tanqueInfo.calentar_action) {
         case calentarTypes.calentar_fin:
           this.paso_next();
           break;

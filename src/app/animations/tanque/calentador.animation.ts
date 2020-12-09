@@ -1,3 +1,4 @@
+import { TanqueInfo } from './../models/tanque-info.model';
 import { Store } from '@ngrx/store';
 import { EnumSide } from '../enums/enum-side.enum';
 import { AppState } from '../reducers/animation.reducers';
@@ -23,7 +24,7 @@ export class Calentador {
   private _onWorking: boolean = false;
 
 
-  constructor(private store: Store<AppState>, private ctx: CanvasRenderingContext2D, private dimension: Dimension, color: string = "rgba(100,80,60,1)") {
+  constructor(private store: Store<AppState>, private ctx: CanvasRenderingContext2D, private dimension: Dimension, private tanque_id:number,color: string = "rgba(100,80,60,1)") {
     this.colorCover = color;
     this._colorCoverBase = color;
     this._sideLeft = new Rectangle(this.ctx)
@@ -150,7 +151,7 @@ export class Calentador {
   }
 
   private terminoCalentar() {
-    this.store.dispatch(calentar_set({ estado: calentarTypes.calentar_fin }));
+    this.store.dispatch(calentar_set({ tanqueInfo: new TanqueInfo(this.tanque_id,calentarTypes.calentar_fin) }));
   }
 
   detenerCalentar() {

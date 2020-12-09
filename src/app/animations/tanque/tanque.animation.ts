@@ -16,6 +16,7 @@ import { Dimension, TanqueDimension } from '../interfaces/tanqueDimension.interf
 import { Rectangle } from '../base/rectangle.animation';
 import { Store } from '@ngrx/store';
 import { pausarTypes } from '../actions/pausado.actions';
+import { TanqueInfo } from '../models/tanque-info.model';
 
 
 export class Tanque {
@@ -94,8 +95,9 @@ export class Tanque {
     //   console.log(`State: `, state)
     // })
 
-    this.store.select('calentar').subscribe(calentar => {
-      switch (calentar) {
+    this.store.select('calentar').subscribe(tanqueInfo => {
+      if(this.id != tanqueInfo.id) return;
+      switch (tanqueInfo.calentar_action) {
         case calentarTypes.calentar_iniciar:
           console.log("se llama calentar desde el store")
           this.calentar();
@@ -350,6 +352,7 @@ export class Tanque {
 
   set percentMezclaValue(percent: number) {
     this._percentMezcla = percent;
+    this.draw();
   }
   get percentMezclaValue(): number {
     return this._percentMezcla;
@@ -415,7 +418,7 @@ export class Tanque {
     if (!this.showCalentador) return;
     const { center } = this.tanqueDimension;
     if (!this.calentador) {
-      this.calentador = new Calentador(this.store, this.ctx, center)
+      this.calentador = new Calentador(this.store, this.ctx, center, this.id)
     }
     this.calentador.draw(center);
 
@@ -550,7 +553,7 @@ export class Tanque {
           if (!this.pausado) {
             if (this._calentar){
               console.log(`Se invoca al iniciar calentar################` )
-              this.store.dispatch(calentar_set({estado: calentarTypes.calentar_iniciar}))
+              this.store.dispatch(calentar_set({ tanqueInfo: new TanqueInfo(this.id,calentarTypes.calentar_iniciar)}))
             }else {
               this.onWorking = false;
             }

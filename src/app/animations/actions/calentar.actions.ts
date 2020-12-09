@@ -1,3 +1,4 @@
+import { TanqueInfo } from './../models/tanque-info.model';
 import { createAction, props } from "@ngrx/store";
 
 export enum calentarTypes {
@@ -8,7 +9,7 @@ export enum calentarTypes {
 }
 
 
-export const calentar_set = createAction('[Calentar] calentar set', props<{estado:calentarTypes}>());
+export const calentar_set = createAction('[Calentar] calentar set', props<{tanqueInfo:TanqueInfo}>());
 // export const calentar_init = createAction('[Calentar] calentar iniciar', props<{estado:calentarTypes}>());
 // export const calentar_end = createAction('[Calentar] calentar end', props<{ estado: calentarTypes }>());
 // export const calentar_base = createAction('[Calentar] calentar base', props<{ estado: calentarTypes }>());
