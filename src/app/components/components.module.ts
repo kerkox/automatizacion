@@ -12,7 +12,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PruebaCalidadDialogComponent } from './prueba-calidad-dialog/prueba-calidad-dialog.component';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../../environments/environment'; 
+import { environment } from '../../environments/environment';
+import { AlarmaDialogComponent } from './alarma-dialog/alarma-dialog.component'; 
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { environment } from '../../environments/environment';
     OrdenProduccionTablaComponent,
     OrdenProduccionDetalleComponent,
     LoadingComponent,
-    PruebaCalidadDialogComponent
+    PruebaCalidadDialogComponent,
+    AlarmaDialogComponent
   ],
   exports: [
     AnimacionComponent,

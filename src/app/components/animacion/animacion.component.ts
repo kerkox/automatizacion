@@ -1,5 +1,7 @@
+import { AlarmaDialogComponent } from './../alarma-dialog/alarma-dialog.component';
+import { InventarioService } from './../../services/inventario.service';
+import { OrdenProduccionService } from './../../services/orden-produccion.service';
 import { Observable } from 'rxjs';
-import { tanque_reset } from './../../animations/actions/tanque.actions';
 import { estado_pausa_set, pausarTypes } from './../../animations/actions/pausado.actions';
 import { AppState } from '../../animations/reducers/animation.reducers';
 import { PruebaCalidadDialogComponent } from './../prueba-calidad-dialog/prueba-calidad-dialog.component';
@@ -9,6 +11,8 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { calentarTypes } from 'src/app/animations/actions/calentar.actions';
+import { EstadoOrden } from 'src/app/enums/estado-orden.enum';
+import { OrdenProduccionDetalle } from '../../interfaces/orden-produccion-detalle.interface';
 
 
 @Component({
@@ -35,14 +39,18 @@ export class AnimacionComponent implements OnInit {
   pausado:boolean = true;
 
   storePausado: Observable<pausarTypes>;
-
+  disponible_tanques:any[] = []
+  porcentajes_materias:number[] = []
+  orden_produccion: OrdenProduccionDetalle
  
   tanques:Tanque[] = [];
   formControlTanque:FormControl = new FormControl('')
 
 
 
-  constructor(public dialog: MatDialog, private store: Store<AppState>) {
+  constructor(public dialog: MatDialog, private store: Store<AppState>,
+     private ordenProduccionService: OrdenProduccionService,
+    private inventarioService:InventarioService) {
     this.formControlTanque.valueChanges.subscribe(index => this.loadDataTanque(index))
    
   }
@@ -55,11 +63,19 @@ export class AnimacionComponent implements OnInit {
   
 
   ngOnInit(): void {
+    this.inventarioService.obtenerInventarios().then((res:any) => {
+      console.log("inventarios",res)
+      for(let x =0;x < 3;x++){
+        this.disponible_tanques[x] = res.data[x]
+        console.log("this.disponible_tanques[x]", this.disponible_tanques[x])
+        this.disponible_tanques[x].porcentaje = (this.disponible_tanques[x].cantidad * 100) / this.disponible_tanques[x].recurso_fisico.capacidad
+      }
+      this.loadTanques();
+    })
+    console.log()
+
     this.ctx = this.canvas.nativeElement.getContext('2d');
     // this.estados()
-    setTimeout(() => {
-      this.loadTanques();
-    },500)
     this.storePausado = this.store.select('pausado')
     this.storePausado.subscribe(pausado => {
       this.pausado = (pausado == pausarTypes.pausar || pausado == pausarTypes.pausado_inicial)
@@ -135,22 +151,22 @@ export class AnimacionComponent implements OnInit {
 
   loadTanques() {
     const mixer = this.premixer(295, 446, 100,"#fff");
-    mixer.tanqueDebug = true;
-    const { right } = mixer.tanqueDimension
-    const materiaPrimaC = this.tanquesDisponibles(470, 10, 100, '#CBECFA', "#fff")
-    materiaPrimaC.tanqueDebug = true;
-    const { bottom } = materiaPrimaC.tanqueDimension;
-
-    materiaPrimaC.customBottomHeight = 290;
-    // console.warn("materiaPrimaC.customBottomHeight",materiaPrimaC.customBottomHeight)
     mixer.customRightWidth = 100
     // console.warn("mixer.customRightWidth", mixer.customRightWidth)
-    let materiaB = this.tanquesDisponibles(273, 10, 100, '#CBECFA')
-    // this.addTanque(this.tanquesDisponibles(0, 10, 100, 'rgba(97,188,216,1)'), "MATERIA A")
-    this.addTanque(this.tanquesDisponibles(0, 10, 100, '#CBECFA'), "MATERIA A")
+    const materiaA = this.tanquesDisponibles(0, 10, 100, '#CBECFA');
+    const materiaB = this.tanquesDisponibles(273, 10, 100, '#CBECFA')
+    const materiaC = this.tanquesDisponibles(470, 10, 100, '#CBECFA', "#fff")
+    materiaC.customBottomHeight = 290;
+
     materiaB.colorSimbolo = "gray"
+
+    materiaA.percentMezclaValue = this.disponible_tanques[0].porcentaje
+    materiaB.percentMezclaValue = this.disponible_tanques[1].porcentaje
+    materiaC.percentMezclaValue = this.disponible_tanques[2].porcentaje
+    // this.addTanque(this.tanquesDisponibles(0, 10, 100, 'rgba(97,188,216,1)'), "MATERIA A")
+    this.addTanque(materiaA, "MATERIA A")
     this.addTanque(materiaB,"MATERIA B")
-    this.addTanque(materiaPrimaC,"MATERIA C")
+    this.addTanque(materiaC,"MATERIA C")
     this.addTanque(this.premixer(135,228,100), "PREMIXER")
     this.addTanque(mixer, "MIXER")
 
@@ -250,12 +266,27 @@ export class AnimacionComponent implements OnInit {
 
 
   paso1(){
-    this.vaciarMezclaTanque(this.tanques[0], 80, 1);
-    this.vaciarMezclaTanque(this.tanques[1], 80, 1);
-    this.llenarMezclaTanque(this.tanques[3], this.paso2,40, 2).then(() => {
-      console.log("Termino el Paso 1---------------------")
-      // this.paso_next();
+    // leer de la orden cuanto porcentaje se debe de reducir 
+    this.ordenProduccionService.consultarOrdenesProduccion([EstadoOrden["EN PRODUCCION"]])
+    .then((res:any) => {
+      console.log("EN produccion",res.data)
+      this.orden_produccion = res.data[0];
+      this.porcentajes_materias = []
+      for (let materias of this.orden_produccion.orden_pedido.receta.materias_primas){
+        this.porcentajes_materias.push(materias.MateriaPrimaReceta.porcentaje)
+      }
+
+      let porcentaje_llenar = this.porcentajes_materias[0] + this.porcentajes_materias[1];
+
+      this.vaciarMezclaTanque(this.tanques[0], this.porcentajes_materias[0], 1);
+      this.vaciarMezclaTanque(this.tanques[1], this.porcentajes_materias[1], 1);
+      this.llenarMezclaTanque(this.tanques[3], this.paso2, porcentaje_llenar, 2).then(() => {
+        console.log("Termino el Paso 1---------------------")
+        // this.paso_next();
+      })
     })
+    
+    
   }
 
   paso_next(){
@@ -265,9 +296,10 @@ export class AnimacionComponent implements OnInit {
 
   paso2() {
     console.log("This: ", this)
-    this.vaciarMezclaTanque(this.tanques[2], 80, 1)
+    const porcentaje_llenar = this.porcentajes_materias.reduce((acc,cu)=> acc+cu,0)
+    this.vaciarMezclaTanque(this.tanques[2], this.porcentajes_materias[2], 1)
     this.vaciarMezclaTanque(this.tanques[3], 0, 1.5)
-    this.llenarMezclaTanque(this.tanques[4], this.paso3,60, 2).then(() => {
+    this.llenarMezclaTanque(this.tanques[4], this.paso3, porcentaje_llenar, 2).then(() => {
       console.log("Termino el Paso 2---------------------")
       // this.paso_next()      
 
@@ -275,9 +307,10 @@ export class AnimacionComponent implements OnInit {
   }
 
   paso3() {
-    this.vaciarMezclaTanque(this.tanques[4], 0, 1)
+    const porcentaje_llenar = this.porcentajes_materias.reduce((acc, cu) => acc + cu, 0)
+    this.vaciarMezclaTanque(this.tanques[4], porcentaje_llenar, 1)
     this.tanques[5].percentMezclaValue = 0;
-    this.llenarMezclaTanque(this.tanques[5], this.paso4,60, 1, false).then(() => {
+    this.llenarMezclaTanque(this.tanques[5], this.paso4, porcentaje_llenar, 1, false).then(() => {
       // this.paso_next();
     })
   }
@@ -327,6 +360,19 @@ export class AnimacionComponent implements OnInit {
       } else {
         local_this.openDialog(nextStep);
       } 
+      // this.animal = result;
+    });
+  }
+
+  mostrarAlarma(){
+    const dialogRef = this.dialog.open(AlarmaDialogComponent, {
+      // width: '1200px',
+      data: {}
+    });
+    const local_this = this;
+    dialogRef.afterClosed().subscribe(result => {
+      //Registrar alarma
+      console.log("La alarma fue desaparecida")
       // this.animal = result;
     });
   }

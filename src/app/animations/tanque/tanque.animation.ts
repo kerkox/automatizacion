@@ -486,7 +486,15 @@ export class Tanque {
     this._simbol.draw(center, this.colorSimbolo);
   }
 
-  vaciarMezcla(percentUntil: number = 5, speed: number = 1) {
+  vaciarMezcla(percentDescarga: number = 0, speed: number = 1){
+    let percent = this.percentMezclaValue - percentDescarga
+    if(percent < 0){
+      percent = 0
+    }
+    return this.vaciarMezclaLocal(percent, speed);
+  }
+
+  private vaciarMezclaLocal(percentUntil: number = 5, speed: number = 1) {
     if (this.percentMezclaValue <= percentUntil || !this._showMezcla) return;
     this.onWorking = true; 
     return this.moverMezcla(-1, percentUntil, speed)
@@ -569,7 +577,15 @@ export class Tanque {
       
   }
 
-  llenarMezcla(percentUntil: number = 100, speed: number = 1): Promise<boolean> {
+  llenarMezcla(percentCarga: number = 0, speed: number = 1): Promise<boolean>{
+    let percent = this.percentMezclaValue + percentCarga;
+    if(percent  > 100 ){
+      percent = 100;
+    }
+    return this.llenarMezclaLocal(percent, speed)
+  }
+
+  private llenarMezclaLocal(percentUntil: number = 100, speed: number = 1): Promise<boolean> {
     if (this.percentMezclaValue >= percentUntil || !this._showMezcla) return;
     this.onWorking = true;
     this.abrirEntradas();
