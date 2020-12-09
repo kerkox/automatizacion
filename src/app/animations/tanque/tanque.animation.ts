@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { calentar_set,calentarTypes } from './../actions/calentar.actions';
 import { tanque_lleno, tanque_reset } from './../actions/tanque.actions';
 import { AppState } from '../reducers/animation.reducers';
@@ -14,6 +15,7 @@ import { Util } from '../util.animation';
 import { Dimension, TanqueDimension } from '../interfaces/tanqueDimension.interface';
 import { Rectangle } from '../base/rectangle.animation';
 import { Store } from '@ngrx/store';
+import { pausarTypes } from '../actions/pausado.actions';
 
 
 export class Tanque {
@@ -69,6 +71,7 @@ export class Tanque {
   private _pausado: boolean = false;
   private _percentUntilMemory: number = -1;
   private _valueIteratorMemory: number = 1;
+  private _valueSpeedMemory: number = 1;
 
   private _onWorking: boolean = false;
   private _tanqueDebug: boolean = false;
@@ -77,42 +80,49 @@ export class Tanque {
   private _calentar:boolean = false;
   private _calentando:boolean = false;
 
+  private storePausado: Observable<pausarTypes>;
+
   id: number
 
   constructor(private _ctx: CanvasRenderingContext2D
     , private store: Store<AppState>
   ) {
     // this.ctx.fillStyle = this._colorTanque; //tanqueprincipal
+
+    this.storePausado = store.select('pausado');
     // this.store.subscribe(state => {
-    //   // this.tanqueDebug && console.log(`Pausar: ${pausado}`)
+    //   console.log(`State: `, state)
     // })
 
-    this.store.select('calentar').subscribe(calentar => {
-      switch (calentar) {
-        case calentarTypes.calentar_iniciar:
-          console.log("se llama calentar desde el store")
-          this.calentar();
-          break;
-        case calentarTypes.calentar_fin:
-          this.detenerCalentar();
-          break;
-      }
-    })
+    // this.store.select('calentar').subscribe(calentar => {
+    //   switch (calentar) {
+    //     case calentarTypes.calentar_iniciar:
+    //       console.log("se llama calentar desde el store")
+    //       this.calentar();
+    //       break;
+    //     case calentarTypes.calentar_fin:
+    //       this.detenerCalentar();
+    //       break;
+    //   }
+    // })
 
-    this.store.select('tanque_lleno').subscribe(tanque_lleno => {
-      if (tanque_lleno) {
-        // this.detenerCalentar()
-        this.store.dispatch(tanque_reset())
-      }
-    })
+    // this.store.select('tanque_lleno').subscribe(tanque_lleno => {
+    //   if (tanque_lleno) {
+    //     // this.detenerCalentar()
+    //     this.store.dispatch(tanque_reset())
+    //   }
+    // })
 
-    this.store.select('pausado').subscribe(pausado => {
-      if (pausado) {
-        console.log(`%c Llega el evento para pausar: ${pausado}`, `color:#5cdbff;font-size:14px;`)
-        this.pausar();
-      } else {
-        console.log(`%c Llega el evento para Continuar: ${pausado}`, `color:#5cdbff;font-size:14px;`)
-        this.continuar();
+    this.storePausado.subscribe(pausado => {
+      switch(pausado){
+        case pausarTypes.pausar:
+          console.log(`%c Llega el evento para pausar: ${pausado}`, `color:#5cdbff;font-size:14px;`)
+          this.pausar();
+          break;
+        case pausarTypes.continuar:
+          console.log(`%c Llega el evento para Continuar: ${pausado}`, `color:#5cdbff;font-size:14px;`)
+          this.continuar();
+          break;
       }
     })
 
@@ -374,6 +384,15 @@ export class Tanque {
     return this._valueIteratorMemory;
   }
 
+  public set valueSpeedMemory(valueSpeed: number) {
+    this._valueSpeedMemory = valueSpeed;
+  }
+
+
+  public get valueSpeedMemory(): number {
+    return this._valueSpeedMemory;
+  }
+
 
 
 
@@ -496,15 +515,24 @@ export class Tanque {
         this.valueIteratorMemory = valueIterator;
       }
 
-      const time = Math.round(200 / speed)
+      if(speed != 1){
+        this.valueSpeedMemory = speed;
+      }
+
+      const time = Math.round(200 / this.valueSpeedMemory)
       const i = setInterval(() => {
         // this.ctx.clearRect(0, 0, canvas.width, canvas.height);
         this.percentMezclaValue += this.valueIteratorMemory;
         this.draw()
-        // console.log(`${this.name} this.percentMezclaValue: ${this.percentMezclaValue} this.percentUntilMemory: ${this.percentUntilMemory}`)
-        let result = (this.percentMezclaValue == this.percentUntilMemory || this.pausado)
-        // console.log(`resultado eval: ${result}`)
-        if (this.percentMezclaValue == this.percentUntilMemory || this.pausado) {
+        let result = false
+        if (this.valueIteratorMemory > 0){
+          result = (this.percentMezclaValue >= this.percentUntilMemory || this.pausado)
+        } else if (this.valueIteratorMemory < 0) {
+          result = (this.percentMezclaValue <= this.percentUntilMemory || this.pausado)
+        }
+        console.log(`${this.name} resultado eval: ${result}, this.percentMezclaValue: ${this.percentMezclaValue} this.percentUntilMemory: ${this.percentUntilMemory}`)
+        
+        if (result) {
           console.log(`%cDetener ${this.name} interval: ${i}`, `color:red; font-size: 16px;`)
           this.cerrarEntradas();
           clearInterval(i);
@@ -519,7 +547,7 @@ export class Tanque {
           }
         }
       }, time);
-      console.log(`intervalo creado: ${i}`)
+      console.log(`%c${this.name} intervalo creado: ${i}`,"color:pink;font-size:16px")
 
     })
   }

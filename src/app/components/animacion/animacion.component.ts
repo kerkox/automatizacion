@@ -1,5 +1,6 @@
+import { Observable } from 'rxjs';
 import { tanque_reset } from './../../animations/actions/tanque.actions';
-import { continuar, pausar } from './../../animations/actions/pausado.actions';
+import { estado_pausa_set, pausarTypes } from './../../animations/actions/pausado.actions';
 import { AppState } from '../../animations/reducers/animation.reducers';
 import { PruebaCalidadDialogComponent } from './../prueba-calidad-dialog/prueba-calidad-dialog.component';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -33,6 +34,8 @@ export class AnimacionComponent implements OnInit {
   estado = 0;
   pausado:boolean = true;
 
+  storePausado: Observable<pausarTypes>;
+
  
   tanques:Tanque[] = [];
   formControlTanque:FormControl = new FormControl('')
@@ -57,27 +60,28 @@ export class AnimacionComponent implements OnInit {
     setTimeout(() => {
       this.loadTanques();
     },500)
-    this.store.select('pausado').subscribe(pausado => {
-      console.log(`%c Pausado: ${pausado}`, "color:yellow;font-size:20px", );
-      this.pausado = pausado
+    this.storePausado = this.store.select('pausado')
+    this.storePausado.subscribe(pausado => {
+      this.pausado = (pausado == pausarTypes.pausar || pausado == pausarTypes.pausado_inicial)
+      console.log(`%c Pausado: ${this.pausado}`, "color:yellow;font-size:20px", );
     })
-    this.store.select('tanque_lleno').subscribe(tanque_lleno => {
-      console.log(`%c tanque lleno: ${tanque_lleno}`,`color:yellow;font-size:20px`)
-      if(tanque_lleno) {
-        this.paso_next()
-        this.store.dispatch(tanque_reset())
-      }
-    })
-    this.store.select('calentar').subscribe(calentar => {
-      switch (calentar) {
-        case calentarTypes.calentar_fin:
-          this.paso_next();
-          break;
+    // this.store.select('tanque_lleno').subscribe(tanque_lleno => {
+    //   console.log(`%c tanque lleno: ${tanque_lleno}`,`color:yellow;font-size:20px`)
+    //   if(tanque_lleno) {
+    //     this.paso_next()
+    //     this.store.dispatch(tanque_reset())
+    //   }
+    // })
+    // this.store.select('calentar').subscribe(calentar => {
+    //   switch (calentar) {
+    //     case calentarTypes.calentar_fin:
+    //       this.paso_next();
+    //       break;
       
-        default:
-          break;
-      }
-    })
+    //     default:
+    //       break;
+    //   }
+    // })
 
   }
 
@@ -115,6 +119,7 @@ export class AnimacionComponent implements OnInit {
     tmp_tanque.disponible()
     return tmp_tanque
   }
+  
 
   premixer(posX: number, posY: number, size: number, color: string = '') {
     let tmp_tanque = new Tanque(this.ctx, this.store)
@@ -137,9 +142,9 @@ export class AnimacionComponent implements OnInit {
     const { bottom } = materiaPrimaC.tanqueDimension;
 
     materiaPrimaC.customBottomHeight = 290;
-    console.warn("materiaPrimaC.customBottomHeight",materiaPrimaC.customBottomHeight)
+    // console.warn("materiaPrimaC.customBottomHeight",materiaPrimaC.customBottomHeight)
     mixer.customRightWidth = 100
-    console.warn("mixer.customRightWidth", mixer.customRightWidth)
+    // console.warn("mixer.customRightWidth", mixer.customRightWidth)
     let materiaB = this.tanquesDisponibles(273, 10, 100, '#CBECFA')
     // this.addTanque(this.tanquesDisponibles(0, 10, 100, 'rgba(97,188,216,1)'), "MATERIA A")
     this.addTanque(this.tanquesDisponibles(0, 10, 100, '#CBECFA'), "MATERIA A")
@@ -229,10 +234,10 @@ export class AnimacionComponent implements OnInit {
   pausarContinuar(){
     console.log(`%c after this.pausado: ${this.pausado}`,`color:green;font-size:16px;`)
     if(this.pausado) {
-      this.store.dispatch(continuar())
+      this.store.dispatch(estado_pausa_set({ pausado: pausarTypes.continuar}))
       console.log("%c Se lanza el evento de continuar","color:orange;font-size:14px")
     } else {
-      this.store.dispatch(pausar())
+      this.store.dispatch(estado_pausa_set({ pausado: pausarTypes.pausar }))
       console.log("%c Se lanza el evento de pausar","color:orange;font-size:14px")
     }
     console.log(`%c Before this.pausado: ${this.pausado}`, `color:green;font-size:16px;`)
