@@ -2,6 +2,7 @@ import { createAction, props } from "@ngrx/store";
 
 export enum calentarTypes {
   calentar_iniciar = "calentar_iniciar",
+  calentar_pausa = "calentar_pausa",
   calentar_fin = "calentar_fin",
   calentar_base = "calentar_base"
 }

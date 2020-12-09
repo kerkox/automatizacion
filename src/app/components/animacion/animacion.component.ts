@@ -72,16 +72,16 @@ export class AnimacionComponent implements OnInit {
     //     this.store.dispatch(tanque_reset())
     //   }
     // })
-    // this.store.select('calentar').subscribe(calentar => {
-    //   switch (calentar) {
-    //     case calentarTypes.calentar_fin:
-    //       this.paso_next();
-    //       break;
+    this.store.select('calentar').subscribe(calentar => {
+      switch (calentar) {
+        case calentarTypes.calentar_fin:
+          this.paso_next();
+          break;
       
-    //     default:
-    //       break;
-    //   }
-    // })
+        default:
+          break;
+      }
+    })
 
   }
 

@@ -5,7 +5,8 @@ import { Dimension } from '../interfaces/tanqueDimension.interface';
 import { Util } from '../util.animation';
 import { Rectangle } from './../base/rectangle.animation';
 import { tanque_lleno } from '../actions/tanque.actions';
-import { calentar_set,calentarTypes } from '../actions/calentar.actions';
+import { calentar_set, calentarTypes } from '../actions/calentar.actions';
+import { pausarTypes } from '../actions/pausado.actions';
 export class Calentador {
 
   private _colorCalentador: string;
@@ -31,12 +32,15 @@ export class Calentador {
     this.interval = -1;
 
     this.store.select('pausado').subscribe(pausado => {
-      if(pausado){
-        console.log(`%c Llega pausar calentar: ${pausado}`, `color:#5cdbff;font-size:14px;`)
-        this.pausar();
-      } else {
-        console.log(`%c Llega continuar calentar: ${pausado}`, `color:#5cdbff;font-size:14px;`)
-        this.continuar();
+      switch (pausado) {
+        case pausarTypes.pausar:
+          console.log(`%c Llega pausar calentar: ${pausado}`, `color:#5cdbff;font-size:14px;`)
+          this.pausar();
+          break;
+        case pausarTypes.continuar:
+          console.log(`%c Llega continuar calentar: ${pausado}`, `color:#5cdbff;font-size:14px;`)
+          this.continuar();
+          break;
       }
     })
 
@@ -91,23 +95,24 @@ export class Calentador {
     this.sideRight.draw(this.getDimensionRight(this.dimension))
   }
 
-  private pausar(){
+  private pausar() {
     this._pausado = true;
   }
 
-  private continuar(){
-    if(!this.onWorking) return;
+  private continuar() {
+    console.log(`Calentador this.onWorking: ${this.onWorking}`)
+    if (!this.onWorking) return;
     this._pausado = false;
     this._calentar();
   }
 
-  calentar(seconds: number = 5): Promise<boolean>{
+  calentar(seconds: number = 5): Promise<boolean> {
     this.onWorking = true;
     return this._calentar(seconds)
   }
 
   private _calentar(seconds: number = -1): Promise<boolean> {
-    if(!this.onWorking) return;
+    if (!this.onWorking) return;
     console.log("Entro a calentar")
     return new Promise((resolve, reject) => {
       if (seconds != -1) {
@@ -132,20 +137,20 @@ export class Calentador {
         if (this._time_remainig <= 0 || this._pausado) {
           console.log(`Se llama a detener Calentar ${this._pausado}`)
           this.detenerCalentar();
-          if (!this._pausado){
+          if (!this._pausado) {
             this.onWorking = false;
-            console.log(`%c Termino calentar`,"color:rgba(100,50,0,1); font-size:14px")
+            console.log(`%c Termino calentar`, "color:rgba(100,50,0,1); font-size:14px")
             this.terminoCalentar()
             resolve(true);
           }
         }
       }, time);
-      console.log(`%cCalentar interval:  ${this.interval}`,`color:pink;font-size:24px`)
+      console.log(`%cCalentar interval:  ${this.interval}`, `color:pink;font-size:24px`)
     });
   }
 
-  private terminoCalentar(){
-    this.store.dispatch(calentar_set({estado:calentarTypes.calentar_fin}));
+  private terminoCalentar() {
+    this.store.dispatch(calentar_set({ estado: calentarTypes.calentar_fin }));
   }
 
   detenerCalentar() {
