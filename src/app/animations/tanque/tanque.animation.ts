@@ -580,6 +580,7 @@ export class Tanque {
 
   pausar() {
     this.pausado = true;
+    this.detenerCalentar();
   }
 
   continuar() {

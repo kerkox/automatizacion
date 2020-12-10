@@ -13,7 +13,8 @@ import { PruebaCalidadDialogComponent } from './prueba-calidad-dialog/prueba-cal
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../../environments/environment';
-import { AlarmaDialogComponent } from './alarma-dialog/alarma-dialog.component'; 
+import { AlarmaDialogComponent } from './alarma-dialog/alarma-dialog.component';
+import { ConfirmacionAbortarDialogComponent } from './confirmacion-abortar-dialog/confirmacion-abortar-dialog.component'; 
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { AlarmaDialogComponent } from './alarma-dialog/alarma-dialog.component';
     OrdenProduccionDetalleComponent,
     LoadingComponent,
     PruebaCalidadDialogComponent,
-    AlarmaDialogComponent
+    AlarmaDialogComponent,
+    ConfirmacionAbortarDialogComponent
   ],
   exports: [
     AnimacionComponent,

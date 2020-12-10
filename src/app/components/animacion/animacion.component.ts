@@ -1,3 +1,4 @@
+import { GeneralService } from './../../services/general.service';
 import { AlarmaDialogComponent } from './../alarma-dialog/alarma-dialog.component';
 import { InventarioService } from './../../services/inventario.service';
 import { OrdenProduccionService } from './../../services/orden-produccion.service';
@@ -14,6 +15,7 @@ import { calentarTypes } from 'src/app/animations/actions/calentar.actions';
 import { EstadoOrden } from 'src/app/enums/estado-orden.enum';
 import { OrdenProduccionDetalle } from '../../interfaces/orden-produccion-detalle.interface';
 import Swal from 'sweetalert2';
+import { ConfirmacionAbortarDialogComponent } from '../confirmacion-abortar-dialog/confirmacion-abortar-dialog.component';
 
 
 @Component({
@@ -38,7 +40,8 @@ export class AnimacionComponent implements OnInit {
   
   estado = 0;
   pausado:boolean = true;
-
+  abortada:boolean = false;
+  
   storePausado: Observable<pausarTypes>;
   disponible_tanques:any[] = []
   porcentajes_materias:number[] = []
@@ -51,7 +54,8 @@ export class AnimacionComponent implements OnInit {
 
   constructor(public dialog: MatDialog, private store: Store<AppState>,
      private ordenProduccionService: OrdenProduccionService,
-    private inventarioService:InventarioService) {
+    private inventarioService:InventarioService,
+    private generalService: GeneralService) {
     this.formControlTanque.valueChanges.subscribe(index => this.loadDataTanque(index))
    
   }
@@ -188,13 +192,27 @@ export class AnimacionComponent implements OnInit {
   }
 
   abortar(){
+    const dialogRef = this.dialog.open(ConfirmacionAbortarDialogComponent, {
+      // width: '1200px',
+      data: {}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      //Registrar alarma
+      if(result){
+        this.abortada = true;
+        this.store.dispatch(estado_pausa_set({ pausado: pausarTypes.pausar }))
+        this.marcarOrdenProduccion(EstadoOrden.ABORTADA);
+      }
+      // this.animal = result;
+    });
+    
     // Se va a abortar el proceso
     // abrir dialogo si desea confirmar el abortado
-    // this.marcarOrdenProduccion(EstadoOrden.TERMINADA);
   }
 
   cargar_base(){
     this.inventarioService.obtenerInventarios().then((res: any) => {
+      this.abortada = false;
       this.tanques = [];
       console.log("inventarios", res)
       for (let x = 0; x < 3; x++) {
@@ -260,11 +278,26 @@ export class AnimacionComponent implements OnInit {
     return await tanque.calentar(5);    
   }
 
- 
+  colorBadgeEstadoOrden(estado: string) {
+    return this.generalService.colorBadgeEstadoOrden(estado);
+  }
 
   loadMateriaPrima2(){
-    this.paso1();
-    this.pausado = false;
+    this.ordenProduccionService.consultarOrdenesProduccion([EstadoOrden["EN PRODUCCION"]])
+      .then((res: any) => {
+        console.log("EN produccion", res.data)
+        if(res.data.length > 0 ){
+          this.orden_produccion = res.data[0];
+          this.paso1();
+          this.pausado = false;
+        } else {
+          const class_badge = this.colorBadgeEstadoOrden(EstadoOrden["EN PRODUCCION"])
+          Swal.fire('Error', `No hay una orden en estado <span class="${class_badge}" >
+            ${EstadoOrden["EN PRODUCCION"].toString()}
+        </span>`,'error')
+        }
+      })
+
   }
 
   pausarContinuar(){
@@ -285,10 +318,6 @@ export class AnimacionComponent implements OnInit {
 
   paso1(){
     // leer de la orden cuanto porcentaje se debe de reducir 
-    this.ordenProduccionService.consultarOrdenesProduccion([EstadoOrden["EN PRODUCCION"]])
-    .then((res:any) => {
-      console.log("EN produccion",res.data)
-      this.orden_produccion = res.data[0];
       this.porcentajes_materias = []
       for (let materias of this.orden_produccion.orden_pedido.receta.materias_primas){
         this.porcentajes_materias.push(materias.MateriaPrimaReceta.porcentaje)
@@ -302,12 +331,12 @@ export class AnimacionComponent implements OnInit {
         console.log("Termino el Paso 1---------------------")
         // this.paso_next();
       })
-    })
     
     
   }
 
   paso_next(){
+    if(this.abortada) return;
     console.log("Se va a abrir el dialog")
     this.openDialog(this._nextFunction);
   }
