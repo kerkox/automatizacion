@@ -70,6 +70,9 @@ export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit {
           ...this.flatOrdenProduccion(orden)
         }
       }))
+      if(this.estadosOrden.includes(EstadoOrden["EN PRODUCCION"])){
+        this.reintentarOrdenes();
+      }
     })
       .catch(err => {
         console.error(err)
