@@ -41,6 +41,8 @@ export class AnimacionComponent implements OnInit {
   estado = 0;
   pausado:boolean = true;
   abortada:boolean = false;
+  pruebaCalidadAbierta:boolean = false;
+  showPruebaCalidad:boolean = true;
   
   storePausado: Observable<pausarTypes>;
   disponible_tanques:any[] = []
@@ -68,6 +70,7 @@ export class AnimacionComponent implements OnInit {
   
 
   ngOnInit(): void {
+    this._nextFunction = () => {};
     this.cargar_base();
     console.log()
 
@@ -218,7 +221,8 @@ export class AnimacionComponent implements OnInit {
       for (let x = 0; x < 3; x++) {
         this.disponible_tanques[x] = res.data[x]
         console.log("this.disponible_tanques[x]", this.disponible_tanques[x])
-        this.disponible_tanques[x].porcentaje = (this.disponible_tanques[x].cantidad * 100) / this.disponible_tanques[x].recurso_fisico.capacidad
+        // this.disponible_tanques[x].porcentaje = (this.disponible_tanques[x].cantidad * 100) / this.disponible_tanques[x].recurso_fisico.capacidad
+        this.disponible_tanques[x].porcentaje = 80
       }
       this.loadTanques();
     })
@@ -318,10 +322,10 @@ export class AnimacionComponent implements OnInit {
 
   paso1(){
     // leer de la orden cuanto porcentaje se debe de reducir 
-      this.porcentajes_materias = []
-      for (let materias of this.orden_produccion.orden_pedido.receta.materias_primas){
-        this.porcentajes_materias.push(materias.MateriaPrimaReceta.porcentaje)
-      }
+      this.porcentajes_materias = [20,20,20]
+      // for (let materias of this.orden_produccion.orden_pedido.receta.materias_primas){
+      //   this.porcentajes_materias.push(materias.MateriaPrimaReceta.porcentaje)
+      // }
 
       let porcentaje_llenar = this.porcentajes_materias[0] + this.porcentajes_materias[1];
 
@@ -338,7 +342,11 @@ export class AnimacionComponent implements OnInit {
   paso_next(){
     if(this.abortada) return;
     console.log("Se va a abrir el dialog")
-    this.openDialog(this._nextFunction);
+    if(this.showPruebaCalidad){
+      this.openDialog(this._nextFunction);
+    } else {
+      this._nextFunction();
+    } 
   }
 
   paso2() {
@@ -359,6 +367,7 @@ export class AnimacionComponent implements OnInit {
     const porcentaje_llenar = this.porcentajes_materias.reduce((acc, cu) => acc + cu, 0)
     this.vaciarMezclaTanque(this.tanques[4], porcentaje_llenar, 1)
     this.tanques[5].percentMezclaValue = 0;
+    this.showPruebaCalidad = false;
     this.llenarMezclaTanque(this.tanques[5], this.paso4, porcentaje_llenar, 1, false).then(() => {
       // this.paso_next();
     })
@@ -414,6 +423,11 @@ export class AnimacionComponent implements OnInit {
   }
 
   openDialog(nextStep: Function ): void {
+    if(this.pruebaCalidadAbierta){
+      return;
+    } else {
+      this.pruebaCalidadAbierta = true;
+    }
     const dialogRef = this.dialog.open(PruebaCalidadDialogComponent, {
       // width: '1200px',
       data: {}
@@ -424,6 +438,7 @@ export class AnimacionComponent implements OnInit {
       const nextStepFun = nextStep.bind(local_this);
       console.log('The dialog was closed result:', result);
       if(result) {
+        this.pruebaCalidadAbierta = false;
         nextStepFun()
       } else {
         local_this.openDialog(nextStep);
