@@ -151,6 +151,7 @@ export class AnimacionComponent implements OnInit {
 
   loadTanques() {
     const mixer = this.premixer(295, 446, 100,"#fff");
+    mixer.percentMezclaValue =0;
     mixer.customRightWidth = 100
     // console.warn("mixer.customRightWidth", mixer.customRightWidth)
     const materiaA = this.tanquesDisponibles(0, 10, 100, '#CBECFA');
@@ -164,10 +165,13 @@ export class AnimacionComponent implements OnInit {
     materiaB.percentMezclaValue = this.disponible_tanques[1].porcentaje
     materiaC.percentMezclaValue = this.disponible_tanques[2].porcentaje
     // this.addTanque(this.tanquesDisponibles(0, 10, 100, 'rgba(97,188,216,1)'), "MATERIA A")
+
+    const premixer = this.premixer(135, 228, 100)
+    premixer.percentMezclaValue = 0;
     this.addTanque(materiaA, "MATERIA A")
     this.addTanque(materiaB,"MATERIA B")
     this.addTanque(materiaC,"MATERIA C")
-    this.addTanque(this.premixer(135,228,100), "PREMIXER")
+    this.addTanque(premixer, "PREMIXER")
     this.addTanque(mixer, "MIXER")
 
     this.addTanque(this.tanqueAlmacen(28, 698, 100, false,true,'#FACB52'), "ALMACEN 1")
@@ -299,7 +303,7 @@ export class AnimacionComponent implements OnInit {
     const porcentaje_llenar = this.porcentajes_materias.reduce((acc,cu)=> acc+cu,0)
     const porcentaje_vaciar_premixer = this.porcentajes_materias[0] + this.porcentajes_materias[1]
     this.vaciarMezclaTanque(this.tanques[2], this.porcentajes_materias[2], 1)
-    console.log(`%cSe va a vaciar el Premixer`,"color:red;font-size:16px");
+    console.log(`%cSe va a vaciar el Premixer al porcentaje: ${porcentaje_vaciar_premixer}`,"color:red;font-size:16px");
     this.vaciarMezclaTanque(this.tanques[3], porcentaje_vaciar_premixer, 1.5)
     this.llenarMezclaTanque(this.tanques[4], this.paso3, porcentaje_llenar, 2).then(() => {
       console.log("Termino el Paso 2---------------------")

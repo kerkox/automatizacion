@@ -499,8 +499,12 @@ export class Tanque {
   }
 
   private vaciarMezclaLocal(percentUntil: number = 5, speed: number = 1) {
+    console.log(`%cthis.percentMezclaValue: ${this.percentMezclaValue} percentUntil: ${percentUntil}`,"color:green;font-size:14px")
     if (this.percentMezclaValue <= percentUntil || !this._showMezcla) return;
     this.onWorking = true; 
+    this._calentando = false;
+    this._calentar = false;
+    console.log("%cVaciando...", "color:green;font-size:14px")
     return this.moverMezcla(-1, percentUntil, speed)
   }
 
@@ -516,7 +520,7 @@ export class Tanque {
   }
 
   private moverMezcla(valueIterator: number = 0, percentUntil: number = 100, speed: number = 1): Promise<boolean> {
-    // console.log(`%conWorking: ${this.onWorking}`, `color:green; font-size:16px`)
+    console.log(`%c${this.name} onWorking: ${this.onWorking} this._calentando: ${this._calentando} `, `color:green; font-size:16px`)
     if (!this.onWorking) return;
     if (this._calentando) return;
     return new Promise((resolve, rejcet) => {
@@ -553,7 +557,7 @@ export class Tanque {
           clearInterval(i);
           if (!this.pausado) {
             if (this._calentar){
-              console.log(`Se invoca al iniciar calentar################` )
+              console.log(`%c ${this.name} id: ${this.id} Se invoca al iniciar calentar################`,"color:red;font-size:24px" )
               this.store.dispatch(calentar_set({ tanqueInfo: new TanqueInfo(this.id,calentarTypes.calentar_iniciar)}))
             }else {
               this.onWorking = false;
@@ -591,7 +595,7 @@ export class Tanque {
   }
 
   private llenarMezclaLocal(percentUntil: number = 100, speed: number = 1): Promise<boolean> {
-    if (this.percentMezclaValue >= percentUntil || !this._showMezcla) return;
+    if (this.percentMezclaValue > percentUntil || !this._showMezcla) return;
     this.onWorking = true;
     this.abrirEntradas();
     return this.moverMezcla(1, percentUntil, speed)
