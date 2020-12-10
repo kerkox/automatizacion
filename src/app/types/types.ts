@@ -11,6 +11,7 @@ export const types = {
     OrdenesPedidos: "orden-pedido",
     Inventario: "inventario",
     OrdenProduccionAprobar: "orden-produccion/aprobar",
-    OrdenProduccionEjecutar: "orden-produccion/ejecutar"
+    OrdenProduccionEjecutar: "orden-produccion/ejecutar",
+    OrdenProduccionActualizarEstado: "orden-produccion/actualizar-estado",
   },  
 }

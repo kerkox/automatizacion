@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { calentar_set,calentarTypes } from './../actions/calentar.actions';
-import { tanque_lleno, tanque_reset } from './../actions/tanque.actions';
+import { tanque_estado_set, estadoTanqueTypes } from './../actions/tanque.actions';
 import { AppState } from '../reducers/animation.reducers';
 import { Calentador } from './calentador.animation';
 import { ErrorSimbol } from './error-simbol.animation';
@@ -80,6 +80,7 @@ export class Tanque {
   private _secondsCalentar: number;
   private _calentar:boolean = false;
   private _calentando:boolean = false;
+  private _tanqueAlmacenamiento: boolean = false;
 
   private storePausado: Observable<pausarTypes>;
 
@@ -180,7 +181,9 @@ export class Tanque {
     return this._secondsCalentar;
   }
 
-
+  public set tanqueAlmacenamiento(almacenamiento:boolean){
+    this._tanqueAlmacenamiento = almacenamiento;
+  }
 
 
   public get tanqueDebug(): boolean {
@@ -489,7 +492,7 @@ export class Tanque {
     this._simbol.draw(center, this.colorSimbolo);
   }
 
-  vaciarMezcla(percentDescarga: number = 0, speed: number = 1){
+  vaciarMezcla(percentDescarga: number = 0, speed: number = 0){
     let percent = this.percentMezclaValue - percentDescarga
     console.log(`%cpercentaje de vaciado: ${percent}`,"color:yellow;font-size:14px")
     if(percent < 0){
@@ -498,7 +501,7 @@ export class Tanque {
     return this.vaciarMezclaLocal(percent, speed);
   }
 
-  private vaciarMezclaLocal(percentUntil: number = 5, speed: number = 1) {
+  private vaciarMezclaLocal(percentUntil: number = 5, speed: number = 0) {
     console.log(`%cthis.percentMezclaValue: ${this.percentMezclaValue} percentUntil: ${percentUntil}`,"color:green;font-size:14px")
     if (this.percentMezclaValue <= percentUntil || !this._showMezcla) return;
     this.onWorking = true; 
@@ -519,8 +522,8 @@ export class Tanque {
     this._showLeftCover = false;
   }
 
-  private moverMezcla(valueIterator: number = 0, percentUntil: number = 100, speed: number = 1): Promise<boolean> {
-    console.log(`%c${this.name} onWorking: ${this.onWorking} this._calentando: ${this._calentando} `, `color:green; font-size:16px`)
+  private moverMezcla(valueIterator: number = 0, percentUntil: number = 100, speed: number = 0): Promise<boolean> {
+    // console.log(`%c${this.name} onWorking: ${this.onWorking} this._calentando: ${this._calentando} `, `color:green; font-size:16px`)
     if (!this.onWorking) return;
     if (this._calentando) return;
     return new Promise((resolve, rejcet) => {
@@ -534,7 +537,7 @@ export class Tanque {
         this.valueIteratorMemory = valueIterator;
       }
 
-      if(speed != 1){
+      if(speed != 0){
         this.valueSpeedMemory = speed;
       }
 
@@ -549,7 +552,7 @@ export class Tanque {
         } else if (this.valueIteratorMemory < 0) {
           result = (this.percentMezclaValue <= this.percentUntilMemory || this.pausado)
         }
-        console.log(`${this.name} resultado eval: ${result}, this.percentMezclaValue: ${this.percentMezclaValue} this.percentUntilMemory: ${this.percentUntilMemory}`)
+        // console.log(`${this.name} resultado eval: ${result}, this.percentMezclaValue: ${this.percentMezclaValue} this.percentUntilMemory: ${this.percentUntilMemory}`)
         
         if (result) {
           console.log(`%cDetener ${this.name} interval: ${i}`, `color:red; font-size: 16px;`)
@@ -561,6 +564,10 @@ export class Tanque {
               this.store.dispatch(calentar_set({ tanqueInfo: new TanqueInfo(this.id,calentarTypes.calentar_iniciar)}))
             }else {
               this.onWorking = false;
+              console.log(`%cTanque almacenamineto: ${this._tanqueAlmacenamiento}`,"color:green;font-size:22px")
+              if(this._tanqueAlmacenamiento){
+                this.store.dispatch(calentar_set({ tanqueInfo: new TanqueInfo(this.id, calentarTypes.calentar_fin) }))
+              }
             }
             resolve(true)
           }
@@ -579,7 +586,7 @@ export class Tanque {
     this.pausado = false;
     if(this.onWorking){
       this.moverMezcla();
-      console.log(` Se va a continuar ${this.name}: calentando: ${this._calentando}`)
+      // console.log(` Se va a continuar ${this.name}: calentando: ${this._calentando}`)
       this._calentando && this.calentar();
     }
       
@@ -587,7 +594,7 @@ export class Tanque {
 
   llenarMezcla(percentCarga: number = 0, speed: number = 1): Promise<boolean>{
     let percent = this.percentMezclaValue + percentCarga;
-    console.log(`%cpercentaje de llenado: ${percent}`, "color:yellow;font-size:14px")
+    // console.log(`%cpercentaje de llenado: ${percent}`, "color:yellow;font-size:14px")
     if(percent  > 100 ){
       percent = 100;
     }

@@ -24,5 +24,9 @@ export class OrdenProduccionService {
     return this.api.post(types.API.OrdenProduccionEjecutar, ordenProduccionAprobar)
   }
 
+  actualizarEstadoOrden(id:number,estadoOrdenProduccion:EstadoOrden){
+    return this.api.put(types.API.OrdenProduccionActualizarEstado, id,estadoOrdenProduccion);
+  }
+
 
 }

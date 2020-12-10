@@ -5,8 +5,8 @@
       <mat-icon *ngIf="pausado">play_arrow</mat-icon>
     </button>
     
-    <button mat-raised-button color="primary" aria-label="Example icon button with a delete icon">
-      <mat-icon>stop</mat-icon>
+    <button mat-raised-button color="primary" aria-label="Example icon button with a delete icon" (click)="abortar()">
+      Abortar<mat-icon>stop</mat-icon>
     </button>
     <!-- <button mat-raised-button type="button" color="primary" (click)="vaciarMezcla()">Vaciar Tanque</button> -->
     <!-- <button mat-raised-button type="button" color="primary" (click)="llenarMezcla()">Llenar Tanque</button> -->

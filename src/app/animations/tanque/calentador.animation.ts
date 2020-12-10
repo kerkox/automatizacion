@@ -1,11 +1,9 @@
 import { TanqueInfo } from './../models/tanque-info.model';
 import { Store } from '@ngrx/store';
-import { EnumSide } from '../enums/enum-side.enum';
 import { AppState } from '../reducers/animation.reducers';
 import { Dimension } from '../interfaces/tanqueDimension.interface';
 import { Util } from '../util.animation';
 import { Rectangle } from './../base/rectangle.animation';
-import { tanque_lleno } from '../actions/tanque.actions';
 import { calentar_set, calentarTypes } from '../actions/calentar.actions';
 import { pausarTypes } from '../actions/pausado.actions';
 export class Calentador {

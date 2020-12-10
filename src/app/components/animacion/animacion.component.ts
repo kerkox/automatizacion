@@ -13,6 +13,7 @@ import { Store } from '@ngrx/store';
 import { calentarTypes } from 'src/app/animations/actions/calentar.actions';
 import { EstadoOrden } from 'src/app/enums/estado-orden.enum';
 import { OrdenProduccionDetalle } from '../../interfaces/orden-produccion-detalle.interface';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -63,15 +64,7 @@ export class AnimacionComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this.inventarioService.obtenerInventarios().then((res:any) => {
-      console.log("inventarios",res)
-      for(let x =0;x < 3;x++){
-        this.disponible_tanques[x] = res.data[x]
-        console.log("this.disponible_tanques[x]", this.disponible_tanques[x])
-        this.disponible_tanques[x].porcentaje = (this.disponible_tanques[x].cantidad * 100) / this.disponible_tanques[x].recurso_fisico.capacidad
-      }
-      this.loadTanques();
-    })
+    this.cargar_base();
     console.log()
 
     this.ctx = this.canvas.nativeElement.getContext('2d');
@@ -174,7 +167,9 @@ export class AnimacionComponent implements OnInit {
     this.addTanque(premixer, "PREMIXER")
     this.addTanque(mixer, "MIXER")
 
-    this.addTanque(this.tanqueAlmacen(28, 698, 100, false,true,'#FACB52'), "ALMACEN 1")
+    const almacen1 = this.tanqueAlmacen(28, 698, 100, false, true, '#FACB52')
+    almacen1.tanqueAlmacenamiento = true;    
+    this.addTanque(almacen1, "ALMACEN 1")
     this.addTanque(this.tanqueAlmacen(294, 698, 100, true,true,'#2D61FA'), "ALMACEN 2")
     this.addTanque(this.tanqueAlmacen(558, 698, 100, true,false,'#2D61FA'), "ALMACEN 3")
 
@@ -190,6 +185,25 @@ export class AnimacionComponent implements OnInit {
   
   private calentarTanque(tanque: Tanque) {
     tanque.calentar(5);
+  }
+
+  abortar(){
+    // Se va a abortar el proceso
+    // abrir dialogo si desea confirmar el abortado
+    // this.marcarOrdenProduccion(EstadoOrden.TERMINADA);
+  }
+
+  cargar_base(){
+    this.inventarioService.obtenerInventarios().then((res: any) => {
+      this.tanques = [];
+      console.log("inventarios", res)
+      for (let x = 0; x < 3; x++) {
+        this.disponible_tanques[x] = res.data[x]
+        console.log("this.disponible_tanques[x]", this.disponible_tanques[x])
+        this.disponible_tanques[x].porcentaje = (this.disponible_tanques[x].cantidad * 100) / this.disponible_tanques[x].recurso_fisico.capacidad
+      }
+      this.loadTanques();
+    })
   }
 
   
@@ -226,7 +240,9 @@ export class AnimacionComponent implements OnInit {
 
   async llenarMezclaTanque(tanque:Tanque,nextFunction:Function, percentUntil:number = 100, speed:number = 1, calentar:boolean = true): Promise<any> {
     this._nextFunction = nextFunction
-    tanque.secondsCalentar = 5;
+    if(calentar){
+      tanque.secondsCalentar = 10;
+    }
     tanque.llenar();
     await tanque.llenarMezcla(percentUntil, speed)
     // console.log("Ha terminado de cargar la materia prima")
@@ -264,9 +280,7 @@ export class AnimacionComponent implements OnInit {
     // this.pausado = !this.pausado;
   }
 
-  iniciar(){
-
-  }
+ 
 
 
   paso1(){
@@ -323,6 +337,22 @@ export class AnimacionComponent implements OnInit {
 
   paso4(){
     console.log("Paso FINAL")
+    //Aqui marcar la orden de produccion como terminada
+    this.marcarOrdenProduccion(EstadoOrden.TERMINADA);
+
+  }
+
+
+  marcarOrdenProduccion(estadoOrdenProduccion:EstadoOrden){
+    this.ordenProduccionService.actualizarEstadoOrden(this.orden_produccion.id,estadoOrdenProduccion)
+    .then(res => {
+      Swal.fire('Información', 'Se actualizó la orden de produccion exitosamente', 'success')
+      this.cargar_base();
+    }).catch(err => {
+      console.log(err)
+      Swal.fire('Error','Ocurrio un error al terminar la orden de produccion', 'error')
+      this.cargar_base();
+    })
   }
 
   dibujar() {

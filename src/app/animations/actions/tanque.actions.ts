@@ -1,4 +1,9 @@
-import { createAction } from "@ngrx/store";
+import { createAction, props } from "@ngrx/store";
 
-export const tanque_lleno = createAction('[Tanque] tanque lleno');
-export const tanque_reset = createAction('[Tanque] tanque reset');
+
+export enum estadoTanqueTypes {
+  estado_inicial = "estado_inicial",
+  estado_lleno = "estado_lleno"
+}
+
+export const tanque_estado_set = createAction('[Tanque] Estado set', props<{ estado: estadoTanqueTypes }>());
