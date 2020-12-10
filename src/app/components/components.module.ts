@@ -14,7 +14,8 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../../environments/environment';
 import { AlarmaDialogComponent } from './alarma-dialog/alarma-dialog.component';
-import { ConfirmacionAbortarDialogComponent } from './confirmacion-abortar-dialog/confirmacion-abortar-dialog.component'; 
+import { ConfirmacionAbortarDialogComponent } from './confirmacion-abortar-dialog/confirmacion-abortar-dialog.component';
+import { ReporteOrdenDialogComponent } from './reporte-orden-dialog/reporte-orden-dialog.component'; 
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ConfirmacionAbortarDialogComponent } from './confirmacion-abortar-dialo
     LoadingComponent,
     PruebaCalidadDialogComponent,
     AlarmaDialogComponent,
-    ConfirmacionAbortarDialogComponent
+    ConfirmacionAbortarDialogComponent,
+    ReporteOrdenDialogComponent
   ],
   exports: [
     AnimacionComponent,

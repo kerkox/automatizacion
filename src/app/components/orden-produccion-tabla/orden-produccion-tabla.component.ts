@@ -1,3 +1,4 @@
+import { ReporteOrdenDialogComponent } from './../reporte-orden-dialog/reporte-orden-dialog.component';
 import { OrdenProduccionDetalle, OrdenProduccionDetalleFlat } from './../../interfaces/orden-produccion-detalle.interface';
 import { EstadoOrden } from './../../enums/estado-orden.enum';
 import Swal from 'sweetalert2';
@@ -61,6 +62,10 @@ export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit {
     return this.estadosOrden.includes(EstadoOrden.GENERADA);
   }
 
+  get showReportes(): boolean {
+    return this.estadosOrden.includes(EstadoOrden.TERMINADA);
+  }
+
   consultarOrdenesProduccion() {
     this.ordenProduccionService.consultarOrdenesProduccion(this.estadosOrden).then((res: any) => {
       this.ordenes_produccion = res.data;
@@ -77,6 +82,19 @@ export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit {
       .catch(err => {
         console.error(err)
       })
+  }
+
+  reporte(){
+    //vamos a mostrar el reporte
+    const dialogRef = this.dialog.open(ReporteOrdenDialogComponent, {
+      // width: '1200px',
+      // data: orden_produccion
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed result:', result);
+      // this.animal = result;
+    });
   }
 
   flatOrdenProduccion(orden: OrdenProduccionDetalle): OrdenProduccionDetalleFlat {

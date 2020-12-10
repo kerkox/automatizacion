@@ -144,9 +144,12 @@
 
     <!-- Detalles  -->
     <ng-container matColumnDef="detalle">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header class="columna-detalle"> Acciones </th>
-      <td mat-cell *matCellDef="let element" class="columna-detalle"> <button mat-raised-button color="primary"
-          (click)="detalle_orden_produccion(element)">Detalle</button></td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="{'columna-detalle': !showReportes, 'columna-detalle-reporte': showReportes}"> Acciones </th>
+      <td mat-cell *matCellDef="let element" [ngClass]="{'columna-detalle': !showReportes, 'columna-detalle-reporte': showReportes}"> 
+        <button mat-raised-button color="primary"
+          (click)="detalle_orden_produccion(element)">Detalle</button>
+          <button *ngIf="showReportes" mat-raised-button color="primary" class="colorGreen" (click)="reporte()">Ver Reporte</button>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="titulos_columnas"></tr>

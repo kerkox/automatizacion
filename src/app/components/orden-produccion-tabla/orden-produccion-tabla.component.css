@@ -95,3 +95,19 @@ td.columna-cantidad {
   min-width: 100px;
   text-align: center;
 }
+
+.colorGreen {
+  background-color: green;
+}
+
+.columna-detalle-reporte{
+  min-width: 230px;
+}
+
+.columna-detalle{
+  min-width: 60px;
+}
+
+button {
+  margin-left: 10px;
+}
