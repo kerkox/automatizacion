@@ -3,6 +3,7 @@ import { ApiService } from './api.service';
 import { Injectable } from '@angular/core';
 import { types } from '../types/types';
 import { OrdenProduccionAprobar } from '../interfaces/orden-produccion-aprobar.interface';
+import { OrdenProduccionActualizarEstado } from '../interfaces/orden-produccion-actualizar-estado.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class OrdenProduccionService {
     return this.api.post(types.API.OrdenProduccionEjecutar, ordenProduccionAprobar)
   }
 
-  actualizarEstadoOrden(id:number,estadoOrdenProduccion:EstadoOrden){
+  actualizarEstadoOrden(id: number, estadoOrdenProduccion: OrdenProduccionActualizarEstado){
     return this.api.put(types.API.OrdenProduccionActualizarEstado, id,estadoOrdenProduccion);
   }
 

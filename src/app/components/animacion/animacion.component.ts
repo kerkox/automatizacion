@@ -344,7 +344,10 @@ export class AnimacionComponent implements OnInit {
 
 
   marcarOrdenProduccion(estadoOrdenProduccion:EstadoOrden){
-    this.ordenProduccionService.actualizarEstadoOrden(this.orden_produccion.id,estadoOrdenProduccion)
+    const estado = {
+      estado: estadoOrdenProduccion
+    }
+    this.ordenProduccionService.actualizarEstadoOrden(this.orden_produccion.id,estado)
     .then(res => {
       Swal.fire('Información', 'Se actualizó la orden de produccion exitosamente', 'success')
       this.cargar_base();
