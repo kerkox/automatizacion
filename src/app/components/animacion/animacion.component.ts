@@ -215,7 +215,7 @@ export class AnimacionComponent implements OnInit {
   }
 
   vaciarMezclaTanque(tanque: Tanque, percentUntil: number = 0, speed: number = 1){
-    tanque.tanqueDebug = true;
+    // tanque.tanqueDebug = true;
     tanque.vaciar();
     tanque.vaciarMezcla(percentUntil, speed);
   }
@@ -297,8 +297,10 @@ export class AnimacionComponent implements OnInit {
   paso2() {
     console.log("This: ", this)
     const porcentaje_llenar = this.porcentajes_materias.reduce((acc,cu)=> acc+cu,0)
+    const porcentaje_vaciar_premixer = this.porcentajes_materias[0] + this.porcentajes_materias[1]
     this.vaciarMezclaTanque(this.tanques[2], this.porcentajes_materias[2], 1)
-    this.vaciarMezclaTanque(this.tanques[3], 0, 1.5)
+    console.log(`%cSe va a vaciar el Premixer`,"color:red;font-size:16px");
+    this.vaciarMezclaTanque(this.tanques[3], porcentaje_vaciar_premixer, 1.5)
     this.llenarMezclaTanque(this.tanques[4], this.paso3, porcentaje_llenar, 2).then(() => {
       console.log("Termino el Paso 2---------------------")
       // this.paso_next()      

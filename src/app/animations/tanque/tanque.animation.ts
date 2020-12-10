@@ -491,6 +491,7 @@ export class Tanque {
 
   vaciarMezcla(percentDescarga: number = 0, speed: number = 1){
     let percent = this.percentMezclaValue - percentDescarga
+    console.log(`%cpercentaje de vaciado: ${percent}`,"color:yellow;font-size:14px")
     if(percent < 0){
       percent = 0
     }
@@ -582,6 +583,7 @@ export class Tanque {
 
   llenarMezcla(percentCarga: number = 0, speed: number = 1): Promise<boolean>{
     let percent = this.percentMezclaValue + percentCarga;
+    console.log(`%cpercentaje de llenado: ${percent}`, "color:yellow;font-size:14px")
     if(percent  > 100 ){
       percent = 100;
     }
