@@ -204,7 +204,7 @@ export class OrdenProduccionTablaComponent implements OnInit, AfterViewInit {
         console.log("err", err)
         const message = err.error.message;
         Swal.fire("Ejecucion Error", `Ocurrrio un error al intentar ejecutar la orden: \n<br><strong>${message}</strong>`, 'error')
-        this.consultarOrdenesProduccion();
+        // this.consultarOrdenesProduccion();
       })
 
   }
