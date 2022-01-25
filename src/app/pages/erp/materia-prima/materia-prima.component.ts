@@ -108,7 +108,9 @@ export class MateriaPrimaComponent implements OnInit {
           this.saved = true;
           return;
         }
-        this.materiaPrimaService.actualizar(materia_prima)
+        const { descripcion } = materia_prima;
+        const materia_prima_crear = { descripcion };
+        this.materiaPrimaService.actualizar(materia_prima_crear)
           .then(res => {
             this.resetarFormulario()
             this.cancelarActualizacion()
